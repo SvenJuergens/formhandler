@@ -53,13 +53,13 @@ class LoadDB extends AbstractPreProcessor
 {
 
     /**
-     * @var Array $data as associative array. Row data from DB.
+     * @var array $data as associative array. Row data from DB.
      * @access protected
      */
     protected $data;
 
     /**
-     * @var Array $files as associative array.
+     * @var array $files as associative array.
      * @access protected
      */
     protected $files;
@@ -67,7 +67,7 @@ class LoadDB extends AbstractPreProcessor
     /**
      * Main method called by the controller
      *
-     * @return Array GP
+     * @return array GP
      */
     public function process()
     {
@@ -95,7 +95,7 @@ class LoadDB extends AbstractPreProcessor
      */
     protected function loadDBToGP($settings)
     {
-        if (is_array($settings)) {
+        if (\is_array($settings)) {
             $arrKeys = array_keys($settings);
             foreach ($arrKeys as $idx => $fieldname) {
                 $fieldname = preg_replace('/\.$/', '', $fieldname);
@@ -109,13 +109,13 @@ class LoadDB extends AbstractPreProcessor
     /**
      * Loads DB data into the Session. Used only for step 2+.
      *
-     * @param Array $settings
+     * @param array $settings
      * @param int $step
      */
     protected function loadDBToSession($settings, $step)
     {
         session_start();
-        if (is_array($settings) && $step) {
+        if (\is_array($settings) && $step) {
             $values = $this->globals->getSession()->get('values');
             $arrKeys = array_keys($settings);
             foreach ($arrKeys as $idx => $fieldname) {
@@ -130,8 +130,11 @@ class LoadDB extends AbstractPreProcessor
     {
         $value = null;
         //pre process the field value.
-        if (is_array($settings[$fieldname . '.']['preProcessing.'])) {
-            $settings[$fieldname . '.']['preProcessing.']['value'] = $value;
+        if (\is_array($settings[$fieldname . '.']['preProcessing.'])) {
+            $settings[$fieldname . '.']['preProcessing.'] += [
+                'value' => $value,
+                'dataRow' => $this->data
+            ];
             $value = $this->utilityFuncs->getSingle($settings[$fieldname . '.'], 'preProcessing');
         }
 
@@ -149,8 +152,11 @@ class LoadDB extends AbstractPreProcessor
         }
 
         //post process the field value.
-        if (is_array($settings[$fieldname . '.']['postProcessing.'])) {
-            $settings[$fieldname . '.']['postProcessing.']['value'] = $value;
+        if (\is_array($settings[$fieldname . '.']['postProcessing.'])) {
+            $settings[$fieldname . '.']['postProcessing.'] += [
+                'value' => $value,
+                'dataRow' => $this->data
+            ];
             $value = $this->utilityFuncs->getSingle($settings[$fieldname . '.'], 'postProcessing');
         }
 
@@ -162,7 +168,7 @@ class LoadDB extends AbstractPreProcessor
             if (!empty($value)) {
                 $uploadPath = $this->utilityFuncs->getTempUploadFolder($fieldname);
                 $filesArray = $value;
-                if (!is_array($filesArray)) {
+                if (!\is_array($filesArray)) {
                     $filesArray = GeneralUtility::trimExplode(',', $value);
                 }
 
@@ -194,9 +200,8 @@ class LoadDB extends AbstractPreProcessor
     /**
      * Loads data from DB
      *
-     * @return Array of row data
-     * @param Array $settings
-     * @param int $step
+     * @return array of row data
+     * @param array $settings
      */
     protected function loadDB($settings)
     {

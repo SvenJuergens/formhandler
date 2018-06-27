@@ -240,7 +240,13 @@ class LoadDB extends AbstractPreProcessor
 
         //if pidInList is not set in TypoScript remove it from the where clause.
         if (!isset($conf['pidInList']) || strlen($conf['pidInList']) === 0) {
-            $queryParts['WHERE'] = preg_replace('/([^ ]+\.pid IN \([^ ]+\) AND )/i', '', $queryParts['WHERE']);
+            // possible quotes: empty, ", ` or '
+            $quotes = '|\"|\`|\'';
+            $queryParts['WHERE'] = preg_replace(
+                '/([^ ]+\.(' . $quotes . ')pid(' . $quotes . ') IN \([^ ]+\) AND )/i',
+                '',
+                $queryParts['WHERE']
+            );
         }
         return $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
     }

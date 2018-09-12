@@ -25,6 +25,7 @@ use Typoheads\Formhandler\Component\AbstractClass;
  */
 abstract class AbstractAjaxHandler extends AbstractClass
 {
+    public $settings;
 
     /**
      * Initialize AJAX stuff

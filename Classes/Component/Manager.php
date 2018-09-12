@@ -54,7 +54,8 @@ class Manager implements SingletonInterface
     }
 
     /**
-     * Returns a component object from the cache. If there is no object stored already, a new one is created and stored in the cache.
+     * Returns a component object from the cache. If there is no object stored already,
+     * a new one is created and stored in the cache.
      *
      * @param string $componentName
      * @return mixed
@@ -72,8 +73,6 @@ class Manager implements SingletonInterface
 
         /** @var $objectManager ObjectManager */
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $componentObject = $objectManager->get($componentName, $arguments);
-
-        return $componentObject;
+        return $objectManager->get($componentName, $arguments);
     }
 }

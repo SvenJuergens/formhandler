@@ -38,7 +38,7 @@ class tx_formhandler_pi1 extends TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      *
      * @param    string $content : The PlugIn content
      * @param    array $conf : The PlugIn configuration
-     * @return    The content that is displayed on the website
+     * @return   string The content that is displayed on the website
      */
     public function main($content, $conf)
     {
@@ -46,8 +46,4 @@ class tx_formhandler_pi1 extends TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         $dispatcher->cObj = &$this->cObj;
         return $dispatcher->main($content, $conf);
     }
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/formhandler/pi1/class.tx_formhandler_pi1.php']) {
-    include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/formhandler/pi1/class.tx_formhandler_pi1.php']);
 }

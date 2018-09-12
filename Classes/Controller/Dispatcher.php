@@ -65,7 +65,6 @@ class Dispatcher extends AbstractPlugin
         $this->globals = GeneralUtility::makeInstance(Globals::class);
         $this->utilityFuncs = GeneralUtility::makeInstance(FormhandlerGeneralUtility::class);
         try {
-
             //init flexform
             $this->pi_initPIflexForm();
 
@@ -105,7 +104,13 @@ class Dispatcher extends AbstractPlugin
             $controller = $this->componentManager->getComponent($controller);
 
             if (isset($content)) {
-                $controller->setContent($this->componentManager->getComponent($this->utilityFuncs->prepareClassName('Typoheads\Formhandler\Controller\Content'), $content));
+                $controller->setContent(
+                    $this->componentManager->getComponent(
+                        $this->utilityFuncs->prepareClassName(
+                            'Typoheads\Formhandler\Controller\Content'),
+                        $content
+                    )
+                );
             }
             if (strlen($templateFile) > 0) {
                 $controller->setTemplateFile($templateFile);

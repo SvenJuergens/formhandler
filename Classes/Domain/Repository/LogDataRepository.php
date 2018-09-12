@@ -40,6 +40,7 @@ class LogDataRepository extends Repository
      * Find by multiple uids using, seperated string
      *
      * @param string String containing uids
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
     public function findByUids($uids)
     {

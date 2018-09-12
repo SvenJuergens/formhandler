@@ -169,7 +169,12 @@ class DB extends AbstractFinisher
         if ($uid) {
             $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $this->table);
             $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
-            $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($this->key, $this->table, $this->key . '=' . $uid . $andWhere);
+            $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+                $this->key,
+                $this->table,
+                $this->key . '=' . $uid .
+                $andWhere
+            );
             if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
                 $exists = true;
             }
@@ -252,6 +257,7 @@ class DB extends AbstractFinisher
      * Parses mapping settings and builds an array holding the query fields information.
      *
      * @return array The query fields
+     * @throws \Exception
      */
     protected function parseFields()
     {

@@ -28,6 +28,7 @@ use Typoheads\Formhandler\Utility\Globals;
  */
 abstract class AbstractClass
 {
+    public $templateService;
 
     /**
      * The Formhandler component manager
@@ -79,9 +80,9 @@ abstract class AbstractClass
      */
     public function __construct(
         Manager $componentManager,
-                                Configuration $configuration,
-                                Globals $globals,
-                                GeneralUtility $utilityFuncs
+        Configuration $configuration,
+        Globals $globals,
+        GeneralUtility $utilityFuncs
     ) {
         $this->componentManager = $componentManager;
         $this->configuration = $configuration;

@@ -14,9 +14,11 @@ namespace Typoheads\Formhandler\Ajax;
 * Public License for more details.                                       *
 *                                                                        */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Typoheads\Formhandler\AjaxHandler\JQuery;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
 use Typoheads\Formhandler\Utility\Globals;
+use Typoheads\Formhandler\View\Form;
 
 /**
  * A class removing uploaded files. This class is called via AJAX.
@@ -25,6 +27,19 @@ use Typoheads\Formhandler\Utility\Globals;
  */
 class RemoveFile
 {
+    public $fieldName;
+    public $uploadedFileName;
+    public $id;
+    public $componentManager;
+    /**
+     * globals
+     *
+     * @var Globals
+     */
+    public $globals;
+    public $utilityFuncs;
+    public $settings;
+    public $langFiles;
 
     /**
      * Main method of the class.
@@ -38,10 +53,9 @@ class RemoveFile
 
         if ($this->fieldName) {
             $sessionFiles = $this->globals->getSession()->get('files');
-            if (is_array($sessionFiles)) {
+            if (\is_array($sessionFiles)) {
                 foreach ($sessionFiles as $field => $files) {
                     if (!strcmp($field, $this->fieldName)) {
-
                         //get upload folder
                         $uploadFolder = $this->utilityFuncs->getTempUploadFolder();
 
@@ -75,13 +89,21 @@ class RemoveFile
             $this->globals->getSession()->set('files', $sessionFiles);
 
             // Add the content to or Result Box: #formResult
-            if (is_array($sessionFiles) && !empty($sessionFiles[$field])) {
+            if (\is_array($sessionFiles) && !empty($sessionFiles[$field])) {
                 $markers = [];
+                /** @var Form $view */
                 $view = $this->componentManager->getComponent('View\\Form');
                 $view->setSettings($this->settings);
                 $view->fillFileMarkers($markers);
-                $langMarkers = $this->utilityFuncs->getFilledLangMarkers($markers['###' . $this->fieldName . '_uploadedFiles###'], $this->langFiles);
-                $markers['###' . $this->fieldName . '_uploadedFiles###'] = $this->globals->getCObj()->substituteMarkerArray($markers['###' . $this->fieldName . '_uploadedFiles###'], $langMarkers);
+                $langMarkers = $this->utilityFuncs->getFilledLangMarkers(
+                    $markers['###' . $this->fieldName . '_uploadedFiles###'],
+                    $this->langFiles
+                );
+                $markers['###' . $this->fieldName . '_uploadedFiles###'] =
+                    $this->globals->getCObj()->substituteMarkerArray(
+                        $markers['###' . $this->fieldName . '_uploadedFiles###'],
+                        $langMarkers
+                    );
                 $content = $markers['###' . $this->fieldName . '_uploadedFiles###'];
             }
         }
@@ -102,6 +124,7 @@ class RemoveFile
         }
 
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);
+        /** @var Globals globals */
         $this->globals = GeneralUtility::makeInstance(Globals::class);
         $this->utilityFuncs = GeneralUtility::makeInstance(FormhandlerGeneralUtility::class);
         $this->utilityFuncs->initializeTSFE($this->id);
@@ -121,6 +144,7 @@ class RemoveFile
         //init ajax
         if ($this->settings['ajax.']) {
             $class = $this->utilityFuncs->getPreparedClassName($this->settings['ajax.'], 'AjaxHandler\\JQuery');
+            /** @var JQuery $ajaxHandler */
             $ajaxHandler = $this->componentManager->getComponent($class);
             $this->globals->setAjaxHandler($ajaxHandler);
 

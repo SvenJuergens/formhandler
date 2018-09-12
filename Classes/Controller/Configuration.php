@@ -31,6 +31,8 @@ class Configuration implements \ArrayAccess
      * @var string
      */
     const PACKAGE_KEY = 'Formhandler';
+    public $globals;
+    public $utilityFuncs;
 
     /**
      * The TS setup
@@ -53,7 +55,10 @@ class Configuration implements \ArrayAccess
                 $this->utilityFuncs->throwException('missing_config');
             }
             if (is_array($this->globals->getOverrideSettings())) {
-                $this->setup = $this->utilityFuncs->mergeConfiguration($this->setup, $this->globals->getOverrideSettings());
+                $this->setup = $this->utilityFuncs->mergeConfiguration(
+                    $this->setup,
+                    $this->globals->getOverrideSettings()
+                );
             }
         }
     }

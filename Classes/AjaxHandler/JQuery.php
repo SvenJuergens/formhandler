@@ -54,13 +54,16 @@ class JQuery extends AbstractAjaxHandler
         ];
         if (is_array($this->settings['validationStatusClasses.'])) {
             if ($this->settings['validationStatusClasses.']['base']) {
-                $this->validationStatusClasses['base'] = $this->utilityFuncs->getSingle($this->settings['validationStatusClasses.'], 'base');
+                $this->validationStatusClasses['base'] =
+                    $this->utilityFuncs->getSingle($this->settings['validationStatusClasses.'], 'base');
             }
             if ($this->settings['validationStatusClasses.']['valid']) {
-                $this->validationStatusClasses['valid'] = $this->utilityFuncs->getSingle($this->settings['validationStatusClasses.'], 'valid');
+                $this->validationStatusClasses['valid'] =
+                    $this->utilityFuncs->getSingle($this->settings['validationStatusClasses.'], 'valid');
             }
             if ($this->settings['validationStatusClasses.']['invalid']) {
-                $this->validationStatusClasses['invalid'] = $this->utilityFuncs->getSingle($this->settings['validationStatusClasses.'], 'invalid');
+                $this->validationStatusClasses['invalid'] =
+                    $this->utilityFuncs->getSingle($this->settings['validationStatusClasses.'], 'invalid');
             }
         }
 
@@ -77,9 +80,13 @@ class JQuery extends AbstractAjaxHandler
 
         $globalSettings = $this->globals->getSession()->get('settings');
         $validateFields = [];
-        if (is_array($globalSettings['validators.']) && (int)$this->utilityFuncs->getSingle($globalSettings['validators.'], 'disable') !== 1) {
+        if (is_array($globalSettings['validators.'])
+            && (int)$this->utilityFuncs->getSingle($globalSettings['validators.'], 'disable') !== 1
+        ) {
             foreach ($globalSettings['validators.'] as $key => $validatorSettings) {
-                if (is_array($validatorSettings['config.']['fieldConf.']) && (int)$this->utilityFuncs->getSingle($validatorSettings['config.'], 'disable') !== 1) {
+                if (is_array($validatorSettings['config.']['fieldConf.'])
+                    && (int)$this->utilityFuncs->getSingle($validatorSettings['config.'], 'disable') !== 1
+                ) {
                     foreach ($validatorSettings['config.']['fieldConf.'] as $fieldName => $fieldSettings) {
                         $replacedFieldName = str_replace('.', '', $fieldName);
                         $fieldName = $replacedFieldName;
@@ -98,7 +105,13 @@ class JQuery extends AbstractAjaxHandler
         $disableJS = (int)$this->utilityFuncs->getSingle($this->settings, 'disableJS');
 
         if (!$disableJS) {
-            $init = $this->getJavascriptFormInit($formSelector, $submitButtonSelector, $isAjaxSubmit, $autoDisableSubmitButton, $validateFields);
+            $init = $this->getJavascriptFormInit(
+                $formSelector,
+                $submitButtonSelector,
+                $isAjaxSubmit,
+                $autoDisableSubmitButton,
+                $validateFields
+            );
             $this->addJS('<script type="text/javascript" src="typo3conf/ext/formhandler/Resources/Public/JavaScript/ajax.js"></script>', 'base', false);
             $this->addJS('<script type="text/javascript"> ' . $init . ' </script>', 'ext');
         }
@@ -116,7 +129,10 @@ class JQuery extends AbstractAjaxHandler
         $settings = $this->globals->getSession()->get('settings');
         $ajaxSubmit = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'ajaxSubmit');
         if ((int)$ajaxSubmit === 1) {
-            $ajaxSubmitLoader = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'ajaxSubmitLoader');
+            $ajaxSubmitLoader = $this->utilityFuncs->getSingle(
+                $settings['ajax.']['config.'],
+                'ajaxSubmitLoader'
+            );
             if (strlen($ajaxSubmitLoader) === 0) {
                 $loadingImg = ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/ajax-loader.gif';
                 $loadingImg = '<img src="' . $loadingImg . '" alt="loading" />';
@@ -126,9 +142,13 @@ class JQuery extends AbstractAjaxHandler
             $markers['###loading_ajax-submit###'] = $ajaxSubmitLoader;
         }
 
-        $autoDisableSubmitButton = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'autoDisableSubmitButton');
+        $autoDisableSubmitButton = $this->utilityFuncs->getSingle(
+            $settings['ajax.']['config.'],
+            'autoDisableSubmitButton'
+        );
         if ((int)$autoDisableSubmitButton === 1) {
-            $markers['###validation-status###'] = $this->validationStatusClasses['base'] . ' ' . $this->validationStatusClasses['invalid'];
+            $markers['###validation-status###'] =
+                $this->validationStatusClasses['base'] . ' ' . $this->validationStatusClasses['invalid'];
         }
 
         $initial = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'initial');
@@ -140,7 +160,9 @@ class JQuery extends AbstractAjaxHandler
             $loadingImg = '<img src="' . $loadingImg . '" alt="loading" />';
         }
 
-        if (is_array($settings['validators.']) && (int)$this->utilityFuncs->getSingle($settings['validators.'], 'disable') !== 1) {
+        if (is_array($settings['validators.'])
+            && (int)$this->utilityFuncs->getSingle($settings['validators.'], 'disable') !== 1
+        ) {
             foreach ($settings['validators.'] as $key => $validatorSettings) {
                 if (is_array($validatorSettings['config.']['fieldConf.']) && (int)$this->utilityFuncs->getSingle($validatorSettings['config.'], 'disable') !== 1) {
                     foreach ($validatorSettings['config.']['fieldConf.'] as $fieldname => $fieldSettings) {
@@ -200,7 +222,13 @@ class JQuery extends AbstractAjaxHandler
      *
      * @return string
      */
-    protected function getJavascriptFormInit($formSelector, $submitButtonSelector, $isAjaxSubmit, $autoDisableSubmitButton, $validateFields)
+    protected function getJavascriptFormInit(
+        $formSelector,
+        $submitButtonSelector,
+        $isAjaxSubmit,
+        $autoDisableSubmitButton,
+        $validateFields
+    )
     {
         return '(function( $ ) {
                     $(function() {

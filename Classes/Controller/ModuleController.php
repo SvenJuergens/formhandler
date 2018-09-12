@@ -136,8 +136,10 @@ class ModuleController extends ActionController
 
     /**
      * Displays fields selector
-     * @param string uids to export
-     * @param string export file type (PDF || CSV)
+     * @param null $logDataUids
+     * @param string $filetype
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      */
     public function selectFieldsAction($logDataUids = null, $filetype = '')
     {
@@ -245,6 +247,8 @@ class ModuleController extends ActionController
     /**
      * Deletes given logs or all if value is "all"
      * @param string uids to delete
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      */
     public function deleteLogRowsAction($logDataUids = null)
     {
@@ -258,11 +262,20 @@ class ModuleController extends ActionController
             }
         } else {
             $logDataUids = explode(',', $logDataUids);
-            $text = sprintf(LocalizationUtility::translate('message.deleted-log-rows', 'formhandler'), count($logDataUids));
+            $text = sprintf(LocalizationUtility::translate('message.deleted-log-rows', 'formhandler'),
+                count($logDataUids)
+            );
             if ($forceDelete) {
-                $GLOBALS['TYPO3_DB']->exec_DELETEquery('tx_formhandler_log', 'uid IN (' . implode(',', $logDataUids) . ')');
+                $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+                    'tx_formhandler_log',
+                    'uid IN (' . implode(',', $logDataUids) . ')'
+                );
             } else {
-                $GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_formhandler_log', 'uid IN (' . implode(',', $logDataUids) . ')', ['deleted' => 1]);
+                $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+                    'tx_formhandler_log',
+                    'uid IN (' . implode(',', $logDataUids) . ')',
+                    ['deleted' => 1]
+                );
             }
         }
 

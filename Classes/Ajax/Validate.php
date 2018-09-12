@@ -19,6 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
 use Typoheads\Formhandler\Utility\Globals;
+use Typoheads\Formhandler\View\AjaxValidation;
 
 /**
  * A class validating a field via AJAX.
@@ -27,6 +28,8 @@ use Typoheads\Formhandler\Utility\Globals;
  */
 class Validate
 {
+    public $id;
+    public $componentManager;
 
     /**
      * @var array
@@ -95,11 +98,7 @@ class Validate
      */
     protected function init()
     {
-        if (isset($_GET['pid'])) {
-            $this->id = (int)$_GET['pid'];
-        } else {
-            $this->id = (int)$_GET['id'];
-        }
+        $this->id = isset($_GET['pid']) ? (int)$_GET['pid'] : (int)$_GET['id'];
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);
         Globals::setAjaxMode(true);
         FormhandlerGeneralUtility::initializeTSFE($this->id);
@@ -109,7 +108,7 @@ class Validate
      * Initialize the AJAX validation view.
      *
      * @param string $content The raw content
-     * @return Tx_Formhandler_View_AjaxValidation The view class
+     * @return AjaxValidation The view class
      */
     protected function initView($content)
     {

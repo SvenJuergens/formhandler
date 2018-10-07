@@ -7,7 +7,7 @@ $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-formlogs'] =
 $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
     'LLL:EXT:formhandler/Resources/Private/Language/locallang.xml:title',
     'formlogs',
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('formhandler') . 'ext_icon.gif'
+    'formhandler/ext_icon.gif'
 ];
 
 if (TYPO3_MODE === 'BE') {

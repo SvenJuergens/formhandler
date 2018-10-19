@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Utility;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
+
+use TYPO3\CMS\Core\Crypto\Random;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -825,7 +827,8 @@ class GeneralUtility implements SingletonInterface
 
     public static function generateRandomID()
     {
-        $randomID = md5(Globals::getFormValuesPrefix() . CoreGeneralUtility::generateRandomBytes(10));
+        $randomID = md5(Globals::getFormValuesPrefix()
+            . CoreGeneralUtility::makeInstance(Random::class)->generateRandomBytes(10));
         return $randomID;
     }
 

@@ -19,7 +19,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
  *
  * @author    Reinhard Führicht <rf@typoheads.at>
  */
-class Float extends AbstractErrorCheck
+class ValidFloat extends AbstractErrorCheck
 {
     public function check()
     {

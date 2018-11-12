@@ -16,6 +16,7 @@ namespace Typoheads\Formhandler\Ajax;
 *                                                                        */
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
 use Typoheads\Formhandler\Utility\Globals;
@@ -67,7 +68,9 @@ class Validate
             if ($valid) {
                 $content = FormhandlerGeneralUtility::getSingle($this->settings['ajax.']['config.'], 'ok');
                 if (strlen($content) === 0) {
-                    $content = '<img src="' . ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/ok.png' . '" />';
+                    $okImage = ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/Images/ok.png';
+                    $okImage = PathUtility::getAbsoluteWebPath($okImage);
+                    $content = '<img src="' . ltrim($okImage, '/') . '" />';
                 } else {
                     $gp = [
                         $_GET['field'] => $_GET['value']
@@ -79,7 +82,9 @@ class Validate
             } else {
                 $content = FormhandlerGeneralUtility::getSingle($this->settings['ajax.']['config.'], 'notOk');
                 if (strlen($content) === 0) {
-                    $content = '<img src="' . ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/notok.png' . '" />';
+                    $notOkImage = ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/Images/notok.png';
+                    $notOkImage = PathUtility::getAbsoluteWebPath($notOkImage);
+                    $content = '<img src="'. ltrim($notOkImage, '/') . '" />';
                 } else {
                     $view = $this->initView($content);
                     $gp = [

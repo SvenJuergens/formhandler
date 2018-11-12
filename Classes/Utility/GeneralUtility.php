@@ -21,6 +21,7 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility as CoreGeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Utility\EidUtility;
 
@@ -661,6 +662,8 @@ class GeneralUtility implements SingletonInterface
     /**
      * Substitutes EXT: with extension path in a file path and returns the relative path.
      *
+     * Where is this used?
+     *
      * @param string The path
      * @return string The resolved path
      */
@@ -684,18 +687,13 @@ class GeneralUtility implements SingletonInterface
      */
     public static function resolveRelPathFromSiteRoot($path)
     {
-        if (substr($path, 0, 7) === 'http://') {
+        if (strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0) {
             return $path;
         }
-        $path = explode('/', $path);
-        if (strpos($path[0], 'EXT') === 0) {
-            $parts = explode(':', $path[0]);
-            $path[0] = ExtensionManagementUtility::extRelPath($parts[1]);
-        }
-        $path = implode('/', $path);
-        $path = str_replace('//', '/', $path);
-        $path = str_replace('../', '', $path);
-        return $path;
+
+        $path = CoreGeneralUtility::getFileAbsFileName($path);
+        $path = PathUtility::getAbsoluteWebPath($path);
+        return ltrim($path, '/');
     }
 
     /**

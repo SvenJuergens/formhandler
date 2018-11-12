@@ -15,6 +15,7 @@ namespace Typoheads\Formhandler\AjaxHandler;
     *                                                                        */
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 /**
  * Abstract class for an AjaxHandler.
@@ -134,9 +135,9 @@ class JQuery extends AbstractAjaxHandler
                 'ajaxSubmitLoader'
             );
             if (strlen($ajaxSubmitLoader) === 0) {
-                $loadingImg = ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/ajax-loader.gif';
-                $loadingImg = '<img src="' . $loadingImg . '" alt="loading" />';
-                $loadingImg = str_replace('../', '', $loadingImg);
+                $loadingImg = ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/Images/ajax-loader.gif';
+                $loadingImg = PathUtility::getAbsoluteWebPath($loadingImg);
+                $loadingImg = '<img src="' . ltrim($loadingImg, '/') . '" alt="loading" />';
                 $ajaxSubmitLoader = '<span class="loading_ajax-submit">' . $loadingImg . '</span>';
             }
             $markers['###loading_ajax-submit###'] = $ajaxSubmitLoader;
@@ -155,9 +156,9 @@ class JQuery extends AbstractAjaxHandler
 
         $loadingImg = $this->utilityFuncs->getSingle($settings['ajax.']['config.'], 'loading');
         if (strlen($loadingImg) === 0) {
-            $loadingImg = ExtensionManagementUtility::extRelPath('formhandler') . 'Resources/Public/Images/ajax-loader.gif';
-            $loadingImg = str_replace('../', '', $loadingImg);
-            $loadingImg = '<img src="' . $loadingImg . '" alt="loading" />';
+            $absolutePathToLoadingImage = ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/Images/ajax-loader.gif';
+            $loadingImg = PathUtility::getAbsoluteWebPath($absolutePathToLoadingImage);
+            $loadingImg = '<img src="' . ltrim($loadingImg, '/') . '" alt="loading" />';
         }
 
         if (is_array($settings['validators.'])
@@ -228,8 +229,7 @@ class JQuery extends AbstractAjaxHandler
         $isAjaxSubmit,
         $autoDisableSubmitButton,
         $validateFields
-    )
-    {
+    ) {
         return '(function( $ ) {
                     $(function() {
                         $("' . $formSelector . '").formhandler({

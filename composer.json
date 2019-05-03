@@ -1,19 +1,17 @@
 {
-	"name": "phorax/formhandler",
+	"name": "svenjuergens/formhandler",
 	"type": "typo3-cms-extension",
-	"description": "The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
+	"description": "Fork of Formhandler: The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).",
 	"keywords": [
 		"TYPO3",
 		"extension",
 		"formhandler"
 	],
-	"homepage": "http://www.typo3-formhandler.com",
-	"license": [
-		"GPL-2.0"
-	],
+	"homepage": "https://github.com/SvenJuergens/formhandler/",
+	"license": "GPL-2.0-or-later",
 	"require": {
-		"php": "~7.0.0|~7.1.0|~7.2.0",
-		"typo3/cms-core": ">=7.6.0,<9.0"
+		"php": "~7.2.0",
+		"typo3/cms-core": "^9.5"
 	},
 	"autoload": {
 		"psr-4": {
@@ -25,7 +23,6 @@
 		]
 	},
 	"replace": {
-		"formhandler": "self.version",
-		"typo3-ter/formhandler": "self.version"
+		"formhandler": "self.version"
 	}
 }

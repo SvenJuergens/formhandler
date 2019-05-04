@@ -43,3 +43,8 @@ $iconRegistry->registerIcon(
     \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
     ['source' => 'EXT:formhandler/Resources/Public/Images/pagetreeicon.png']
 );
+$iconRegistry->registerIcon(
+    'formhandler-ctype-pi1',
+    \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+    ['source' => 'EXT:formhandler/Resources/Public/Icons/Extension.png']
+);

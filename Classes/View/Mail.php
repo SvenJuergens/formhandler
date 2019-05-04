@@ -57,6 +57,7 @@ class Mail extends Form
             foreach ($mailSettings['embedFiles'] as $key => $cid) {
                 $markers['###embed_' . $key . '###'] = $cid;
             }
+            // @extensionScannerIgnoreLine
             $this->template = $this->templateService->substituteMarkerArray($this->template, $markers);
         }
     }
@@ -86,7 +87,7 @@ class Mail extends Form
         if ($this->currentMailSettings['suffix'] !== 'plain') {
             $markers = $this->sanitizeMarkers($markers);
         }
-
+        // @extensionScannerIgnoreLine
         $this->template = $this->templateService->substituteMarkerArray($this->template, $markers);
 
         //remove remaining VALUE_-markers

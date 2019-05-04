@@ -53,6 +53,7 @@ class SubmittedOK extends Form
         }
         $this->fillFEUserMarkers($markers);
         $this->fillFileMarkers($markers);
+        // @extensionScannerIgnoreLine
         $this->template = $this->templateService->substituteMarkerArray($this->template, $markers);
     }
 }

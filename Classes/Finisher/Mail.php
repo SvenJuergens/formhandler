@@ -510,6 +510,7 @@ class Mail extends AbstractFinisher
             } else {
                 $langMarkers = $this->utilityFuncs->getFilledLangMarkers($value, $this->globals->getLangFiles());
                 if (!empty($langMarkers)) {
+                    // @extensionScannerIgnoreLine
                     $value = $this->templateService->substituteMarkerArray($value, $langMarkers);
                 }
             }

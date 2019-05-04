@@ -71,7 +71,7 @@ class PDF extends Form
         $markers = $this->getValueMarkers($this->gp);
 
         $markers = $this->sanitizeMarkers($markers);
-
+        // @extensionScannerIgnoreLine
         $this->template = $this->templateService->substituteMarkerArray($this->template, $markers);
 
         //remove remaining VALUE_-markers

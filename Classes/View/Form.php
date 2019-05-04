@@ -81,6 +81,7 @@ class Form extends AbstractView
         if ($this->globals->getAjaxHandler()) {
             $markers = [];
             $this->globals->getAjaxHandler()->fillAjaxMarkers($markers);
+            // @extensionScannerIgnoreLine
             $this->template = $this->templateService->substituteMarkerArray($this->template, $markers);
         }
 
@@ -150,7 +151,7 @@ class Form extends AbstractView
     }
 
     /**
-     * Reads the translation file entered in TS setup.
+     * Reads the translation xfile entered in TS setup.
      */
     protected function readMasterTemplates()
     {

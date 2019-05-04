@@ -223,8 +223,9 @@ abstract class AbstractView extends AbstractPlugin
      */
     public function setTemplate($templateCode, $templateName, $forceTemplate = false)
     {
+        // @extensionScannerIgnoreLine
         $this->subparts['template'] = $this->templateService->getSubpart($templateCode, '###TEMPLATE_' . $templateName . '###');
-        $this->subparts['item'] =$this->templateService->getSubpart($this->subparts['template'], '###ITEM###');
+        $this->subparts['item'] = $this->templateService->getSubpart($this->subparts['template'], '###ITEM###');
     }
 
     /**

@@ -48,7 +48,7 @@ class TemplateTCPDF extends \TCPDF
     public function __construct()
     {
         parent::__construct();
-        $this->sysLangFile = 'EXT:formhandler/Resources/Private/Language/locallang.xml';
+        $this->sysLangFile = 'EXT:formhandler/Resources/Private/Language/locallang.xlf';
     }
 
     /**
@@ -109,7 +109,7 @@ class TemplateTCPDF extends \TCPDF
     }
 
     /**
-     * Get a translation for given key from "EXT:formhandler/Resources/Private/Language/locallang.xml"
+     * Get a translation for given key from "EXT:formhandler/Resources/Private/Language/locallang.xlf"
      *
      * @param string $key The key
      * @return string The translation

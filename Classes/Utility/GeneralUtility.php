@@ -861,7 +861,7 @@ class GeneralUtility implements SingletonInterface
      */
     public static function getDebugMessage($key)
     {
-        return trim($GLOBALS['TSFE']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_debug.xml:' . $key));
+        return trim($GLOBALS['TSFE']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_debug.xlf:' . $key));
     }
 
     /**
@@ -872,7 +872,7 @@ class GeneralUtility implements SingletonInterface
      */
     public static function getExceptionMessage($key)
     {
-        return trim($GLOBALS['TSFE']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_exceptions.xml:' . $key));
+        return trim($GLOBALS['TSFE']->sL('LLL:EXT:formhandler/Resources/Private/Language/locallang_exceptions.xlf:' . $key));
     }
 
     /**

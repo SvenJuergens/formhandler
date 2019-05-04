@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2019-05-04T11:14:25Z" product-name="formhandler">
+		<header/>
+		<body>
+			<trans-unit id="wizard_pi1.title" xml:space="preserve" approved="yes">
+				<source>Formhandler</source>
+				<target>Formhandler</target>
+			</trans-unit>
+			<trans-unit id="tt_content.list_type_pi1" xml:space="preserve" approved="yes">
+				<source>Formhandler</source>
+				<target>Formhandler</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main" xml:space="preserve" approved="yes">
+				<source>Formhandler</source>
+				<target>Formhandler</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_to" xml:space="preserve" approved="yes">
+				<source>send formular field to this email</source>
+				<target>sende die Formularfelder an folgende Email</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_subject" xml:space="preserve" approved="yes">
+				<source>subject of email</source>
+				<target>Betreff der Email</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_sender" xml:space="preserve" approved="yes">
+				<source>email sender (email from)</source>
+				<target>Absende-Emailadresse</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_redirect" xml:space="preserve" approved="yes">
+				<source>redirect to this page (only if all &quot;have-to&quot; fields are filled out)</source>
+				<target>nach dem Abschicken zu dieser Seite weiterleten (nur wenn Mussfelder ausgefüllt wurden)</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_requiredfields" xml:space="preserve" approved="yes">
+				<source>these fields have to be filled out (enter name of formular field seperated by &quot;,&quot;)</source>
+				<target>diese Felder müssen ausgefüllt sein (Name der Eingabefelder durch &quot;,&quot; getrennt)</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_htmltemplate" xml:space="preserve" approved="yes">
+				<source>HTML-Template with formular fields in it</source>
+				<target>HTML-Template mit dem Formularfeldern</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_html_as_attachment" xml:space="preserve" approved="yes">
+				<source>send out html version of the output (if any) as an attachment instead of alternative to text</source>
+				<target>HTML Version der E-Mail as Attachment zur Plaintext-Version versenden</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_sendtouser" xml:space="preserve" approved="yes">
+				<source>optional: Send a confirmation email to user. Specify the input-field name where the user fills out his/her emailadress:</source>
+				<target>optional: Bestätigungs-Email an den User senden? Geben Sie hier den namen des Formularfeldes an, in dem der User seine Emailadresse angibt:</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_subject_user" xml:space="preserve" approved="yes">
+				<source>Subject of the mail to the user:</source>
+				<target>Betreff der Mail, die an den User geht:</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.email_replyto" xml:space="preserve" approved="yes">
+				<source>use the value of this submitted form-field as reply-to (optional, name of input field)</source>
+				<target>den Wert dieses ausgefüllten Eingabefeldes als reply-to verwenden (optional, Name des Formularfeldes)</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.tx_formhandler_maxrows" xml:space="preserve" approved="yes">
+				<source>Maximum number of rows (records) per page (zero = unlimited) in LIST-view</source>
+				<target>max. Anzahl Zeilen pro Seite (0 = unendlich) in der LIST-Anzeige</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_main.tx_formhandler_singlepid" xml:space="preserve" approved="yes">
+				<source>Id of the related page for the single data display</source>
+				<target>Id der Seite, die den kompletten Inhalt zeigt</target>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_formhandler_contenttype.I.0" xml:space="preserve" approved="yes">
+				<source>list</source>
+				<target>Liste</target>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_formhandler_contenttype.I.1" xml:space="preserve" approved="yes">
+				<source>single</source>
+				<target>Einzelansicht</target>
+			</trans-unit>
+			<trans-unit id="tt_content.tx_formhandler_contenttype" xml:space="preserve" approved="yes">
+				<source>Type of data display</source>
+				<target>Art der Darstellung</target>
+			</trans-unit>
+			<trans-unit id="be_missing_config" xml:space="preserve" approved="yes">
+				<source>No forms predefined</source>
+				<target>keine Vorlagen vorhanden</target>
+			</trans-unit>
+			<trans-unit id="be_please_select" xml:space="preserve" approved="yes">
+				<source>Choose a predefined form</source>
+				<target>wählen Sie eine Vorlage</target>
+			</trans-unit>
+			<trans-unit id="tt_content.pi1_plus_wiz_description" xml:space="preserve" approved="yes">
+				<source>Advanced form system with many typoscript options which bring a lot of flexibility.</source>
+				<target>Erweitertes Formularsystem mit vielen TypoScript-Optionen, welche ein großartige Flexibilität bieten.</target>
+			</trans-unit>
+			<trans-unit id="be_defined_by_TS" xml:space="preserve" approved="yes">
+				<source>Defined by TypoScript</source>
+				<target>Definiert durch TypoScript</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_log" xml:space="preserve" approved="yes">
+				<source>Formhandler log entry</source>
+				<target>Formhandler Logeintrag</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_log.submission_date" xml:space="preserve" approved="yes">
+				<source>Submission date</source>
+				<target>Absendedatum</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_log.ip" xml:space="preserve" approved="yes">
+				<source>IP address</source>
+				<target>IP-Addresse</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_log.params" xml:space="preserve" approved="yes">
+				<source>Submitted values</source>
+				<target>Abgeschickte Werte</target>
+			</trans-unit>
+			<trans-unit id="tx_formhandler_log.is_spam" xml:space="preserve" approved="yes">
+				<source>Considered as SPAM</source>
+				<target>Als SPAM erkannt</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

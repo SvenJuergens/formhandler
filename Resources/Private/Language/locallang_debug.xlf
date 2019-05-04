@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-05-04T11:14:36Z" product-name="formhandler">
+		<header/>
+		<body>
+			<trans-unit id="adding_html" xml:space="preserve">
+				<source>Adding HTML:</source>
+			</trans-unit>
+			<trans-unit id="adding_generated_files" xml:space="preserve">
+				<source>Adding generated files:</source>
+			</trans-unit>
+			<trans-unit id="alert_mail_not_sent" xml:space="preserve">
+				<source>Mails not sent because a mail has already been sent in defined interval!</source>
+			</trans-unit>
+			<trans-unit id="attachment_not_found" xml:space="preserve">
+				<source>Attachment not found: %s!</source>
+			</trans-unit>
+			<trans-unit id="calling_class" xml:space="preserve">
+				<source>Calling class &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="calling_finisher" xml:space="preserve">
+				<source>Calling finisher &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="calling_logger" xml:space="preserve">
+				<source>Calling logger &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="calling_validator" xml:space="preserve">
+				<source>Calling validator &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="check_not_found" xml:space="preserve">
+				<source>Error check &quot;%s&quot; not found!</source>
+			</trans-unit>
+			<trans-unit id="check_skipped" xml:space="preserve">
+				<source>Skipped error check &quot;%s&quot;!</source>
+			</trans-unit>
+			<trans-unit id="cleaning_temp_files" xml:space="preserve">
+				<source>Cleaning temporary files in folder &quot;%s&quot;!</source>
+			</trans-unit>
+			<trans-unit id="clear_steps" xml:space="preserve">
+				<source>Clearing steps after form is finished:</source>
+			</trans-unit>
+			<trans-unit id="cleared_session" xml:space="preserve">
+				<source>Cleared params in session</source>
+			</trans-unit>
+			<trans-unit id="cleared_steps" xml:space="preserve">
+				<source>Cleared steps:</source>
+			</trans-unit>
+			<trans-unit id="combined" xml:space="preserve">
+				<source>Combined %s = %s!</source>
+			</trans-unit>
+			<trans-unit id="condition" xml:space="preserve">
+				<source>Condition was evaluated as %s : %s!</source>
+			</trans-unit>
+			<trans-unit id="copy_file" xml:space="preserve">
+				<source>Copying file &quot;%s&quot; to &quot;%s&quot;!</source>
+			</trans-unit>
+			<trans-unit id="current_files" xml:space="preserve">
+				<source>The current uploaded files are:</source>
+			</trans-unit>
+			<trans-unit id="current_gp" xml:space="preserve">
+				<source>The current GET/POST params are:</source>
+			</trans-unit>
+			<trans-unit id="current_session_params" xml:space="preserve">
+				<source>The current values in session are:</source>
+			</trans-unit>
+			<trans-unit id="current_step" xml:space="preserve">
+				<source>Current step is: %s</source>
+			</trans-unit>
+			<trans-unit id="data_stored" xml:space="preserve">
+				<source>Data gets stored!</source>
+			</trans-unit>
+			<trans-unit id="deleting_file" xml:space="preserve">
+				<source>Deleting file &quot;%s&quot;!</source>
+			</trans-unit>
+			<trans-unit id="error" xml:space="preserve">
+				<source>The following error occurred: %s</source>
+			</trans-unit>
+			<trans-unit id="folder_doesnt_exist" xml:space="preserve">
+				<source>Folder &quot;%s&quot; doesn't exist! Trying to create!</source>
+			</trans-unit>
+			<trans-unit id="form_finished" xml:space="preserve">
+				<source>Form is finished!</source>
+			</trans-unit>
+			<trans-unit id="init_values" xml:space="preserve">
+				<source>Initial values</source>
+			</trans-unit>
+			<trans-unit id="invalid_isset" xml:space="preserve">
+				<source>&quot;Invalid format of ISSET Marker. Hint: %s</source>
+			</trans-unit>
+			<trans-unit id="last_step" xml:space="preserve">
+				<source>Last step was: %s</source>
+			</trans-unit>
+			<trans-unit id="finished_step" xml:space="preserve">
+				<source>Last step in form is: %s</source>
+			</trans-unit>
+			<trans-unit id="logging" xml:space="preserve">
+				<source>Logging into table &quot;%s&quot; values: %s!</source>
+			</trans-unit>
+			<trans-unit id="mail_bcc" xml:space="preserve">
+				<source>BCC:</source>
+			</trans-unit>
+			<trans-unit id="mail_cc" xml:space="preserve">
+				<source>CC:</source>
+			</trans-unit>
+			<trans-unit id="mail_disabled" xml:space="preserve">
+				<source>Skipped %s mail because it is disabled in TypoScript!</source>
+			</trans-unit>
+			<trans-unit id="mail_html" xml:space="preserve">
+				<source>Message HTML:</source>
+			</trans-unit>
+			<trans-unit id="mail_message" xml:space="preserve">
+				<source>Message:</source>
+			</trans-unit>
+			<trans-unit id="mail_not_sent" xml:space="preserve">
+				<source>Mail NOT sent to: %s</source>
+			</trans-unit>
+			<trans-unit id="mail_plain" xml:space="preserve">
+				<source>Message plain:</source>
+			</trans-unit>
+			<trans-unit id="mail_replyto" xml:space="preserve">
+				<source>Reply to:</source>
+			</trans-unit>
+			<trans-unit id="mail_returnpath" xml:space="preserve">
+				<source>Return path:</source>
+			</trans-unit>
+			<trans-unit id="mail_sender" xml:space="preserve">
+				<source>Sender:</source>
+			</trans-unit>
+			<trans-unit id="mail_sent" xml:space="preserve">
+				<source>Mail successfully sent to: %s</source>
+			</trans-unit>
+			<trans-unit id="mail_subject" xml:space="preserve">
+				<source>Subject: %s</source>
+			</trans-unit>
+			<trans-unit id="missing_field_for_error_check" xml:space="preserve">
+				<source>Trying to validate a field that doesn't exist: &quot;%s&quot;! Either you forgot to remove an error check or yorgot to add a field to your HTML! Maybe it is just an unset checkbox field! In that case, everything is fine.</source>
+			</trans-unit>
+			<trans-unit id="no_submittedok_template" xml:space="preserve">
+				<source>SubmittedOK template not found! Make sure that the subpart ###TEMPLATE_SUBMITTEDOK### is in your HTML template!</source>
+			</trans-unit>
+			<trans-unit id="no_error_message" xml:space="preserve">
+				<source>Could not find error message with key &quot;%s&quot;!</source>
+			</trans-unit>
+			<trans-unit id="no_mail_template" xml:space="preserve">
+				<source>E-Mail template not found for mode %s and type %s! This mail is skipped!</source>
+			</trans-unit>
+			<trans-unit id="no_update_possible" xml:space="preserve">
+				<source>UID parameter not found in GP. Cannot make update!</source>
+			</trans-unit>
+			<trans-unit id="redirect_failed" xml:space="preserve">
+				<source>Tried to do a redirect to specified page! The redirect may have failed because the debug settings is on!</source>
+			</trans-unit>
+			<trans-unit id="sql_request" xml:space="preserve">
+				<source>Executing request &quot;%s&quot;;</source>
+			</trans-unit>
+			<trans-unit id="sql_request_error" xml:space="preserve">
+				<source>SQL request failed: %s</source>
+			</trans-unit>
+			<trans-unit id="sql_too_many_rows" xml:space="preserve">
+				<source>SQL request resulted in %d rows! Only one row is allowed.</source>
+			</trans-unit>
+			<trans-unit id="store_gp" xml:space="preserve">
+				<source>Storing GP in session!</source>
+			</trans-unit>
+			<trans-unit id="subparts_missing" xml:space="preserve">
+				<source>Subparts in template missing! Found: %s</source>
+			</trans-unit>
+			<trans-unit id="total_steps" xml:space="preserve">
+				<source>Highest step subpart found in template file (number of steps): %s</source>
+			</trans-unit>
+			<trans-unit id="translated" xml:space="preserve">
+				<source>Translated %s = %s!</source>
+			</trans-unit>
+			<trans-unit id="using_controller" xml:space="preserve">
+				<source>Using controller &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="using_prefix" xml:space="preserve">
+				<source>Using prefix for form values: &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="using_subpart" xml:space="preserve">
+				<source>Using subpart &quot;%s&quot;!</source>
+			</trans-unit>
+			<trans-unit id="using_view" xml:space="preserve">
+				<source>Using view &quot;%s&quot;</source>
+			</trans-unit>
+			<trans-unit id="cacheCmd" xml:space="preserve">
+				<source>Clearing cache user cacheCmd &quot;%s&quot;</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -29,7 +29,7 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['formhandler_
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
     [
-        'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tt_content.list_type_pi1',
+        'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:tt_content.list_type_pi1',
         'formhandler_pi1'
     ],
     'CType',

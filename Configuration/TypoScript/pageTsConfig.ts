@@ -3,7 +3,7 @@ mod.wizards.newContentElement.wizardItems.forms {
 		formhandler {
 			iconIdentifier = formhandler-ctype-pi1
 			title = Formhandler
-			description = The swiss army knife for all kinds of mailforms.
+			description = LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:tt_content.pi1_plus_wiz_description
 			tt_content_defValues.CType = formhandler_pi1
 		}
 	}

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-05-04T11:14:17Z" product-name="formhandler">
+		<header/>
+		<body>
+			<trans-unit id="action.index" xml:space="preserve">
+				<source>View log data</source>
+			</trans-unit>
+			<trans-unit id="action.clearLogs" xml:space="preserve">
+				<source>Clear log data</source>
+			</trans-unit>
+			<trans-unit id="headline.index" xml:space="preserve">
+				<source>Log Data</source>
+			</trans-unit>
+			<trans-unit id="headline.clearLogs" xml:space="preserve">
+				<source>Clear Log Data</source>
+			</trans-unit>
+			<trans-unit id="headline.selectFields" xml:space="preserve">
+				<source>Select the fields to export</source>
+			</trans-unit>
+			<trans-unit id="label.pid" xml:space="preserve">
+				<source>Page ID</source>
+			</trans-unit>
+			<trans-unit id="label.page" xml:space="preserve">
+				<source>Page Info</source>
+			</trans-unit>
+			<trans-unit id="label.count" xml:space="preserve">
+				<source>Number of logs</source>
+			</trans-unit>
+			<trans-unit id="label.submissionDate" xml:space="preserve">
+				<source>Submission Date</source>
+			</trans-unit>
+			<trans-unit id="label.ip" xml:space="preserve">
+				<source>IP</source>
+			</trans-unit>
+			<trans-unit id="label.detailView" xml:space="preserve">
+				<source>View</source>
+			</trans-unit>
+			<trans-unit id="label.export" xml:space="preserve">
+				<source>Export as</source>
+			</trans-unit>
+			<trans-unit id="label.show" xml:space="preserve">
+				<source>Items per page</source>
+			</trans-unit>
+			<trans-unit id="label.submit" xml:space="preserve">
+				<source>Filter</source>
+			</trans-unit>
+			<trans-unit id="label.select-all" xml:space="preserve">
+				<source>Select all pages</source>
+			</trans-unit>
+			<trans-unit id="label.select-page-from-tree" xml:space="preserve">
+				<source>Please select the page using the page tree.</source>
+			</trans-unit>
+			<trans-unit id="label.start" xml:space="preserve">
+				<source>Start</source>
+			</trans-unit>
+			<trans-unit id="label.end" xml:space="preserve">
+				<source>End</source>
+			</trans-unit>
+			<trans-unit id="label.params" xml:space="preserve">
+				<source>Submitted Values</source>
+			</trans-unit>
+			<trans-unit id="label.data" xml:space="preserve">
+				<source>Submission Data</source>
+			</trans-unit>
+			<trans-unit id="label.back" xml:space="preserve">
+				<source>Back to list</source>
+			</trans-unit>
+			<trans-unit id="label.delete-all-selected-logs" xml:space="preserve">
+				<source>Delete all selected log rows</source>
+			</trans-unit>
+			<trans-unit id="label.delete-all-logs" xml:space="preserve">
+				<source>Delete all log rows</source>
+			</trans-unit>
+			<trans-unit id="label.delete-log-row" xml:space="preserve">
+				<source>Delete this log row</source>
+			</trans-unit>
+			<trans-unit id="label.select-all-rows" xml:space="preserve">
+				<source>Select all/Select none</source>
+			</trans-unit>
+			<trans-unit id="message.delete-all-selected-logs" xml:space="preserve">
+				<source>Are you sure you want to delete all selected log rows?</source>
+			</trans-unit>
+			<trans-unit id="message.delete-all-logs" xml:space="preserve">
+				<source>Are you sure you want to delete all log rows?</source>
+			</trans-unit>
+			<trans-unit id="message.delete-log-row" xml:space="preserve">
+				<source>Are you sure you want to delete this log row?</source>
+			</trans-unit>
+			<trans-unit id="message.deleted-log-rows" xml:space="preserve">
+				<source>Deleted %d log row(s)!</source>
+			</trans-unit>
+			<trans-unit id="message.deleted-all-logs" xml:space="preserve">
+				<source>Deleted all log rows!</source>
+			</trans-unit>
+			<trans-unit id="message.noRecordsFound" xml:space="preserve">
+				<source>No records found</source>
+			</trans-unit>
+			<trans-unit id="button.export" xml:space="preserve">
+				<source>Export</source>
+			</trans-unit>
+			<trans-unit id="title" xml:space="preserve">
+				<source>Formhandler</source>
+			</trans-unit>
+			<trans-unit id="no_id" xml:space="preserve">
+				<source>Please select a page first!</source>
+			</trans-unit>
+			<trans-unit id="function1" xml:space="preserve">
+				<source>Log overview</source>
+			</trans-unit>
+			<trans-unit id="function2" xml:space="preserve">
+				<source>Clear logs</source>
+			</trans-unit>
+			<trans-unit id="function3" xml:space="preserve">
+				<source>Function #3</source>
+			</trans-unit>
+			<trans-unit id="noLogTable" xml:space="preserve">
+				<source>Required table 'tx_formhandler_log' not found. Please add the default logger to your Formhandler TypoScript setup.</source>
+			</trans-unit>
+			<trans-unit id="select_export_fields" xml:space="preserve">
+				<source>Please select the fields to export:</source>
+			</trans-unit>
+			<trans-unit id="select_all" xml:space="preserve">
+				<source>Select all</source>
+			</trans-unit>
+			<trans-unit id="deselect_all" xml:space="preserve">
+				<source>Deselect all</source>
+			</trans-unit>
+			<trans-unit id="export" xml:space="preserve">
+				<source>Export</source>
+			</trans-unit>
+			<trans-unit id="export_all" xml:space="preserve">
+				<source>Export all</source>
+			</trans-unit>
+			<trans-unit id="export_as" xml:space="preserve">
+				<source>Export as</source>
+			</trans-unit>
+			<trans-unit id="ip_address" xml:space="preserve">
+				<source>IP address</source>
+			</trans-unit>
+			<trans-unit id="search" xml:space="preserve">
+				<source>Search</source>
+			</trans-unit>
+			<trans-unit id="submission_date" xml:space="preserve">
+				<source>Submission date</source>
+			</trans-unit>
+			<trans-unit id="submitted_values" xml:space="preserve">
+				<source>Submitted values</source>
+			</trans-unit>
+			<trans-unit id="submission_details" xml:space="preserve">
+				<source>Submission details</source>
+			</trans-unit>
+			<trans-unit id="footer_text" xml:space="preserve">
+				<source>Generated by Formhandler using TCPDF at %s</source>
+			</trans-unit>
+			<trans-unit id="fieldname" xml:space="preserve">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="fieldvalue" xml:space="preserve">
+				<source>Entered value</source>
+			</trans-unit>
+			<trans-unit id="page" xml:space="preserve">
+				<source>Page</source>
+			</trans-unit>
+			<trans-unit id="page_id" xml:space="preserve">
+				<source>Page ID</source>
+			</trans-unit>
+			<trans-unit id="params" xml:space="preserve">
+				<source>Params</source>
+			</trans-unit>
+			<trans-unit id="back" xml:space="preserve">
+				<source>Back</source>
+			</trans-unit>
+			<trans-unit id="pdf" xml:space="preserve">
+				<source>PDF</source>
+			</trans-unit>
+			<trans-unit id="csv" xml:space="preserve">
+				<source>CSV</source>
+			</trans-unit>
+			<trans-unit id="filter" xml:space="preserve">
+				<source>Filter</source>
+			</trans-unit>
+			<trans-unit id="pid_label" xml:space="preserve">
+				<source>PID (comma seperated)</source>
+			</trans-unit>
+			<trans-unit id="startdate" xml:space="preserve">
+				<source>Start date</source>
+			</trans-unit>
+			<trans-unit id="enddate" xml:space="preserve">
+				<source>End date</source>
+			</trans-unit>
+			<trans-unit id="detail_view" xml:space="preserve">
+				<source>Detail view</source>
+			</trans-unit>
+			<trans-unit id="delete_selected" xml:space="preserve">
+				<source>Delete selected</source>
+			</trans-unit>
+			<trans-unit id="delete_question" xml:space="preserve">
+				<source>Remove selected records?</source>
+			</trans-unit>
+			<trans-unit id="show" xml:space="preserve">
+				<source>Show</source>
+			</trans-unit>
+			<trans-unit id="cal" xml:space="preserve">
+				<source>Cal</source>
+			</trans-unit>
+			<trans-unit id="no_records" xml:space="preserve">
+				<source>No records found!</source>
+			</trans-unit>
+			<trans-unit id="formats_found" xml:space="preserve">
+				<source>%d formats found! Please export them in seperatefiles!</source>
+			</trans-unit>
+			<trans-unit id="crdate" xml:space="preserve">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="welcome" xml:space="preserve">
+				<source>Welcome to the log of Formhandler!</source>
+			</trans-unit>
+			<trans-unit id="mathguard_question" xml:space="preserve">
+				<source> security question, please solve:</source>
+			</trans-unit>
+			<trans-unit id="clear" xml:space="preserve">
+				<source>Delete</source>
+			</trans-unit>
+			<trans-unit id="clear-logs-message" xml:space="preserve">
+				<source>Do you really want to delete %d logged records? These changes cannot be reverted!</source>
+			</trans-unit>
+			<trans-unit id="no-logs-message" xml:space="preserve">
+				<source>Nothing to remove!</source>
+			</trans-unit>
+			<trans-unit id="clear-logs-success-header" xml:space="preserve">
+				<source>Success!</source>
+			</trans-unit>
+			<trans-unit id="clear-logs-success-message" xml:space="preserve">
+				<source>%d records were removed successfully!</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

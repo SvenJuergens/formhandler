@@ -1,7 +1,7 @@
 <?php
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tx_formhandler_log',
+        'title' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:tx_formhandler_log',
         'label' => 'uid',
         'default_sortby' => 'ORDER BY crdate DESC',
         'crdate' => 'crdate',
@@ -16,7 +16,7 @@ return [
     'columns' => [
         'crdate' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tx_formhandler_log.submission_date',
+            'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:tx_formhandler_log.submission_date',
             'config' => [
                 'type' => 'input',
                 'size' => '10',
@@ -27,14 +27,14 @@ return [
             ]
         ],
         'ip' => [
-            'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tx_formhandler_log.ip',
+            'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:tx_formhandler_log.ip',
             'config' => [
                 'type' => 'input'
             ]
         ],
         'params' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tx_formhandler_log.params',
+            'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:tx_formhandler_log.params',
             'config' => [
                 'type' => 'user',
                 'userFunc' => 'Typoheads\Formhandler\Utility\TcaUtility->getParams'
@@ -42,7 +42,7 @@ return [
         ],
         'is_spam' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xml:tx_formhandler_log.is_spam',
+            'label' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_db.xlf:tx_formhandler_log.is_spam',
             'config' => [
                 'type' => 'check'
             ]

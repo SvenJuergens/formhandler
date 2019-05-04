@@ -18,7 +18,7 @@ if (TYPO3_MODE === 'BE') {
         [
             'access' => 'user,group',
             'icon' => 'EXT:formhandler/Resources/Public/Icons/Extension.png',
-            'labels' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_mod.xml'
+            'labels' => 'LLL:EXT:formhandler/Resources/Private/Language/locallang_mod.xlf'
         ]
     );
 }

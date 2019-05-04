@@ -14,6 +14,7 @@ namespace Typoheads\Formhandler\Utility;
  * Public License for more details.                                       *
  *                                                                        */
 
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\Random;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\TypoScript\TemplateService;
@@ -40,7 +41,7 @@ class GeneralUtility implements SingletonInterface
      */
     public static function getDocumentRoot()
     {
-        return PATH_site;
+        return Environment::getPublicPath() . '/';
     }
 
     public static function getMergedGP()

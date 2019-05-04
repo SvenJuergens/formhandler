@@ -1,6 +1,8 @@
 <?php
 defined('TYPO3_MODE') or die();
 
+$GLOBALS['TCA']['tt_content']['ctrl']['typeicon_classes']['formhandler_pi1'] = 'formhandler-ctype-pi1';
+
 $GLOBALS['TCA']['tt_content']['types']['formhandler_pi1']['showitem'] = '
     --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.general;general,
     --palette--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:palette.header;header,

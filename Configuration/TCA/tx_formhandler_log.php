@@ -20,10 +20,10 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => '10',
-                'max' => '20',
                 'eval' => 'datetime',
                 'checkbox' => '0',
-                'default' => '0'
+                'default' => '0',
+                'renderType' => 'inputDateTime'
             ]
         ],
         'ip' => [

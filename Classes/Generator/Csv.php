@@ -83,7 +83,7 @@ class Csv extends AbstractGenerator
         if ($csv->input_encoding !== $csv->output_encoding) {
             $csv->convert_encoding = true;
         }
-        if ((int)($this->settings['returnFileName']) === 1 || (int) ($this->settings['returnGP']) === 1) {
+        if ((int)($this->settings['returnFileName']) === 1 || (int)($this->settings['returnGP']) === 1) {
             $outputPath = $this->utilityFuncs->getDocumentRoot();
             if ($this->settings['customTempOutputPath']) {
                 $outputPath .= $this->settings['customTempOutputPath'];

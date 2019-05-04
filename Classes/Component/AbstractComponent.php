@@ -27,7 +27,6 @@ abstract class AbstractComponent extends AbstractClass
     /**
      * The GET/POST parameters
      *
-     * @access protected
      * @var array
      */
     protected $gp;
@@ -35,7 +34,6 @@ abstract class AbstractComponent extends AbstractClass
     /**
      * Settings
      *
-     * @access protected
      * @var array
      */
     protected $settings;

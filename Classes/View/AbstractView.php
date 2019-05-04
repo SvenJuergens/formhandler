@@ -33,7 +33,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * The prefix id
      *
-     * @access public
      * @var string
      */
     public $prefixId = 'Tx_Formhandler';
@@ -41,7 +40,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * The extension key
      *
-     * @access public
      * @var string
      */
     public $extKey = 'formhandler';
@@ -49,7 +47,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * The cObj for link generation in FE
      *
-     * @access public
      * @var ContentObjectRenderer
      */
     public $cObj;
@@ -57,7 +54,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * The piVars
      *
-     * @access public
      * @var array
      */
     public $piVars;
@@ -65,7 +61,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * The Formhandler component manager
      *
-     * @access protected
      * @var Manager
      */
     protected $componentManager;
@@ -73,7 +68,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * The global Formhandler configuration
      *
-     * @access protected
      * @var Configuration
      */
     protected $configuration;
@@ -81,7 +75,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * The global Formhandler values
      *
-     * @access protected
      * @var Globals
      */
     protected $globals;
@@ -89,7 +82,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * The Formhandler utility methods
      *
-     * @access protected
      * @var FormhandlerGeneralUtility
      */
     protected $utilityFuncs;
@@ -97,7 +89,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * The model of the view
      *
-     * @access protected
      * @var misc
      */
     protected $model;
@@ -105,7 +96,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * The subparts array
      *
-     * @access protected
      * @var array
      */
     protected $subparts;
@@ -113,7 +103,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * The template code
      *
-     * @access protected
      * @var string
      */
     protected $template;
@@ -121,7 +110,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * An array of translation file names
      *
-     * @access protected
      * @var array
      */
     protected $langFiles;
@@ -129,7 +117,6 @@ abstract class AbstractView extends AbstractPlugin
     /**
      * The get/post parameters
      *
-     * @access protected
      * @var array
      */
     protected $gp;
@@ -149,9 +136,9 @@ abstract class AbstractView extends AbstractPlugin
      */
     public function __construct(
         Manager $componentManager,
-                                Configuration $configuration,
-                                Globals $globals,
-                                FormhandlerGeneralUtility $utilityFuncs
+        Configuration $configuration,
+        Globals $globals,
+        FormhandlerGeneralUtility $utilityFuncs
     ) {
         parent::__construct();
         $this->componentManager = $componentManager;

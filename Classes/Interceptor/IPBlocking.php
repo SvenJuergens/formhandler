@@ -54,7 +54,6 @@ class IPBlocking extends AbstractInterceptor
     /**
      * The table where the form submissions are logged
      *
-     * @access protected
      * @var string
      */
     protected $logTable = 'tx_formhandler_log';

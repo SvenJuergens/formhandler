@@ -6,7 +6,6 @@
  */
 defined('TYPO3_MODE') or die();
 
-
 if (TYPO3_MODE === 'BE') {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
         'Typoheads.formhandler',
@@ -23,7 +22,6 @@ if (TYPO3_MODE === 'BE') {
         ]
     );
 }
-
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
     'tx_formhandler_log'

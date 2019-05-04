@@ -30,7 +30,6 @@ class Form extends AbstractView
     /**
      * An array of fields to do not encode for output
      *
-     * @access protected
      * @var array
      */
     protected $disableEncodingFields;

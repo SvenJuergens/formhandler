@@ -57,9 +57,9 @@ class TYPO3Mailer extends AbstractMailer implements MailerInterface
      */
     public function __construct(
         Manager $componentManager,
-                                Configuration $configuration,
-                                Globals $globals,
-                                FormhandlerGeneralUtility $utilityFuncs
+        Configuration $configuration,
+        Globals $globals,
+        FormhandlerGeneralUtility $utilityFuncs
     ) {
         parent::__construct($componentManager, $configuration, $globals, $utilityFuncs);
         $this->emailObj = GeneralUtility::makeInstance(MailMessage::class);

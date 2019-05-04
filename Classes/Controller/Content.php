@@ -25,7 +25,6 @@ class Content
     /**
      * The actual content
      *
-     * @access protected
      * @var string
      */
     protected $content;

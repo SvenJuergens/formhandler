@@ -25,7 +25,6 @@ class Ajax extends AbstractValidator
     /**
      * Array holding the configured validators
      *
-     * @access protected
      * @var array
      */
     protected $validators;

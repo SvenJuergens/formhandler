@@ -28,7 +28,6 @@ class BackendTcPdf extends AbstractComponent
     /**
      * The internal PDF object
      *
-     * @access protected
      * @var Tx_Formhandler_Template_TCPDF
      */
     protected $pdf;

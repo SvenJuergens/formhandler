@@ -74,7 +74,7 @@ class LoadDefaultValues extends AbstractPreProcessor
     /**
      * loads the Default Setting in the Session. Used only for step 2+.
      *
-     * @param Array $settings
+     * @param array $settings
      * @param int $step
      */
     private function loadDefaultValuesToSession($settings, $step)

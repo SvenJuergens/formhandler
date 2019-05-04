@@ -27,7 +27,6 @@ class TemplateTCPDF extends \TCPDF
     /**
      * Path to language file
      *
-     * @access protected
      * @var string
      */
     protected $sysLangFile;
@@ -35,7 +34,6 @@ class TemplateTCPDF extends \TCPDF
     /**
      * Text for the header
      *
-     * @access protected
      * @var string
      */
     protected $headerText;
@@ -43,7 +41,6 @@ class TemplateTCPDF extends \TCPDF
     /**
      * Text for the footer
      *
-     * @access protected
      * @var string
      */
     protected $footerText;

@@ -27,7 +27,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * The content returned by the controller
      *
-     * @access protected
      * @var Content
      */
     protected $content;
@@ -35,7 +34,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * The key of a possibly selected predefined form
      *
-     * @access protected
      * @var string
      */
     protected $predefined;
@@ -43,7 +41,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * The template file to be used. Only if template file was defined via plugin record
      *
-     * @access protected
      * @var string
      */
     protected $templateFile;
@@ -51,7 +48,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * Array of configured translation files
      *
-     * @access protected
      * @var array
      */
     protected $langFiles;

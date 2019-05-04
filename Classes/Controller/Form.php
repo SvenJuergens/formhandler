@@ -28,7 +28,6 @@ class Form extends AbstractController
     /**
      * The current GET/POST parameters of the form
      *
-     * @access protected
      * @var array
      */
     protected $gp;
@@ -36,7 +35,6 @@ class Form extends AbstractController
     /**
      * Contains all errors occurred while validation
      *
-     * @access protected
      * @var array
      */
     protected $errors;
@@ -44,7 +42,6 @@ class Form extends AbstractController
     /**
      * Holds the prefix value of all parameters of this form.
      *
-     * @access protected
      * @var string
      */
     protected $formValuesPrefix;
@@ -52,7 +49,6 @@ class Form extends AbstractController
     /**
      * Flag indicating if the form got submitted
      *
-     * @access protected
      * @var bool
      */
     protected $submitted;
@@ -60,7 +56,6 @@ class Form extends AbstractController
     /**
      * The settings array
      *
-     * @access protected
      * @var array
      */
     protected $settings;
@@ -68,7 +63,6 @@ class Form extends AbstractController
     /**
      * Flag indicating if debug mode is on
      *
-     * @access protected
      * @var bool
      */
     protected $debugMode;
@@ -76,7 +70,6 @@ class Form extends AbstractController
     /**
      * The view object
      *
-     * @access protected
      * @var misc
      */
     protected $view;
@@ -84,7 +77,6 @@ class Form extends AbstractController
     /**
      * The current step of the form
      *
-     * @access protected
      * @var int
      */
     protected $currentStep;
@@ -92,7 +84,6 @@ class Form extends AbstractController
     /**
      * The last step of the form
      *
-     * @access protected
      * @var int
      */
     protected $lastStep;
@@ -100,7 +91,6 @@ class Form extends AbstractController
     /**
      * Total steps of the form
      *
-     * @access protected
      * @var int
      */
     protected $totalSteps;
@@ -108,7 +98,6 @@ class Form extends AbstractController
     /**
      * Flag indicating if form is finished (no more steps)
      *
-     * @access protected
      * @var bool
      */
     protected $finished;
@@ -203,7 +192,8 @@ class Form extends AbstractController
                 && !empty($params)
                 && (int)$this->utilityFuncs->getSingle(
                     $finisherConf['actions.'][$action . '.']['config.'],
-                    'returns') !== 1
+                    'returns'
+                ) !== 1
             ) {
                 $class = $this->utilityFuncs->getPreparedClassName($finisherConf['actions.'][$action . '.']);
                 if ($class) {
@@ -220,7 +210,8 @@ class Form extends AbstractController
                 $content = $object->process();
             } elseif ((int)$this->utilityFuncs->getSingle(
                 $finisherConf['actions.'][$action . '.']['config.'],
-                'returns') === 1
+                'returns'
+            ) === 1
             ) {
                 $class = $this->utilityFuncs->getPreparedClassName($finisherConf['actions.'][$action . '.']);
                 if ($class) {
@@ -1508,7 +1499,7 @@ class Form extends AbstractController
                 if (!isset($newGP[$field]) && isset($this->gp[$field]) && $this->lastStep < $this->currentStep) {
                     $this->gp[$field] = $newGP[$field] = [];
 
-                    //Insert default checkbox values
+                //Insert default checkbox values
                 } elseif (!isset($newGP[$field]) && $this->lastStep < $this->currentStep) {
                     if (is_array($this->settings['checkBoxUncheckedValue.']) && isset($this->settings['checkBoxUncheckedValue.'][$field])) {
                         $this->gp[$field] = $newGP[$field] = $this->utilityFuncs->getSingle($this->settings['checkBoxUncheckedValue.'], $field);

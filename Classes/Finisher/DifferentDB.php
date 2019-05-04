@@ -43,7 +43,6 @@ class DifferentDB extends DB
     /**
      * The name of the database driver to use.
      *
-     * @access protected
      * @var string
      */
     protected $driver;
@@ -51,7 +50,6 @@ class DifferentDB extends DB
     /**
      * The name of the database host.
      *
-     * @access protected
      * @var string
      */
     protected $host;
@@ -59,7 +57,6 @@ class DifferentDB extends DB
     /**
      * The port the database listens.
      *
-     * @access protected
      * @var int
      */
     protected $port;
@@ -67,7 +64,6 @@ class DifferentDB extends DB
     /**
      * The name of the database.
      *
-     * @access protected
      * @var string
      */
     protected $db;
@@ -75,7 +71,6 @@ class DifferentDB extends DB
     /**
      * The username to use.
      *
-     * @access protected
      * @var string
      */
     protected $user;
@@ -89,7 +84,6 @@ class DifferentDB extends DB
     /**
      * The password to use.
      *
-     * @access protected
      * @var string
      */
     protected $password;
@@ -97,7 +91,6 @@ class DifferentDB extends DB
     /**
      * The connection object.
      *
-     * @access protected
      * @var \ADOConnection
      */
     protected $connection;

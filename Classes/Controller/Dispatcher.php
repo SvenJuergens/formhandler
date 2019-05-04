@@ -30,7 +30,6 @@ class Dispatcher extends AbstractPlugin
     /**
      * Compontent Manager
      *
-     * @access protected
      * @var Manager
      */
     protected $componentManager;
@@ -38,7 +37,6 @@ class Dispatcher extends AbstractPlugin
     /**
      * The global Formhandler values
      *
-     * @access protected
      * @var Globals
      */
     protected $globals;
@@ -46,7 +44,6 @@ class Dispatcher extends AbstractPlugin
     /**
      * The Formhandler utility functions
      *
-     * @access protected
      * @var FormhandlerGeneralUtility
      */
     protected $utilityFuncs;
@@ -107,7 +104,8 @@ class Dispatcher extends AbstractPlugin
                 $controller->setContent(
                     $this->componentManager->getComponent(
                         $this->utilityFuncs->prepareClassName(
-                            'Typoheads\Formhandler\Controller\Content'),
+                            'Typoheads\Formhandler\Controller\Content'
+                        ),
                         $content
                     )
                 );

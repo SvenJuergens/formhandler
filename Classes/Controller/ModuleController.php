@@ -29,7 +29,6 @@ class ModuleController extends ActionController
     /**
      * The request arguments
      *
-     * @access protected
      * @var array
      */
     protected $gp;
@@ -37,7 +36,6 @@ class ModuleController extends ActionController
     /**
      * The Formhandler component manager
      *
-     * @access protected
      * @var Manager
      */
     protected $componentManager;
@@ -45,7 +43,6 @@ class ModuleController extends ActionController
     /**
      * The Formhandler utility funcs
      *
-     * @access protected
      * @var FormhandlerGeneralUtility
      */
     protected $utilityFuncs;
@@ -123,7 +120,7 @@ class ModuleController extends ActionController
     }
 
     /**
-     * @param LogData|NULL $logDataRow
+     * @param LogData|null $logDataRow
      */
     public function viewAction(LogData $logDataRow = null)
     {
@@ -262,7 +259,8 @@ class ModuleController extends ActionController
             }
         } else {
             $logDataUids = explode(',', $logDataUids);
-            $text = sprintf(LocalizationUtility::translate('message.deleted-log-rows', 'formhandler'),
+            $text = sprintf(
+                LocalizationUtility::translate('message.deleted-log-rows', 'formhandler'),
                 count($logDataUids)
             );
             if ($forceDelete) {

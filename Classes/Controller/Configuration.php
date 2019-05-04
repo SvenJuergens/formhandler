@@ -37,7 +37,6 @@ class Configuration implements \ArrayAccess
     /**
      * The TS setup
      *
-     * @access protected
      * @var array
      */
     protected $setup;

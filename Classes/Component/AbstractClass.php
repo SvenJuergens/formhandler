@@ -33,7 +33,6 @@ abstract class AbstractClass
     /**
      * The Formhandler component manager
      *
-     * @access protected
      * @var Manager
      */
     protected $componentManager;
@@ -41,7 +40,6 @@ abstract class AbstractClass
     /**
      * The global Formhandler configuration
      *
-     * @access protected
      * @var Configuration
      */
     protected $configuration;
@@ -49,7 +47,6 @@ abstract class AbstractClass
     /**
      * The global Formhandler values
      *
-     * @access protected
      * @var Globals
      */
     protected $globals;
@@ -57,7 +54,6 @@ abstract class AbstractClass
     /**
      * The Formhandler utility methods
      *
-     * @access protected
      * @var GeneralUtility
      */
     protected $utilityFuncs;
@@ -65,7 +61,6 @@ abstract class AbstractClass
     /**
      * The cObj
      *
-     * @access protected
      * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
     protected $cObj;

@@ -30,7 +30,6 @@ class BackendCsv extends AbstractComponent
     /**
      * The internal CSV object
      *
-     * @access protected
      * @var export2CSV
      */
     protected $csv;

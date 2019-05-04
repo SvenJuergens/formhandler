@@ -84,7 +84,7 @@ class Validate
                 if (strlen($content) === 0) {
                     $notOkImage = ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/Images/notok.png';
                     $notOkImage = PathUtility::getAbsoluteWebPath($notOkImage);
-                    $content = '<img src="'. ltrim($notOkImage, '/') . '" />';
+                    $content = '<img src="' . ltrim($notOkImage, '/') . '" />';
                 } else {
                     $view = $this->initView($content);
                     $gp = [

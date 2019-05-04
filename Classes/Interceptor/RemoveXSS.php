@@ -183,7 +183,6 @@ class RemoveXSS extends AbstractInterceptor
         }
     }
 
-
     /**
      * This should only be a temporary solution, til we find a way to prevent
      * the double htmlspecial Encoding for the values output

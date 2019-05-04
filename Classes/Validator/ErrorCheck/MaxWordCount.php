@@ -34,7 +34,7 @@ class MaxWordCount extends AbstractErrorCheck
         if (isset($this->gp[$this->formFieldName]) &&
             mb_strlen(trim($this->gp[$this->formFieldName]), 'utf-8') > 0 &&
             (int)$max > 0 &&
-            str_word_count(trim($this->gp[$this->formFieldName])) > (int) $max
+            str_word_count(trim($this->gp[$this->formFieldName])) > (int)$max
         ) {
             $checkFailed = $this->getCheckFailed();
         }

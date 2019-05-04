@@ -27,7 +27,6 @@ abstract class AbstractSession extends AbstractClass
     /**
      * An indicator if a session was already started
      *
-     * @access protected
      * @var bool
      */
     protected $started = false;

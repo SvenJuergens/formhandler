@@ -54,13 +54,11 @@ class LoadDB extends AbstractPreProcessor
 
     /**
      * @var array $data as associative array. Row data from DB.
-     * @access protected
      */
     protected $data;
 
     /**
      * @var array $files as associative array.
-     * @access protected
      */
     protected $files;
 

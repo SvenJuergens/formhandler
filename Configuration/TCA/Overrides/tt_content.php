@@ -36,7 +36,6 @@ $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist']['formhandler_
     'formhandler'
 );
 
-
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
     'formhandler',
     'Configuration/TypoScript/ExampleConfiguration',

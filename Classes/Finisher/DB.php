@@ -63,7 +63,6 @@ class DB extends AbstractFinisher
     /**
      * The name of the table to put the values into.
      *
-     * @access protected
      * @var string
      */
     protected $table;
@@ -71,7 +70,6 @@ class DB extends AbstractFinisher
     /**
      * The field in the table holding the primary key.
      *
-     * @access protected
      * @var string
      */
     protected $key;
@@ -79,7 +77,6 @@ class DB extends AbstractFinisher
     /**
      * A flag to indicate if to insert the record or to update an existing one
      *
-     * @access protected
      * @var bool
      */
     protected $doUpdate;

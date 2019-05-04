@@ -15,6 +15,7 @@ namespace Typoheads\Formhandler\Logger;
      *                                                                        */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * A logger to store submission information in TYPO3 database
@@ -44,7 +45,7 @@ class DB extends AbstractLogger
         $fields['crdate'] = time();
         $fields['pid'] = $this->utilityFuncs->getSingle($this->settings, 'pid');
         if (!$fields['pid']) {
-            $fields['pid'] = $GLOBALS['TSFE']->id;
+            $fields['pid'] = $this->getTypoScriptFrontendController()->id;
         }
         ksort($this->gp);
         $keys = array_keys($this->gp);
@@ -149,5 +150,13 @@ class DB extends AbstractLogger
             }
         }
         return $sortedParams;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

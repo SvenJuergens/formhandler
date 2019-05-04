@@ -16,6 +16,7 @@ namespace Typoheads\Formhandler\View;
 use ThinkopenAt\Captcha\Utility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
 use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
 
@@ -406,7 +407,7 @@ class Form extends AbstractView
             unset($parameters['randomID']);
         }
 
-        $path = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $parameters);
+        $path = $this->pi_getPageLink($this->getTypoScriptFrontendController()->id, '', $parameters);
         $path = preg_replace('/ADMCMD_[^=]+=[^&]+(&)?/', '', $path);
         $path = htmlspecialchars($path);
         $markers = [];
@@ -430,7 +431,7 @@ class Form extends AbstractView
             $name = $this->globals->getFormValuesPrefix() . '[submitted]';
         }
         $markers['###HIDDEN_FIELDS###'] = '
-			<input type="hidden" name="id" value="' . $GLOBALS['TSFE']->id . '" />
+			<input type="hidden" name="id" value="' . $this->getTypoScriptFrontendController()->id . '" />
 			<input type="hidden" name="' . htmlspecialchars($name) . '" value="1" />
 		';
 
@@ -515,7 +516,7 @@ class Form extends AbstractView
         $markers['###ip###'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
         $markers['###IP###'] = $markers['###ip###'];
         $markers['###submission_date###'] = date('d.m.Y H:i:s', time());
-        $markers['###pid###'] = $GLOBALS['TSFE']->id;
+        $markers['###pid###'] = $this->getTypoScriptFrontendController()->id;
         $markers['###PID###'] = $markers['###pid###'];
 
         // current step
@@ -664,8 +665,8 @@ class Form extends AbstractView
      */
     protected function fillFEUserMarkers(&$markers)
     {
-        if (is_array($GLOBALS['TSFE']->fe_user->user)) {
-            foreach ($GLOBALS['TSFE']->fe_user->user as $k => $v) {
+        if (is_array($this->getTypoScriptFrontendController()->fe_user->user)) {
+            foreach ($this->getTypoScriptFrontendController()->fe_user->user as $k => $v) {
                 $markers['###FEUSER_' . strtoupper($k) . '###'] = $v;
                 $markers['###FEUSER_' . strtolower($k) . '###'] = $v;
                 $markers['###feuser_' . strtoupper($k) . '###'] = $v;
@@ -1182,7 +1183,7 @@ class Form extends AbstractView
                 $marker = $llKey;
                 $message = '';
                 foreach ($this->langFiles as $subIdx => $langFile) {
-                    $temp = trim($GLOBALS['TSFE']->sL('LLL:' . $langFile . ':' . $llKey));
+                    $temp = trim($this->getTypoScriptFrontendController()->sL('LLL:' . $langFile . ':' . $llKey));
                     if (strlen($temp) > 0) {
                         $message = $temp;
                     }
@@ -1282,8 +1283,16 @@ class Form extends AbstractView
             if (version_compare(TYPO3_version, '4.3.0') >= 0) {
                 $css = '<link rel="stylesheet" type="text/css" href="' . htmlspecialchars($css) . '" />';
             }
-            $GLOBALS['TSFE']->additionalHeaderData[$this->extKey . '_' . $classprefix] .= $css;
+            $this->getTypoScriptFrontendController()->additionalHeaderData[$this->extKey . '_' . $classprefix] .= $css;
         }
         return $content;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

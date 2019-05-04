@@ -14,6 +14,7 @@ namespace Typoheads\Formhandler\Generator;
     * Public License for more details.                                       *
     *                                                                        */
 
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Typoheads\Formhandler\Component\AbstractComponent;
 
 /**
@@ -39,7 +40,7 @@ abstract class AbstractGenerator extends AbstractComponent
         if (is_array($componentParams)) {
             $params = $this->utilityFuncs->mergeConfiguration($params, $componentParams);
         }
-        return $this->cObj->getTypolink($text, $GLOBALS['TSFE']->id, $params, $this->getLinkTarget());
+        return $this->cObj->getTypolink($text, $this->getTypoScriptFrontendController()->id, $params, $this->getLinkTarget());
     }
 
     /**
@@ -108,5 +109,12 @@ abstract class AbstractGenerator extends AbstractComponent
             $target = '_self';
         }
         return $target;
+    }
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

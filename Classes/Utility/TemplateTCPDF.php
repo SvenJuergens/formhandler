@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Utility;
 * Public License for more details.                                       *
 *                                                                        */
 
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
 require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/PHP/tcpdf/tcpdf.php');
 
 /**
@@ -121,7 +123,7 @@ class TemplateTCPDF extends \TCPDF
             $LANG->includeLLFile($this->sysLangFile);
             $text = trim($LANG->getLL($key));
         } else {
-            $text = trim($GLOBALS['TSFE']->sL('LLL:' . $this->sysLangFile . ':' . $key));
+            $text = trim($this->getTypoScriptFrontendController()->sL('LLL:' . $this->sysLangFile . ':' . $key));
         }
         return $text;
     }
@@ -164,5 +166,13 @@ class TemplateTCPDF extends \TCPDF
     public function getFooterText()
     {
         return $this->footerText;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

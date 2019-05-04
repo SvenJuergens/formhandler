@@ -15,6 +15,7 @@ namespace Typoheads\Formhandler\Interceptor;
      *                                                                        */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * An interceptor checking if form got submitted too often by an IP address or globally.
@@ -116,7 +117,7 @@ class IPBlocking extends AbstractInterceptor
                 $send = false;
                 if ($intervalUnit && $intervalValue) {
                     $intervalTstamp = $this->utilityFuncs->getTimestamp($intervalValue, $intervalUnit);
-                    $where = 'pid=' . $GLOBALS['TSFE']->id . ' AND crdate>' . (int)$intervalTstamp;
+                    $where = 'pid=' . $this->getTypoScriptFrontendController()->id . ' AND crdate>' . (int)$intervalTstamp;
                     if ($addIPToWhere) {
                         $where .= ' AND ip=\'' . GeneralUtility::getIndpEnv('REMOTE_ADDR') . '\'';
                     }
@@ -207,5 +208,13 @@ class IPBlocking extends AbstractInterceptor
             $this->utilityFuncs->debugMessage('mail_subject', [$emailObj->subject]);
             $this->utilityFuncs->debugMessage('mail_message', [], 1, [$message]);
         }
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

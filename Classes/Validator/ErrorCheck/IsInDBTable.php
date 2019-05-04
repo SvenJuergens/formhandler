@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
 /**
  * Validates that a specified field's value is found in a specified db table
  *
@@ -39,7 +41,7 @@ class IsInDBTable extends AbstractErrorCheck
                 $additionalWhere = $this->utilityFuncs->prepareAndWhereString($additionalWhere);
                 $where = $checkField . '=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($this->gp[$this->formFieldName], $checkTable) . $additionalWhere;
                 $showHidden = (int)$this->settings['params']['showHidden'] === 1 ? 1 : 0;
-                $where .= $GLOBALS['TSFE']->sys_page->enableFields($checkTable, $showHidden);
+                $where .= $this->getTypoScriptFrontendController()->sys_page->enableFields($checkTable, $showHidden);
                 $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($checkField, $checkTable, $where);
                 if ($res && !$GLOBALS['TYPO3_DB']->sql_num_rows($res)) {
                     $checkFailed = $this->getCheckFailed();
@@ -50,5 +52,13 @@ class IsInDBTable extends AbstractErrorCheck
             }
         }
         return $checkFailed;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

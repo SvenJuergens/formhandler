@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
 /**
  * This finisher stores GP to session for further use in other plugins and update session
  * to not loose changes in gp made by other finishers (e.g. insert_id from Finisher_DB)
@@ -52,8 +54,8 @@ class StoreGP extends AbstractFinisher
             $sessionKey = $this->utilityFuncs->getSingle($this->settings, 'sessionKey');
         }
         $dataToStoreInSession = $this->gp;
-        $GLOBALS['TSFE']->fe_user->setKey('ses', $sessionKey, $dataToStoreInSession);
-        $GLOBALS['TSFE']->fe_user->storeSessionData();
+        $this->getTypoScriptFrontendController()->fe_user->setKey('ses', $sessionKey, $dataToStoreInSession);
+        $this->getTypoScriptFrontendController()->fe_user->storeSessionData();
     }
 
     /**
@@ -70,5 +72,13 @@ class StoreGP extends AbstractFinisher
             $newValues[1][$key] = $value;
         }
         $this->globals->getSession()->set('values', $newValues);
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

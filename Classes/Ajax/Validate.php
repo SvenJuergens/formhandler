@@ -17,6 +17,7 @@ namespace Typoheads\Formhandler\Ajax;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
 use Typoheads\Formhandler\Utility\Globals;
@@ -51,10 +52,10 @@ class Validate
         $field = htmlspecialchars(GeneralUtility::_GP('field'));
         if ($field) {
             $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
-            Globals::setCObj($GLOBALS['TSFE']->cObj);
+            Globals::setCObj($this->getTypoScriptFrontendController()->cObj);
             Globals::setRandomID($randomID);
             if (!Globals::getSession()) {
-                $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
+                $ts = $this->getTypoScriptFrontendController()->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
                 $sessionClass = FormhandlerGeneralUtility::getPreparedClassName($ts['session.'], 'Session\PHP');
                 Globals::setSession($this->componentManager->getComponent($sessionClass));
             }
@@ -126,5 +127,13 @@ class Validate
         $template = '###TEMPLATE_' . $templateName . '###' . $template . '###TEMPLATE_' . $templateName . '###';
         $view->setTemplate($template, 'AJAX');
         return $view;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

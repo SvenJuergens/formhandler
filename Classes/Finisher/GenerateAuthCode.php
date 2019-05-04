@@ -15,6 +15,7 @@ namespace Typoheads\Formhandler\Finisher;
      *                                                                        */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * This finisher generates a unique code for a database entry.
@@ -83,7 +84,7 @@ class GenerateAuthCode extends AbstractFinisher
                     $authCodePage = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], 'redirect_page', 'sMISC');
                 }
                 if (!$authCodePage) {
-                    $authCodePage = $GLOBALS['TSFE']->id;
+                    $authCodePage = $this->getTypoScriptFrontendController()->id;
                 }
 
                 //create the parameter-array for the authCode Link
@@ -133,5 +134,13 @@ class GenerateAuthCode extends AbstractFinisher
     protected function generateAuthCode($row)
     {
         return GeneralUtility::hmac(serialize($row), 'formhandler');
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

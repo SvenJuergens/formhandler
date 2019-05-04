@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
 /**
  * Finisher to set the currently used language to a set value.
  * Useful if you want to send the admin email in a specific language and do not want to use the language of the user.
@@ -31,13 +33,13 @@ class SetLanguage extends AbstractFinisher
     public function process()
     {
         if ($this->globals->getSession()->get('originalLanguage') === null) {
-            $this->globals->getSession()->set('originalLanguage', $GLOBALS['TSFE']->lang);
+            $this->globals->getSession()->set('originalLanguage', $this->getTypoScriptFrontendController()->lang);
         }
         $languageCode = $this->utilityFuncs->getSingle($this->settings, 'languageCode');
         if ($languageCode) {
             $lang = strtolower($languageCode);
-            $GLOBALS['TSFE']->config['config']['language'] = $lang;
-            $GLOBALS['TSFE']->initLLvars();
+            $this->getTypoScriptFrontendController()->config['config']['language'] = $lang;
+            $this->getTypoScriptFrontendController()->initLLvars();
             $this->utilityFuncs->debugMessage('Language set to "' . $lang . '"!', [], 1);
         } else {
             $this->utilityFuncs->debugMessage('Unable to set language! Language code set in TypoScript is empty!', [], 2);
@@ -65,5 +67,13 @@ class SetLanguage extends AbstractFinisher
             }
         }
         return $found;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

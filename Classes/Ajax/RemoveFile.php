@@ -14,6 +14,7 @@ namespace Typoheads\Formhandler\Ajax;
 * Public License for more details.                                       *
 *                                                                        */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Typoheads\Formhandler\AjaxHandler\JQuery;
 use Typoheads\Formhandler\Component\Manager;
 use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
@@ -128,12 +129,12 @@ class RemoveFile
         $this->globals = GeneralUtility::makeInstance(Globals::class);
         $this->utilityFuncs = GeneralUtility::makeInstance(FormhandlerGeneralUtility::class);
         $this->utilityFuncs->initializeTSFE($this->id);
-        $this->globals->setCObj($GLOBALS['TSFE']->cObj);
+        $this->globals->setCObj($this->getTypoScriptFrontendController()->cObj);
         $randomID = htmlspecialchars(GeneralUtility::_GP('randomID'));
         $this->globals->setRandomID($randomID);
 
         if (!$this->globals->getSession()) {
-            $ts = $GLOBALS['TSFE']->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
+            $ts = $this->getTypoScriptFrontendController()->tmpl->setup['plugin.']['Tx_Formhandler.']['settings.'];
             $sessionClass = $this->utilityFuncs->getPreparedClassName($ts['session.'], 'Session\\PHP');
             $this->globals->setSession($this->componentManager->getComponent($sessionClass));
         }
@@ -151,5 +152,13 @@ class RemoveFile
             $ajaxHandler->init($this->settings['ajax.']['config.']);
             $ajaxHandler->initAjax();
         }
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

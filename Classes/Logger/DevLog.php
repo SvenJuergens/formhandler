@@ -14,6 +14,7 @@ namespace Typoheads\Formhandler\Logger;
     * Public License for more details.                                       *
     *                                                                        */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * A logger to store submission information in DevLog
@@ -30,10 +31,10 @@ class DevLog extends AbstractLogger
      */
     public function process()
     {
-        $message = 'Form on page ' . $GLOBALS['TSFE']->id . ' was submitted!';
+        $message = 'Form on page ' . $this->getTypoScriptFrontendController()->id . ' was submitted!';
         $severity = 1;
         if ((int)($this->settings['markAsSpam']) === 1) {
-            $message = 'Caught possible spamming on page ' . $GLOBALS['TSFE']->id . '!';
+            $message = 'Caught possible spamming on page ' . $this->getTypoScriptFrontendController()->id . '!';
             $severity = 2;
         }
         $logParams = $this->gp;
@@ -47,5 +48,13 @@ class DevLog extends AbstractLogger
         GeneralUtility::devLog($message, 'formhandler', $severity, $logParams);
 
         return $this->gp;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

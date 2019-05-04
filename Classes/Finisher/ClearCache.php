@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
 /**
  * This finisher clears the cache.
  * If no further configuration is set the current page's cache will be cleared.
@@ -46,12 +48,20 @@ class ClearCache extends AbstractFinisher
     {
         $pidList = $this->utilityFuncs->getSingle($this->settings, 'pidList');
         if (empty($pidList)) {
-            $pidList = $GLOBALS['TSFE']->id;
+            $pidList = $this->getTypoScriptFrontendController()->id;
         }
 
         $this->utilityFuncs->debugMessage('Clearing Cache', [$pidList]);
 
-        $GLOBALS['TSFE']->clearPageCacheContent_pidList($pidList);
+        $this->getTypoScriptFrontendController()->clearPageCacheContent_pidList($pidList);
         return $this->gp;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

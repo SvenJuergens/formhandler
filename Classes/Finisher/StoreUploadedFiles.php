@@ -15,6 +15,7 @@ namespace Typoheads\Formhandler\Finisher;
      *                                                                        */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * This finisher stores uploaded files by a user to a final folder. At the time this finisher is called, it is assured, that the form was fully submitted and valid.
@@ -177,7 +178,7 @@ class StoreUploadedFiles extends AbstractFinisher
         $newFilename = str_replace('[field]', $field, $newFilename);
         $newFilename = str_replace('[time]', time(), $newFilename);
         $newFilename = str_replace('[md5]', md5($filename), $newFilename);
-        $newFilename = str_replace('[pid]', $GLOBALS['TSFE']->id, $newFilename);
+        $newFilename = str_replace('[pid]', $this->getTypoScriptFrontendController()->id, $newFilename);
         $newFilename = $this->replaceSchemeMarkers($newFilename);
 
         //remove ',' from filename, would be handled as file separator
@@ -213,5 +214,13 @@ class StoreUploadedFiles extends AbstractFinisher
             }
         }
         return $replacedStr;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

@@ -17,6 +17,7 @@ namespace Typoheads\Formhandler\Generator;
 use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
@@ -42,7 +43,7 @@ class WebkitPdf extends AbstractGenerator
                 $linkGP = $this->gp;
             }
 
-            $url = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $this->cObj->getTypolink_URL($GLOBALS['TSFE']->id, $linkGP);
+            $url = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $this->cObj->getTypolink_URL($this->getTypoScriptFrontendController()->id, $linkGP);
             if ($this->url) {
                 $url = $this->url;
             }
@@ -68,11 +69,11 @@ class WebkitPdf extends AbstractGenerator
     {
         $sysPageObj = GeneralUtility::makeInstance(PageRepository::class);
 
-        if (!$GLOBALS['TSFE']->sys_page) {
-            $GLOBALS['TSFE']->sys_page = $sysPageObj;
+        if (!$this->getTypoScriptFrontendController()->sys_page) {
+            $this->getTypoScriptFrontendController()->sys_page = $sysPageObj;
         }
 
-        $rootLine = $sysPageObj->getRootLine($GLOBALS['TSFE']->id);
+        $rootLine = $sysPageObj->getRootLine($this->getTypoScriptFrontendController()->id);
         $TSObj = GeneralUtility::makeInstance(ExtendedTemplateService::class);
         $TSObj->tt_track = 0;
         $TSObj->init();
@@ -97,7 +98,7 @@ class WebkitPdf extends AbstractGenerator
             $params = $this->utilityFuncs->mergeConfiguration($params, $componentParams);
         }
         $text = $this->getLinkText();
-        $this->url = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $this->cObj->getTypolink_URL($GLOBALS['TSFE']->id, $params);
+        $this->url = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $this->cObj->getTypolink_URL($this->getTypoScriptFrontendController()->id, $params);
         $params = [
             'tx_webkitpdf_pi1' => [
                 'urls' => [
@@ -138,5 +139,13 @@ class WebkitPdf extends AbstractGenerator
             $text = 'Save as PDF';
         }
         return $text;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

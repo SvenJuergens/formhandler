@@ -15,6 +15,7 @@ namespace Typoheads\Formhandler\Finisher;
      *                                                                        */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * When a BE-user is logged in and autoCreate is to true this looks if
@@ -76,7 +77,7 @@ class AutoDB extends DB
     protected function parseFields()
     {
         $doAutoCreate = (int)($this->utilityFuncs->getSingle($this->settings, 'newFieldsSqlAttribs'));
-        if ($doAutoCreate === 1 && $GLOBALS['TSFE']->beUserLogin) {
+        if ($doAutoCreate === 1 && $this->getTypoScriptFrontendController()->beUserLogin) {
             $this->createTable();
         }
 
@@ -184,5 +185,13 @@ class AutoDB extends DB
                 $this->utilityFuncs->debugMessage('error', [$this->db->sql_error()], 3);
             }
         }
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

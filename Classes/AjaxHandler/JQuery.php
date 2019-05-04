@@ -16,6 +16,7 @@ namespace Typoheads\Formhandler\AjaxHandler;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Abstract class for an AjaxHandler.
@@ -197,18 +198,18 @@ class JQuery extends AbstractAjaxHandler
     protected function addJS($js, $key = '', $doAppend = true)
     {
         if ($this->jsPosition === 'inline') {
-            $GLOBALS['TSFE']->content .= $js;
+            $this->getTypoScriptFrontendController()->content .= $js;
         } elseif ($this->jsPosition === 'footer') {
             if ($doAppend) {
-                $GLOBALS['TSFE']->additionalFooterData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] .= $js;
+                $this->getTypoScriptFrontendController()->additionalFooterData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] .= $js;
             } else {
-                $GLOBALS['TSFE']->additionalFooterData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] = $js;
+                $this->getTypoScriptFrontendController()->additionalFooterData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] = $js;
             }
         } else {
             if ($doAppend) {
-                $GLOBALS['TSFE']->additionalHeaderData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] .= $js;
+                $this->getTypoScriptFrontendController()->additionalHeaderData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] .= $js;
             } else {
-                $GLOBALS['TSFE']->additionalHeaderData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] = $js;
+                $this->getTypoScriptFrontendController()->additionalHeaderData['Tx_Formhandler_AjaxHandler_Jquery_' . $key] = $js;
             }
         }
     }
@@ -232,11 +233,11 @@ class JQuery extends AbstractAjaxHandler
         return '(function( $ ) {
                     $(function() {
                         $("' . $formSelector . '").formhandler({
-                            pageID: "' . $GLOBALS['TSFE']->id . '",
+                            pageID: "' . $this->getTypoScriptFrontendController()->id . '",
                             contentID: "' . $this->cObj->data['uid'] . '",
                             randomID: "' . $this->globals->getRandomID() . '",
                             formValuesPrefix: "' . $this->globals->getFormValuesPrefix() . '",
-                            lang: "' . $GLOBALS['TSFE']->sys_language_uid . '",
+                            lang: "' . $this->getTypoScriptFrontendController()->sys_language_uid . '",
                             submitButtonSelector: "' . $submitButtonSelector . '",
                             ajaxSubmit: ' . ($isAjaxSubmit ? 'true' : 'false') . ',
                             autoDisableSubmitButton: ' . ($autoDisableSubmitButton ? 'true' : 'false') . ',
@@ -249,5 +250,13 @@ class JQuery extends AbstractAjaxHandler
                         });
                     });
                 }( jQuery ));';
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

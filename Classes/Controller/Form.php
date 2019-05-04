@@ -16,6 +16,7 @@ namespace Typoheads\Formhandler\Controller;
 
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Default controller for Formhandler
@@ -1110,7 +1111,7 @@ class Form extends AbstractController
             $this->globals->getSession()->reset();
             unset($_GET[$this->globals->getFormValuesPrefix()]);
             unset($_GET['id']);
-            $this->utilityFuncs->doRedirect($GLOBALS['TSFE']->id, false, $_GET);
+            $this->utilityFuncs->doRedirect($this->getTypoScriptFrontendController()->id, false, $_GET);
             exit();
         }
         $this->parseConditions();
@@ -1528,5 +1529,13 @@ class Form extends AbstractController
                 $this->globals->addDebugger($debugger);
             }
         }
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

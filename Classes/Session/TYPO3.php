@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Session;
     * Public License for more details.                                       *
     *                                                                        */
 
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
 /**
  * A session class for Formhandler using TYPO3 sessions
  *
@@ -27,13 +29,13 @@ class TYPO3 extends AbstractSession
     */
     public function set($key, $value)
     {
-        $data = $GLOBALS['TSFE']->fe_user->getKey('ses', 'formhandler');
+        $data = $this->getTypoScriptFrontendController()->fe_user->getKey('ses', 'formhandler');
         if (!is_array($data[$this->globals->getRandomID()])) {
             $data[$this->globals->getRandomID()] = [];
         }
         $data[$this->globals->getRandomID()][$key] = $value;
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'formhandler', $data);
-        $GLOBALS['TSFE']->fe_user->storeSessionData();
+        $this->getTypoScriptFrontendController()->fe_user->setKey('ses', 'formhandler', $data);
+        $this->getTypoScriptFrontendController()->fe_user->storeSessionData();
     }
 
     /* (non-PHPdoc)
@@ -42,7 +44,7 @@ class TYPO3 extends AbstractSession
     public function setMultiple($values)
     {
         if (is_array($values) && !empty($values)) {
-            $data = $GLOBALS['TSFE']->fe_user->getKey('ses', 'formhandler');
+            $data = $this->getTypoScriptFrontendController()->fe_user->getKey('ses', 'formhandler');
             if (!is_array($data[$this->globals->getRandomID()])) {
                 $data[$this->globals->getRandomID()] = [];
             }
@@ -51,8 +53,8 @@ class TYPO3 extends AbstractSession
                 $data[$this->globals->getRandomID()][$key] = $value;
             }
 
-            $GLOBALS['TSFE']->fe_user->setKey('ses', 'formhandler', $data);
-            $GLOBALS['TSFE']->fe_user->storeSessionData();
+            $this->getTypoScriptFrontendController()->fe_user->setKey('ses', 'formhandler', $data);
+            $this->getTypoScriptFrontendController()->fe_user->storeSessionData();
         }
     }
 
@@ -61,7 +63,7 @@ class TYPO3 extends AbstractSession
     */
     public function get($key)
     {
-        $data = $GLOBALS['TSFE']->fe_user->getKey('ses', 'formhandler');
+        $data = $this->getTypoScriptFrontendController()->fe_user->getKey('ses', 'formhandler');
         if (!is_array($data[$this->globals->getRandomID()])) {
             $data[$this->globals->getRandomID()] = [];
         }
@@ -73,7 +75,7 @@ class TYPO3 extends AbstractSession
     */
     public function exists()
     {
-        $data = $GLOBALS['TSFE']->fe_user->getKey('ses', 'formhandler');
+        $data = $this->getTypoScriptFrontendController()->fe_user->getKey('ses', 'formhandler');
         return is_array($data[$this->globals->getRandomID()]);
     }
 
@@ -82,10 +84,10 @@ class TYPO3 extends AbstractSession
     */
     public function reset()
     {
-        $data = $GLOBALS['TSFE']->fe_user->getKey('ses', 'formhandler');
+        $data = $this->getTypoScriptFrontendController()->fe_user->getKey('ses', 'formhandler');
         unset($data[$this->globals->getRandomID()]);
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'formhandler', $data);
-        $GLOBALS['TSFE']->fe_user->storeSessionData();
+        $this->getTypoScriptFrontendController()->fe_user->setKey('ses', 'formhandler', $data);
+        $this->getTypoScriptFrontendController()->fe_user->storeSessionData();
     }
 
     public function init($gp, $settings)
@@ -93,7 +95,7 @@ class TYPO3 extends AbstractSession
         parent::init($gp, $settings);
 
         $threshold = $this->getOldSessionThreshold();
-        $data = $GLOBALS['TSFE']->fe_user->getKey('ses', 'formhandler');
+        $data = $this->getTypoScriptFrontendController()->fe_user->getKey('ses', 'formhandler');
         if (is_array($data)) {
             foreach ($data as $hashedID => $sesData) {
                 if (!$this->gp['submitted'] && $this->globals->getFormValuesPrefix() === $sesData['formValuesPrefix'] && $sesData['creationTstamp'] < $threshold) {
@@ -104,7 +106,15 @@ class TYPO3 extends AbstractSession
             $data = [];
         }
 
-        $GLOBALS['TSFE']->fe_user->setKey('ses', 'formhandler', $data);
-        $GLOBALS['TSFE']->fe_user->storeSessionData();
+        $this->getTypoScriptFrontendController()->fe_user->setKey('ses', 'formhandler', $data);
+        $this->getTypoScriptFrontendController()->fe_user->storeSessionData();
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

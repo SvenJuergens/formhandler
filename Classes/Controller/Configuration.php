@@ -14,6 +14,7 @@ namespace Typoheads\Formhandler\Controller;
  * Public License for more details.                                       *
  *                                                                        */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Typoheads\Formhandler\Utility\GeneralUtility as FormhandlerGeneralUtility;
 use Typoheads\Formhandler\Utility\Globals;
 
@@ -49,7 +50,7 @@ class Configuration implements \ArrayAccess
         if (TYPO3_MODE === 'FE') {
             $this->globals = GeneralUtility::makeInstance(Globals::class);
             $this->utilityFuncs = GeneralUtility::makeInstance(FormhandlerGeneralUtility::class);
-            $this->setup = $GLOBALS['TSFE']->tmpl->setup['plugin.'][$this->getPrefixedPackageKey() . '.'];
+            $this->setup = $this->getTypoScriptFrontendController()->tmpl->setup['plugin.'][$this->getPrefixedPackageKey() . '.'];
             if (!is_array($this->setup)) {
                 $this->utilityFuncs->throwException('missing_config');
             }
@@ -154,5 +155,13 @@ class Configuration implements \ArrayAccess
     public function getPrefixedPackageKeyLowercase()
     {
         return strtolower('Tx_' . self::PACKAGE_KEY);
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

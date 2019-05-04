@@ -15,6 +15,7 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      *                                                                        */
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Validates that the correct image of possible images displayed by the extension "simple_captcha" got selected.
@@ -40,10 +41,18 @@ class WtCalculatingCaptcha extends AbstractErrorCheck
             }
 
             if (!$this->globals->isAjaxMode()) {
-                unset($GLOBALS['TSFE']->fe_user->sesData['wt_calculating_captcha_value']);
+                unset( $this->getTypoScriptFrontendController()->fe_user->sesData['wt_calculating_captcha_value']);
             }
         }
 
         return $checkFailed;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

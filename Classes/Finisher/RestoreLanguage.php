@@ -14,6 +14,8 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
 /**
  * Finisher to restore the currently used language to the original one.
  * Only useful if the language got set using Finisher_SetLanguage before.
@@ -32,8 +34,8 @@ class RestoreLanguage extends AbstractFinisher
     {
         if ($this->globals->getSession()->get('originalLanguage') !== null) {
             $lang = $this->globals->getSession()->get('originalLanguage');
-            $GLOBALS['TSFE']->config['config']['language'] = $lang;
-            $GLOBALS['TSFE']->initLLvars();
+            $this->getTypoScriptFrontendController()->config['config']['language'] = $lang;
+            $this->getTypoScriptFrontendController()->initLLvars();
             $this->globals->getSession()->set('originalLanguage', null);
             $this->utilityFuncs->debugMessage('Language restored to "' . $lang . '"!', [], 1);
         } else {
@@ -41,5 +43,13 @@ class RestoreLanguage extends AbstractFinisher
         }
 
         return $this->gp;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

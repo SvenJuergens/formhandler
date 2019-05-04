@@ -15,6 +15,7 @@ namespace Typoheads\Formhandler\PreProcessor;
      *                                                                        */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * A PreProcessor cleaning session values stored by Finisher_StoreGP
@@ -45,10 +46,18 @@ class ClearSession extends AbstractPreProcessor
         }
 
         foreach ($sessionKeysToRemove as $sessionKey) {
-            $GLOBALS['TSFE']->fe_user->setKey('ses', $sessionKey, null);
-            $GLOBALS['TSFE']->fe_user->storeSessionData();
+            $this->getTypoScriptFrontendController()->fe_user->setKey('ses', $sessionKey, null);
+            $this->getTypoScriptFrontendController()->fe_user->storeSessionData();
         }
 
         return $this->gp;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

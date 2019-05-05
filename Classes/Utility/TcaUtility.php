@@ -52,47 +52,6 @@ class TcaUtility
     }
 
     /**
-     * Adds onchange listener on the drop down menu "predefined".
-     * If the event is fired and old value was ".default", then empty some fields.
-     *
-     * @param array $config
-     * @return string the javascript
-     * @author Fabien Udriot
-     */
-    public function addFields_predefinedJS($config)
-    {
-        $newRecord = 'true';
-        if (is_array($GLOBALS['SOBE']->editconf['tt_content']) && reset($GLOBALS['SOBE']->editconf['tt_content']) === 'edit') {
-            $newRecord = 'false';
-        }
-
-        $uid = null;
-        if (is_array($GLOBALS['SOBE']->editconf['tt_content'])) {
-            $uid = key($GLOBALS['SOBE']->editconf['tt_content']);
-        }
-        if ($uid < 0 || empty($uid) || !strstr($uid, 'NEW')) {
-            $uid = $GLOBALS['SOBE']->elementsData[0]['uid'];
-        }
-
-        $js = "<script>\n";
-        $js .= "/*<![CDATA[*/\n";
-
-        $divId = $GLOBALS['SOBE']->tceforms->dynNestedStack[0][1];
-        if (!$divId) {
-            $divId = 'DIV.c-tablayer';
-        } else {
-            $divId .= '-DIV';
-        }
-        $js .= "var uid = '" . $uid . "'\n";
-        $js .= "var flexformBoxId = '" . $divId . "'\n";
-        $js .= 'var newRecord = ' . $newRecord . "\n";
-        $js .= file_get_contents(ExtensionManagementUtility::extPath('formhandler') . 'Resources/Public/JavaScript/addFields_predefinedJS.js');
-        $js .= "/*]]>*/\n";
-        $js .= "</script>\n";
-        return $js;
-    }
-
-    /**
      * Sets the items for the "Predefined" dropdown.
      *
      * @param array $config

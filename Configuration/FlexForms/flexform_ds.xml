@@ -60,14 +60,6 @@
                             </config>
                         </TCEforms>
                     </predefined>
-                    <predefinedJS>
-                        <TCEforms>
-                            <config>
-                                <type>user</type>
-                                <userFunc>Typoheads\Formhandler\Utility\TcaUtility->addFields_predefinedJS</userFunc>
-                            </config>
-                        </TCEforms>
-                    </predefinedJS>
                 </el>
             </ROOT>
         </sDEF>

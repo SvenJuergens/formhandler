@@ -23,6 +23,12 @@ $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['formhandler-removefile'] =
 $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['formhandler-ajaxsubmit'] =
     'EXT:formhandler/Classes/Http/Submit.php';
 
+
+// Register for hook to show preview of tt_content element of CType="form_formframework" in page module
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['formhandler_pi1'] =
+    \Typoheads\Formhandler\Hooks\CustomPagePreviewRenderer::class;
+
+
 // load default PageTS config from static file
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
     '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:formhandler/Configuration/TypoScript/pageTsConfig.ts">'

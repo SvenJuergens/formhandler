@@ -14,6 +14,10 @@ namespace Typoheads\Formhandler\PreProcessor;
      * Public License for more details.                                       *
      *                                                                        */
 
+
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -33,9 +37,9 @@ class ValidateAuthCode extends AbstractPreProcessor
      */
     public function process()
     {
-        if (strlen(trim($this->gp['authCode'])) > 0) {
+        $authCode = trim($this->gp['authCode']);
+        if (!empty($authCode)) {
             try {
-                $authCode = trim($this->gp['authCode']);
                 $table = trim($this->gp['table']);
                 if ($this->settings['table']) {
                     $table = $this->utilityFuncs->getSingle($this->settings, 'table');
@@ -44,7 +48,7 @@ class ValidateAuthCode extends AbstractPreProcessor
                 if ($this->settings['uidField']) {
                     $uidField = $this->utilityFuncs->getSingle($this->settings, 'uidField');
                 }
-                if (strlen($uidField) === 0) {
+                if (empty($uidField)) {
                     $uidField = 'uid';
                 }
                 $uid = trim($this->gp['uid']);
@@ -53,51 +57,67 @@ class ValidateAuthCode extends AbstractPreProcessor
                     $this->utilityFuncs->throwException('validateauthcode_insufficient_params');
                 }
 
-                $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($uid, $table);
+                $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
+                $queryBuilder = $conn->createQueryBuilder();
 
-                //Check if table is valid
-                $existingTables = array_keys($GLOBALS['TYPO3_DB']->admin_get_tables());
-                if (!in_array($table, $existingTables)) {
+                // Check if table is valid
+                if (!$conn->getSchemaManager()->tablesExist([$table])) {
                     $this->utilityFuncs->throwException('validateauthcode_insufficient_params');
                 }
 
-                //Check if uidField is valid
-                $existingFields = array_keys($GLOBALS['TYPO3_DB']->admin_get_fields($table));
-                if (!in_array($uidField, $existingFields)) {
+                // Check if uidField is valid
+                $tableColumns = $conn->getSchemaManager()->listTableColumns($table);
+                $existingFields = [];
+                foreach ($tableColumns as $column) {
+                    $existingFields[] = strtolower($column->getName());
+                }
+                if (!in_array(strtolower($uidField), $existingFields, true)) {
                     $this->utilityFuncs->throwException('validateauthcode_insufficient_params');
                 }
 
                 $hiddenField = 'disable';
                 if ($this->settings['hiddenField']) {
                     $hiddenField = $this->utilityFuncs->getSingle($this->settings, 'hiddenField');
-                } elseif ($TCA[$table]['ctrl']['enablecolumns']['disable']) {
-                    $hiddenField = $TCA[$table]['ctrl']['enablecolumns']['disable'];
+                } elseif ($GLOBALS['TCA'][$table]['ctrl']['enablecolumns']['disable']) {
+                    $hiddenField = $GLOBALS['TCA'][$table]['ctrl']['enablecolumns']['disable'];
                 }
                 $selectFields = '*';
                 if ($this->settings['selectFields']) {
                     $selectFields = $this->utilityFuncs->getSingle($this->settings, 'selectFields');
                 }
+                $queryBuilder
+                    ->select(...explode(',', $selectFields))
+                    ->from($table);
+
                 $hiddenStatusValue = 1;
                 if (isset($this->settings['hiddenStatusValue'])) {
                     $hiddenStatusValue = $this->utilityFuncs->getSingle($this->settings, 'hiddenStatusValue');
                 }
-                $hiddenStatusValue = $GLOBALS['TYPO3_DB']->fullQuoteStr($hiddenStatusValue, $table);
-                $enableFieldsWhere = '';
                 if ((int)$this->utilityFuncs->getSingle($this->settings, 'showDeleted') !== 1) {
-                    $enableFieldsWhere = $this->cObj->enableFields($table, 1);
+                    // Enable fields
+                    $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
+                    $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+                } else {
+                    $queryBuilder->getRestrictions()->removeAll();
                 }
-                $query = $GLOBALS['TYPO3_DB']->SELECTquery($selectFields, $table, $uidField . '=' . $uid . ' AND ' . $hiddenField . '=' . $hiddenStatusValue . $enableFieldsWhere);
+
+                $queryBuilder->where(
+                    $queryBuilder->expr()->eq($uidField, $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)),
+                    $queryBuilder->expr()->eq($hiddenField, $queryBuilder->createNamedParameter($hiddenStatusValue, \PDO::PARAM_INT))
+                );
+
+                $query = $queryBuilder->getSQL();
                 $this->utilityFuncs->debugMessage('sql_request', [$query]);
-                $res = $GLOBALS['TYPO3_DB']->sql_query($query);
-                if ($GLOBALS['TYPO3_DB']->sql_error()) {
-                    $this->utilityFuncs->debugMessage('error', [$GLOBALS['TYPO3_DB']->sql_error()], 3);
+
+                $stmt = $queryBuilder->execute();
+                if ($stmt->errorInfo()) {
+                    $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
                 }
-                if (!$res || $GLOBALS['TYPO3_DB']->sql_num_rows($res) === 0) {
+                if (!$stmt || $stmt->rowCount() === 0) {
                     $this->utilityFuncs->throwException('validateauthcode_no_record_found');
                 }
 
-                $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-                $GLOBALS['TYPO3_DB']->sql_free_result($res);
+                $row = $stmt->fetch();
                 $this->utilityFuncs->debugMessage('Selected row: ', [], 1, $row);
 
                 $localAuthCode = GeneralUtility::hmac(serialize($row), 'formhandler');
@@ -110,10 +130,7 @@ class ValidateAuthCode extends AbstractPreProcessor
                 if (isset($this->settings['activeStatusValue'])) {
                     $activeStatusValue = $this->utilityFuncs->getSingle($this->settings, 'activeStatusValue');
                 }
-                $res = $GLOBALS['TYPO3_DB']->exec_UPDATEquery($table, $uidField . '=' . $uid, [$hiddenField => $activeStatusValue]);
-                if (!$res) {
-                    $this->utilityFuncs->throwException('validateauthcode_update_failed');
-                }
+                $conn->update($table, [$hiddenField => $activeStatusValue], [$uidField => $uid]);
 
                 $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
             } catch (\Exception $e) {

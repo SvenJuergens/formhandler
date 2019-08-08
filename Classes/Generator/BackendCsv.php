@@ -22,7 +22,6 @@ namespace Typoheads\Formhandler\Generator;
  */
 use Typoheads\Formhandler\Component\AbstractComponent;
 
-require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('formhandler') . 'Resources/PHP/parsecsv.lib.php');
 
 class BackendCsv extends AbstractComponent
 {
@@ -124,7 +123,7 @@ class BackendCsv extends AbstractComponent
         $data = $dataSorted;
 
         // create new parseCSV object.
-        $csv = new \parseCSV();
+        $csv = new \parseCSV(null, null, null, []);
         $csv->delimiter = $csv->output_delimiter = $this->settings['delimiter'];
         $csv->enclosure = $this->settings['enclosure'];
         $csv->input_encoding = strtolower($this->getInputCharset());

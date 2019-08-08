@@ -18,8 +18,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A pre processor for Formhandler loading GET/POST parameters passed from another page.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class LoadGetPost extends AbstractPreProcessor
 {

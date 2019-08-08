@@ -14,9 +14,10 @@ namespace Typoheads\Formhandler\ViewHelpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\ViewHelpers\IfViewHelper;
 
-class IsArrayViewHelper extends AbstractConditionViewHelper
+class IsArrayViewHelper extends IfViewHelper
 {
 
     /**
@@ -27,13 +28,14 @@ class IsArrayViewHelper extends AbstractConditionViewHelper
         parent::initializeArguments();
     }
     /**
-     * This method decides if the condition is TRUE or FALSE. It can be overriden in extending viewhelpers to adjust functionality.
+     * Renders <f:then> child if $condition is true, otherwise renders <f:else> child.
      *
-     * @param array $arguments ViewHelper arguments to evaluate the condition for this ViewHelper, allows for flexiblity in overriding this method.
+     * @param array $arguments
+     * @param RenderingContextInterface $renderingContext
      * @return bool
      */
-    protected static function evaluateCondition($arguments = null)
+    public static function verdict(array $arguments, RenderingContextInterface $renderingContext)
     {
-        return isset($arguments['condition']) && (true === is_array($arguments['condition']));
+        return isset($arguments['condition']) && is_array($arguments['condition']);
     }
 }

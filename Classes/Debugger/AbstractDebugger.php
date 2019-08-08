@@ -18,8 +18,6 @@ use Typoheads\Formhandler\Component\AbstractComponent;
 
 /**
  * An abstract debugger
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
 abstract class AbstractDebugger extends AbstractComponent

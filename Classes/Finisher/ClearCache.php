@@ -33,8 +33,6 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * finishers.1.config.pidList = TEXT
  * finishers.1.config.pidList.data = GP:someparameter
  * </code>
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class ClearCache extends AbstractFinisher
 {

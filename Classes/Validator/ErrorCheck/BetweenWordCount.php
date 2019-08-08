@@ -33,8 +33,8 @@ class BetweenWordCount extends AbstractErrorCheck
         $min = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'minValue'));
         $max = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'maxValue'));
         if (isset($this->gp[$this->formFieldName]) &&
-            (str_word_count($this->gp[$this->formFieldName]) < $min ||
-                str_word_count($this->gp[$this->formFieldName]) > $max)
+            (str_word_count($this->gp[$this->formFieldName]) < (int)$min ||
+                str_word_count($this->gp[$this->formFieldName]) > (int)$max)
         ) {
             $checkFailed = $this->getCheckFailed();
         }

@@ -18,8 +18,6 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * A session class for Formhandler using TYPO3 sessions
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class TYPO3 extends AbstractSession
 {

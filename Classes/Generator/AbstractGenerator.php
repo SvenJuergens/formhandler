@@ -19,8 +19,6 @@ use Typoheads\Formhandler\Component\AbstractComponent;
 
 /**
  * Abstract generator class for Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 abstract class AbstractGenerator extends AbstractComponent
 {

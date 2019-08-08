@@ -13,7 +13,6 @@ namespace Typoheads\Formhandler\Utility;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
-
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\Random;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -156,7 +155,6 @@ class GeneralUtility implements SingletonInterface
      *
      * @param $settings The formhandler settings
      * @return string
-     * @author    Reinhard Führicht <rf@typoheads.at>
      */
     public static function readTemplateFile($templateFile, &$settings)
     {
@@ -215,7 +213,6 @@ class GeneralUtility implements SingletonInterface
      * @param array $langFiles
      * @param array $settings
      * @return array
-     * @author    Reinhard Führicht <rf@typoheads.at>
      */
     public static function readLanguageFiles($langFiles, &$settings)
     {
@@ -662,8 +659,6 @@ class GeneralUtility implements SingletonInterface
     /**
      * Substitutes EXT: with extension path in a file path and returns the relative path.
      *
-     * Where is this used?
-     *
      * @param string The path
      * @return string The resolved path
      */
@@ -825,8 +820,10 @@ class GeneralUtility implements SingletonInterface
 
     public static function generateRandomID()
     {
-        $randomID = md5(Globals::getFormValuesPrefix()
-            . CoreGeneralUtility::makeInstance(Random::class)->generateRandomBytes(10));
+        $randomID = md5(
+            Globals::getFormValuesPrefix()
+            . CoreGeneralUtility::makeInstance(Random::class)->generateRandomBytes(10)
+        );
         return $randomID;
     }
 

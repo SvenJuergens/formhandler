@@ -18,8 +18,6 @@ use TYPO3\CMS\Core\Utility\DebugUtility;
 
 /**
  * A simple debugger printing the messages on the screen
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class PrintToScreen extends AbstractDebugger
 {

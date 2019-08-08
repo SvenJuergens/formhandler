@@ -49,7 +49,7 @@ class ModuleController extends ActionController
 
     /**
      * @var \Typoheads\Formhandler\Domain\Repository\LogDataRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $logDataRepository;
 
@@ -133,10 +133,8 @@ class ModuleController extends ActionController
 
     /**
      * Displays fields selector
-     * @param null $logDataUids
-     * @param string $filetype
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     * @param string uids to export
+     * @param string export file type (PDF || CSV)
      */
     public function selectFieldsAction($logDataUids = null, $filetype = '')
     {
@@ -229,7 +227,7 @@ class ModuleController extends ActionController
             } elseif ($filetype === 'csv') {
                 $className = $this->utilityFuncs->getPreparedClassName(
                     $this->settings['csv'],
-                    '\Typoheads\Formhandler\Generator\BackendCsv'
+                    \Typoheads\Formhandler\Generator\BackendCsv::class
                 );
 
                 $generator = $this->componentManager->getComponent($className);
@@ -239,45 +237,5 @@ class ModuleController extends ActionController
                 $generator->process();
             }
         }
-    }
-
-    /**
-     * Deletes given logs or all if value is "all"
-     * @param string uids to delete
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
-     */
-    public function deleteLogRowsAction($logDataUids = null)
-    {
-        $forceDelete = (int)$this->settings['forceDelete'];
-        if ($logDataUids === 'all') {
-            $text = LocalizationUtility::translate('message.deleted-all-logs', 'formhandler');
-            if ($forceDelete) {
-                $GLOBALS['TYPO3_DB']->exec_TRUNCATEquery('tx_formhandler_log');
-            } else {
-                $GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_formhandler_log', '1=1', ['deleted' => 1]);
-            }
-        } else {
-            $logDataUids = explode(',', $logDataUids);
-            $text = sprintf(
-                LocalizationUtility::translate('message.deleted-log-rows', 'formhandler'),
-                count($logDataUids)
-            );
-            if ($forceDelete) {
-                $GLOBALS['TYPO3_DB']->exec_DELETEquery(
-                    'tx_formhandler_log',
-                    'uid IN (' . implode(',', $logDataUids) . ')'
-                );
-            } else {
-                $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
-                    'tx_formhandler_log',
-                    'uid IN (' . implode(',', $logDataUids) . ')',
-                    ['deleted' => 1]
-                );
-            }
-        }
-
-        $this->addFlashMessage($text);
-        $this->redirect('index');
     }
 }

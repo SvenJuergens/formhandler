@@ -18,8 +18,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * A simple debugger writing messages into devlog
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class DevLog extends AbstractDebugger
 {

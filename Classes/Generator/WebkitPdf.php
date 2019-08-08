@@ -22,8 +22,6 @@ use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * PDF generator class for Formhandler using the extension "webkitpdf"
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class WebkitPdf extends AbstractGenerator
 {

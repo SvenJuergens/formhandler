@@ -21,8 +21,6 @@ use Typoheads\Formhandler\Utility\Globals;
 
 /**
  * The Dispatcher instantiates the Component Manager and delegates the process to the given controller.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class Dispatcher extends AbstractPlugin
 {

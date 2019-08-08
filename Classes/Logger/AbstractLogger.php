@@ -18,8 +18,6 @@ use Typoheads\Formhandler\Component\AbstractComponent;
 
 /**
  * Abstract class for loggers
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
 abstract class AbstractLogger extends AbstractComponent

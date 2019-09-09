@@ -3,7 +3,7 @@ defined('TYPO3_MODE') or die();
 
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43(
-    $_EXTKEY,
+    'formhandler',
     'pi1/class.tx_formhandler_pi1.php',
     '_pi1',
     'CType',

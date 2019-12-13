@@ -25,7 +25,7 @@ class FileMaxTotalSize extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        $maxSize = $this->utilityFuncs->getSingle($this->settings['params'], 'maxTotalSize');
+        $maxSize = $this->utilityFuncs::getSingle($this->settings['params'], 'maxTotalSize');
         $size = 0;
 
         // first we check earlier uploaded files

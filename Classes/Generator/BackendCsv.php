@@ -35,25 +35,25 @@ class BackendCsv extends AbstractComponent
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $fileName = $this->utilityFuncs->getSingle($this->settings, 'fileName');
+        $fileName = $this->utilityFuncs::getSingle($this->settings, 'fileName');
         if (!$fileName) {
             $fileName = 'formhandler.csv';
         }
         $this->settings['fileName'] = $fileName;
 
-        $delimiter = $this->utilityFuncs->getSingle($this->settings, 'delimiter');
+        $delimiter = $this->utilityFuncs::getSingle($this->settings, 'delimiter');
         if (!$delimiter) {
             $delimiter = ',';
         }
         $this->settings['delimiter'] = $delimiter;
 
-        $enclosure = $this->utilityFuncs->getSingle($this->settings, 'enclosure');
+        $enclosure = $this->utilityFuncs::getSingle($this->settings, 'enclosure');
         if (!$enclosure) {
             $enclosure = '"';
         }
         $this->settings['enclosure'] = $enclosure;
 
-        $encoding = $this->utilityFuncs->getSingle($this->settings, 'encoding');
+        $encoding = $this->utilityFuncs::getSingle($this->settings, 'encoding');
         if (!$encoding) {
             $encoding = 'utf-8';
         }

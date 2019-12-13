@@ -33,7 +33,7 @@ class TranslateFields extends AbstractInterceptor
                 $newField = str_replace('.', '', $newField);
                 if (isset($options['langKey'])) {
                     $this->gp[$newField] = $this->translateFields($options);
-                    $this->utilityFuncs->debugMessage('translated', [$newField, $this->gp[$newField]]);
+                    $this->utilityFuncs::debugMessage('translated', [$newField, $this->gp[$newField]]);
                 }
             }
         }
@@ -48,11 +48,11 @@ class TranslateFields extends AbstractInterceptor
      */
     protected function translateFields($options)
     {
-        $key = $this->utilityFuncs->getSingle($options, 'langKey');
-        $field = $this->utilityFuncs->getSingle($options, 'field');
+        $key = $this->utilityFuncs::getSingle($options, 'langKey');
+        $field = $this->utilityFuncs::getSingle($options, 'field');
         if ($field) {
             $key = str_replace('|', $this->gp[$field], $key);
         }
-        return $this->utilityFuncs->getTranslatedMessage($this->langFiles, $key);
+        return $this->utilityFuncs::getTranslatedMessage($this->langFiles, $key);
     }
 }

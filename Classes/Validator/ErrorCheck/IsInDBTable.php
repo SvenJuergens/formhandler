@@ -38,9 +38,9 @@ class IsInDBTable extends AbstractErrorCheck
     {
         $checkFailed = '';
         if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-            $checkTable = $this->utilityFuncs->getSingle($this->settings['params'], 'table');
-            $checkField = $this->utilityFuncs->getSingle($this->settings['params'], 'field');
-            $additionalWhere = $this->utilityFuncs->getSingle($this->settings['params'], 'additionalWhere');
+            $checkTable = $this->utilityFuncs::getSingle($this->settings['params'], 'table');
+            $checkField = $this->utilityFuncs::getSingle($this->settings['params'], 'field');
+            $additionalWhere = $this->utilityFuncs::getSingle($this->settings['params'], 'additionalWhere');
             if (!empty($checkTable) && !empty($checkField)) {
                 $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
                     ->getQueryBuilderForTable($checkTable);
@@ -52,7 +52,7 @@ class IsInDBTable extends AbstractErrorCheck
                         $queryBuilder->expr()->eq($checkField, $queryBuilder->createNamedParameter($this->gp[$this->formFieldName]))
                     );
 
-                $additionalWhere = $this->utilityFuncs->prepareAndWhereString($additionalWhere);
+                $additionalWhere = $this->utilityFuncs::prepareAndWhereString($additionalWhere);
                 if (!empty($additionalWhere)) {
                     $queryBuilder->andWhere(QueryHelper::stripLogicalOperatorPrefix($additionalWhere));
                 }
@@ -65,7 +65,7 @@ class IsInDBTable extends AbstractErrorCheck
                 if ($stmt && $stmt->rowCount() === 0) {
                     $checkFailed = $this->getCheckFailed();
                 } elseif (!$stmt) {
-                    $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
+                    $this->utilityFuncs::debugMessage('error', [$stmt->errorInfo()], 3);
                 }
             }
         }

@@ -41,11 +41,11 @@ class RemoveXSS extends AbstractInterceptor
             //user set custom rules via cObject
             $cObjSettings = $globalSetting['removeChars.'];
             if (is_array($cObjSettings)) {
-                $list = $this->utilityFuncs->getSingle($globalSetting, 'removeChars');
+                $list = $this->utilityFuncs::getSingle($globalSetting, 'removeChars');
 
                 //user set custom separator
                 if ($globalSetting['separator']) {
-                    $sep = $this->utilityFuncs->getSingle($globalSetting, 'separator');
+                    $sep = $this->utilityFuncs::getSingle($globalSetting, 'separator');
                 }
             } else {
 
@@ -53,7 +53,7 @@ class RemoveXSS extends AbstractInterceptor
                 $list = $globalSetting['removeChars'];
             }
             $this->removeChars = GeneralUtility::trimExplode($sep, $list);
-        } elseif ((int)$this->utilityFuncs->getSingle($globalSetting['removeChars.'], 'disable') === 1) {
+        } elseif ((int)$this->utilityFuncs::getSingle($globalSetting['removeChars.'], 'disable') === 1) {
 
             //user disabled removal globally
             $this->removeChars = [];
@@ -88,11 +88,11 @@ class RemoveXSS extends AbstractInterceptor
                     //user set custom rules via cObject
                     $cObjSettings = $fieldSetting['removeChars.'];
                     if (is_array($cObjSettings)) {
-                        $list = $this->utilityFuncs->getSingle($fieldSetting, 'removeChars');
+                        $list = $this->utilityFuncs::getSingle($fieldSetting, 'removeChars');
 
                         //user set custom separator
                         if ($fieldSetting['separator']) {
-                            $sep = $this->utilityFuncs->getSingle($fieldSetting, 'separator');
+                            $sep = $this->utilityFuncs::getSingle($fieldSetting, 'separator');
                         }
                     } else {
 
@@ -100,7 +100,7 @@ class RemoveXSS extends AbstractInterceptor
                         $list = $fieldSetting['removeChars'];
                     }
                     $removeChars = GeneralUtility::trimExplode($sep, $list);
-                } elseif ((int)$this->utilityFuncs->getSingle($fieldSetting['removeChars.'], 'disable') === 1) {
+                } elseif ((int)$this->utilityFuncs::getSingle($fieldSetting['removeChars.'], 'disable') === 1) {
 
                     //user disabled removal for this field
                     $removeChars = [];
@@ -179,7 +179,7 @@ class RemoveXSS extends AbstractInterceptor
         parent::init($gp, $settings);
         $this->doNotSanitizeFields = [];
         if ($this->settings['doNotSanitizeFields']) {
-            $this->doNotSanitizeFields = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'doNotSanitizeFields'));
+            $this->doNotSanitizeFields = GeneralUtility::trimExplode(',', $this->utilityFuncs::getSingle($this->settings, 'doNotSanitizeFields'));
         }
     }
 

@@ -75,7 +75,7 @@ class StoreUploadedFiles extends AbstractFinisher
     {
         $sessionFiles = $this->globals->getSession()->get('files');
         if (is_array($sessionFiles) && !empty($sessionFiles)) {
-            $disablePathCheck = (int)$this->utilityFuncs->getSingle($this->settings, 'disablePathCheck');
+            $disablePathCheck = (int)$this->utilityFuncs::getSingle($this->settings, 'disablePathCheck');
             foreach ($sessionFiles as $field => $files) {
                 $this->gp[$field] = [];
                 $uploadPath = $this->getNewFolderPath($field);
@@ -94,7 +94,7 @@ class StoreUploadedFiles extends AbstractFinisher
                                 $suffix++;
                             }
 
-                            $this->utilityFuncs->debugMessage(
+                            $this->utilityFuncs::debugMessage(
                                 'copy_file',
                                 [
                                     ($file['uploaded_path'] . $file['uploaded_name']),
@@ -104,7 +104,7 @@ class StoreUploadedFiles extends AbstractFinisher
                             copy(($file['uploaded_path'] . $file['uploaded_name']), ($uploadPath . $newFilename));
                             GeneralUtility::fixPermissions($uploadPath . $newFilename);
                             unlink(($file['uploaded_path'] . $file['uploaded_name']));
-                            $newFolder = str_replace($this->utilityFuncs->getDocumentRoot(), '', $uploadPath);
+                            $newFolder = str_replace($this->utilityFuncs::getDocumentRoot(), '', $uploadPath);
                             $sessionFiles[$field][$key]['uploaded_path'] = $uploadPath;
                             $sessionFiles[$field][$key]['uploaded_name'] = $newFilename;
                             $sessionFiles[$field][$key]['uploaded_folder'] = $newFolder;
@@ -132,24 +132,24 @@ class StoreUploadedFiles extends AbstractFinisher
     protected function getNewFolderPath($field)
     {
         if (is_array($this->settings['finishedUploadFolder.']) && isset($this->settings['finishedUploadFolder.'][$field])) {
-            $newFolder = $this->utilityFuncs->getSingle($this->settings['finishedUploadFolder.'], $field);
+            $newFolder = $this->utilityFuncs::getSingle($this->settings['finishedUploadFolder.'], $field);
         } else {
-            $newFolder = $this->utilityFuncs->getSingle($this->settings, 'finishedUploadFolder');
+            $newFolder = $this->utilityFuncs::getSingle($this->settings, 'finishedUploadFolder');
         }
-        $newFolder = $this->utilityFuncs->sanitizePath($newFolder);
+        $newFolder = $this->utilityFuncs::sanitizePath($newFolder);
         $newFolder = $this->replaceSchemeMarkers($newFolder);
-        $uploadPath = $this->utilityFuncs->getDocumentRoot() . $newFolder;
-        $uploadPath = $this->utilityFuncs->sanitizePath($uploadPath);
+        $uploadPath = $this->utilityFuncs::getDocumentRoot() . $newFolder;
+        $uploadPath = $this->utilityFuncs::sanitizePath($uploadPath);
         if (!file_exists($uploadPath)) {
-            $doCreateNonExistingFolder = (int)$this->utilityFuncs->getSingle($this->settings, 'createNonExistingFolder');
+            $doCreateNonExistingFolder = (int)$this->utilityFuncs::getSingle($this->settings, 'createNonExistingFolder');
             if (!isset($this->settings['createNonExistingFolder'])) {
                 $doCreateNonExistingFolder = 1;
             }
             if ($doCreateNonExistingFolder === 1) {
-                GeneralUtility::mkdir_deep($this->utilityFuncs->getDocumentRoot(), $newFolder);
-                $this->utilityFuncs->debugMessage('Creating directory "' . $newFolder . '"');
+                GeneralUtility::mkdir_deep($this->utilityFuncs::getDocumentRoot(), $newFolder);
+                $this->utilityFuncs::debugMessage('Creating directory "' . $newFolder . '"');
             } else {
-                $this->utilityFuncs->throwException('Directory "' . $newFolder . '" doesn\'t exist!');
+                $this->utilityFuncs::throwException('Directory "' . $newFolder . '" doesn\'t exist!');
             }
         }
         return $uploadPath;
@@ -169,7 +169,7 @@ class StoreUploadedFiles extends AbstractFinisher
         array_pop($fileparts);
         $filename = implode('.', $fileparts);
 
-        $namingScheme = $this->utilityFuncs->getSingle($this->settings, 'renameScheme');
+        $namingScheme = $this->utilityFuncs::getSingle($this->settings, 'renameScheme');
         if (!$namingScheme) {
             $namingScheme = '[filename]_[time]';
         }
@@ -183,7 +183,7 @@ class StoreUploadedFiles extends AbstractFinisher
 
         //remove ',' from filename, would be handled as file separator
         $newFilename = str_replace(',', '', $newFilename);
-        $newFilename = $this->utilityFuncs->doFileNameReplace($newFilename);
+        $newFilename = $this->utilityFuncs::doFileNameReplace($newFilename);
         $newFilename .= $fileext;
         return $newFilename;
     }
@@ -200,14 +200,14 @@ class StoreUploadedFiles extends AbstractFinisher
                     if (isset($this->settings['schemeMarkers.'][$markerName . '.']) && !strcmp($options, 'fieldValue')) {
                         $value = $this->gp[$this->settings['schemeMarkers.'][$markerName . '.']['field']];
                         if (is_array($value)) {
-                            $separator = $this->utilityFuncs->getSingle($this->settings['schemeMarkers.'][$markerName . '.'], 'separator');
+                            $separator = $this->utilityFuncs::getSingle($this->settings['schemeMarkers.'][$markerName . '.'], 'separator');
                             if (strlen($separator) === 0) {
                                 $separator = '-';
                             }
                             $value = implode($separator, $value);
                         }
                     } elseif (isset($this->settings['schemeMarkers.'][$markerName . '.'])) {
-                        $value = $this->utilityFuncs->getSingle($this->settings['schemeMarkers.'], $markerName);
+                        $value = $this->utilityFuncs::getSingle($this->settings['schemeMarkers.'], $markerName);
                     }
                     $replacedStr = str_replace('[' . $markerName . ']', $value, $replacedStr);
                 }

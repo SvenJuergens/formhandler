@@ -42,7 +42,7 @@ class ClearSession extends AbstractPreProcessor
             'finisher-storegp'
         ];
         if ($this->settings['sessionKeysToRemove']) {
-            $sessionKeysToRemove = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'sessionKeysToRemove'));
+            $sessionKeysToRemove = GeneralUtility::trimExplode(',', $this->utilityFuncs::getSingle($this->settings, 'sessionKeysToRemove'));
         }
 
         foreach ($sessionKeysToRemove as $sessionKey) {

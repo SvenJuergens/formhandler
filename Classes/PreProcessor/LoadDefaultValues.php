@@ -101,9 +101,9 @@ class LoadDefaultValues extends AbstractPreProcessor
                 if (!isset($fields[$fieldName . '.']['defaultValue']) && is_array($fields[$fieldName . '.'])) {
                     $this->setDefaultValues($fields[$fieldName . '.'], $currentLevelGP[$fieldName]);
                 } elseif (!isset($currentLevelGP[$fieldName])) {
-                    $currentLevelGP[$fieldName] = $this->utilityFuncs->getSingle($fields[$fieldName . '.'], 'defaultValue');
+                    $currentLevelGP[$fieldName] = $this->utilityFuncs::getSingle($fields[$fieldName . '.'], 'defaultValue');
                     if ($fields[$fieldName . '.']['defaultValue.']['separator']) {
-                        $separator = $this->utilityFuncs->getSingle($fields[$fieldName . '.']['defaultValue.'], 'separator');
+                        $separator = $this->utilityFuncs::getSingle($fields[$fieldName . '.']['defaultValue.'], 'separator');
                         $currentLevelGP[$fieldName] = GeneralUtility::trimExplode($separator, $currentLevelGP[$fieldName]);
                     }
                 }

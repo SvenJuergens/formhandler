@@ -37,9 +37,9 @@ class RestoreLanguage extends AbstractFinisher
             $this->getTypoScriptFrontendController()->config['config']['language'] = $lang;
             $this->getTypoScriptFrontendController()->initLLvars();
             $this->globals->getSession()->set('originalLanguage', null);
-            $this->utilityFuncs->debugMessage('Language restored to "' . $lang . '"!', [], 1);
+            $this->utilityFuncs::debugMessage('Language restored to "' . $lang . '"!', [], 1);
         } else {
-            $this->utilityFuncs->debugMessage('Unable to restore language! No original language found!', [], 2);
+            $this->utilityFuncs::debugMessage('Unable to restore language! No original language found!', [], 2);
         }
 
         return $this->gp;

@@ -52,12 +52,12 @@ class Configuration implements \ArrayAccess
             $this->utilityFuncs = GeneralUtility::makeInstance(FormhandlerGeneralUtility::class);
             $this->setup = $this->getTypoScriptFrontendController()->tmpl->setup['plugin.'][$this->getPrefixedPackageKey() . '.'];
             if (!is_array($this->setup)) {
-                $this->utilityFuncs->throwException('missing_config');
+                $this->utilityFuncs::throwException('missing_config');
             }
-            if (is_array($this->globals->getOverrideSettings())) {
-                $this->setup = $this->utilityFuncs->mergeConfiguration(
+            if (is_array($this->globals::getOverrideSettings())) {
+                $this->setup = $this->utilityFuncs::mergeConfiguration(
                     $this->setup,
-                    $this->globals->getOverrideSettings()
+                    $this->globals::getOverrideSettings()
                 );
             }
         }
@@ -72,7 +72,7 @@ class Configuration implements \ArrayAccess
     {
         if (isset($setup) && is_array($setup)) {
             $settings = $this->setup['settings.'];
-            $settings = $this->utilityFuncs->mergeConfiguration($settings, $setup);
+            $settings = $this->utilityFuncs::mergeConfiguration($settings, $setup);
             $this->setup['settings.'] = $settings;
         }
     }

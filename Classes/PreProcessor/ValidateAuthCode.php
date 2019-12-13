@@ -41,11 +41,11 @@ class ValidateAuthCode extends AbstractPreProcessor
             try {
                 $table = trim($this->gp['table']);
                 if ($this->settings['table']) {
-                    $table = $this->utilityFuncs->getSingle($this->settings, 'table');
+                    $table = $this->utilityFuncs::getSingle($this->settings, 'table');
                 }
                 $uidField = trim($this->gp['uidField']);
                 if ($this->settings['uidField']) {
-                    $uidField = $this->utilityFuncs->getSingle($this->settings, 'uidField');
+                    $uidField = $this->utilityFuncs::getSingle($this->settings, 'uidField');
                 }
                 if (empty($uidField)) {
                     $uidField = 'uid';
@@ -53,7 +53,7 @@ class ValidateAuthCode extends AbstractPreProcessor
                 $uid = trim($this->gp['uid']);
 
                 if (!(strlen($table) > 0 && strlen($uid) > 0)) {
-                    $this->utilityFuncs->throwException('validateauthcode_insufficient_params');
+                    $this->utilityFuncs::throwException('validateauthcode_insufficient_params');
                 }
 
                 $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
@@ -61,7 +61,7 @@ class ValidateAuthCode extends AbstractPreProcessor
 
                 // Check if table is valid
                 if (!$conn->getSchemaManager()->tablesExist([$table])) {
-                    $this->utilityFuncs->throwException('validateauthcode_insufficient_params');
+                    $this->utilityFuncs::throwException('validateauthcode_insufficient_params');
                 }
 
                 // Check if uidField is valid
@@ -71,18 +71,18 @@ class ValidateAuthCode extends AbstractPreProcessor
                     $existingFields[] = strtolower($column->getName());
                 }
                 if (!in_array(strtolower($uidField), $existingFields, true)) {
-                    $this->utilityFuncs->throwException('validateauthcode_insufficient_params');
+                    $this->utilityFuncs::throwException('validateauthcode_insufficient_params');
                 }
 
                 $hiddenField = 'disable';
                 if ($this->settings['hiddenField']) {
-                    $hiddenField = $this->utilityFuncs->getSingle($this->settings, 'hiddenField');
+                    $hiddenField = $this->utilityFuncs::getSingle($this->settings, 'hiddenField');
                 } elseif ($GLOBALS['TCA'][$table]['ctrl']['enablecolumns']['disable']) {
                     $hiddenField = $GLOBALS['TCA'][$table]['ctrl']['enablecolumns']['disable'];
                 }
                 $selectFields = '*';
                 if ($this->settings['selectFields']) {
-                    $selectFields = $this->utilityFuncs->getSingle($this->settings, 'selectFields');
+                    $selectFields = $this->utilityFuncs::getSingle($this->settings, 'selectFields');
                 }
                 $queryBuilder
                     ->select(...explode(',', $selectFields))
@@ -90,9 +90,9 @@ class ValidateAuthCode extends AbstractPreProcessor
 
                 $hiddenStatusValue = 1;
                 if (isset($this->settings['hiddenStatusValue'])) {
-                    $hiddenStatusValue = $this->utilityFuncs->getSingle($this->settings, 'hiddenStatusValue');
+                    $hiddenStatusValue = $this->utilityFuncs::getSingle($this->settings, 'hiddenStatusValue');
                 }
-                if ((int)$this->utilityFuncs->getSingle($this->settings, 'showDeleted') !== 1) {
+                if ((int)$this->utilityFuncs::getSingle($this->settings, 'showDeleted') !== 1) {
                     // Enable fields
                     $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
                     $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
@@ -106,36 +106,36 @@ class ValidateAuthCode extends AbstractPreProcessor
                 );
 
                 $query = $queryBuilder->getSQL();
-                $this->utilityFuncs->debugMessage('sql_request', [$query]);
+                $this->utilityFuncs::debugMessage('sql_request', [$query]);
 
                 $stmt = $queryBuilder->execute();
                 if ($stmt->errorInfo()) {
-                    $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
+                    $this->utilityFuncs::debugMessage('error', [$stmt->errorInfo()], 3);
                 }
                 if (!$stmt || $stmt->rowCount() === 0) {
-                    $this->utilityFuncs->throwException('validateauthcode_no_record_found');
+                    $this->utilityFuncs::throwException('validateauthcode_no_record_found');
                 }
 
                 $row = $stmt->fetch();
-                $this->utilityFuncs->debugMessage('Selected row: ', [], 1, $row);
+                $this->utilityFuncs::debugMessage('Selected row: ', [], 1, $row);
 
                 $localAuthCode = GeneralUtility::hmac(serialize($row), 'formhandler');
 
-                $this->utilityFuncs->debugMessage('Comparing auth codes: ', [], 1, ['Calculated:' => $localAuthCode, 'Given:' => $authCode]);
+                $this->utilityFuncs::debugMessage('Comparing auth codes: ', [], 1, ['Calculated:' => $localAuthCode, 'Given:' => $authCode]);
                 if ($localAuthCode !== $authCode) {
-                    $this->utilityFuncs->throwException('validateauthcode_invalid_auth_code');
+                    $this->utilityFuncs::throwException('validateauthcode_invalid_auth_code');
                 }
                 $activeStatusValue = 0;
                 if (isset($this->settings['activeStatusValue'])) {
-                    $activeStatusValue = $this->utilityFuncs->getSingle($this->settings, 'activeStatusValue');
+                    $activeStatusValue = $this->utilityFuncs::getSingle($this->settings, 'activeStatusValue');
                 }
                 $conn->update($table, [$hiddenField => $activeStatusValue], [$uidField => $uid]);
 
-                $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
+                $this->utilityFuncs::doRedirectBasedOnSettings($this->settings, $this->gp);
             } catch (\Exception $e) {
-                $redirectPage = $this->utilityFuncs->getSingle($this->settings, 'errorRedirectPage');
+                $redirectPage = $this->utilityFuncs::getSingle($this->settings, 'errorRedirectPage');
                 if ($redirectPage) {
-                    $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp, 'errorRedirectPage');
+                    $this->utilityFuncs::doRedirectBasedOnSettings($this->settings, $this->gp, 'errorRedirectPage');
                 } else {
                     throw new \Exception($e->getMessage());
                 }

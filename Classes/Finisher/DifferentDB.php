@@ -48,14 +48,14 @@ class DifferentDB extends DB
     {
         //read settings
         $connectionParams = [
-            'dbname' => $this->utilityFuncs->getSingle($settings, 'db'),
-            'user' => $this->utilityFuncs->getSingle($settings, 'username'),
-            'password' => $this->utilityFuncs->getSingle($settings, 'password'),
+            'dbname' => $this->utilityFuncs::getSingle($settings, 'db'),
+            'user' => $this->utilityFuncs::getSingle($settings, 'username'),
+            'password' => $this->utilityFuncs::getSingle($settings, 'password'),
             'charset' => 'utf8',
-            'host' => $this->utilityFuncs->getSingle($settings, 'host'),
-            'port' => $this->utilityFuncs->getSingle($settings, 'port'),
-            'driver' => $this->utilityFuncs->getSingle($settings, 'driver') ?: 'mysqli',
-            'initCommands' => $this->utilityFuncs->getSingle($settings, 'setDBinit')
+            'host' => $this->utilityFuncs::getSingle($settings, 'host'),
+            'port' => $this->utilityFuncs::getSingle($settings, 'port'),
+            'driver' => $this->utilityFuncs::getSingle($settings, 'driver') ?: 'mysqli',
+            'initCommands' => $this->utilityFuncs::getSingle($settings, 'setDBinit')
         ];
 
         $connectionName = uniqid('formhandler_');

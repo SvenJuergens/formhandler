@@ -51,7 +51,7 @@ class StoreGP extends AbstractFinisher
     {
         $sessionKey = 'finisher-storegp';
         if ($this->settings['sessionKey']) {
-            $sessionKey = $this->utilityFuncs->getSingle($this->settings, 'sessionKey');
+            $sessionKey = $this->utilityFuncs::getSingle($this->settings, 'sessionKey');
         }
         $dataToStoreInSession = $this->gp;
         $this->getTypoScriptFrontendController()->fe_user->setKey('ses', $sessionKey, $dataToStoreInSession);

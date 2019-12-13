@@ -37,7 +37,7 @@ class DevLog extends AbstractLogger
         }
         $logParams = $this->gp;
         if ($this->settings['excludeFields']) {
-            $excludeFields = $this->utilityFuncs->getSingle($this->settings, 'excludeFields');
+            $excludeFields = $this->utilityFuncs::getSingle($this->settings, 'excludeFields');
             $excludeFields = GeneralUtility::trimExplode(',', $excludeFields);
             foreach ($excludeFields as $excludeField) {
                 unset($logParams[$excludeField]);

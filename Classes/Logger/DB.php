@@ -37,14 +37,14 @@ class DB extends AbstractLogger
         //set params
         $table = 'tx_formhandler_log';
 
-        $doDisableIPlog = $this->utilityFuncs->getSingle($this->settings, 'disableIPlog');
+        $doDisableIPlog = $this->utilityFuncs::getSingle($this->settings, 'disableIPlog');
         $fields['ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
         if ((int)$doDisableIPlog === 1) {
             unset($fields['ip']);
         }
         $fields['tstamp'] = time();
         $fields['crdate'] = time();
-        $fields['pid'] = $this->utilityFuncs->getSingle($this->settings, 'pid');
+        $fields['pid'] = $this->utilityFuncs::getSingle($this->settings, 'pid');
         if (!$fields['pid']) {
             $fields['pid'] = $this->getTypoScriptFrontendController()->id;
         }
@@ -57,16 +57,16 @@ class DB extends AbstractLogger
             foreach ($this->settings['fields.'] as $field => $fieldConf) {
                 $field = str_replace('.', '', $field);
                 if ($fieldConf['ifIsEmpty'] && (empty($logParams[$field]) || !isset($logParams[$field]))) {
-                    $value = $this->utilityFuncs->getSingle($fieldConf, 'ifIsEmpty');
+                    $value = $this->utilityFuncs::getSingle($fieldConf, 'ifIsEmpty');
                     $logParams[$field] = $value;
                 }
-                if ((int)($this->utilityFuncs->getSingle($fieldConf, 'nullIfEmpty')) === 1 && (empty($logParams[$field]) || !isset($logParams[$field]))) {
+                if ((int)($this->utilityFuncs::getSingle($fieldConf, 'nullIfEmpty')) === 1 && (empty($logParams[$field]) || !isset($logParams[$field]))) {
                     unset($logParams[$field]);
                 }
             }
         }
         if ($this->settings['excludeFields']) {
-            $excludeFields = $this->utilityFuncs->getSingle($this->settings, 'excludeFields');
+            $excludeFields = $this->utilityFuncs::getSingle($this->settings, 'excludeFields');
             $excludeFields = GeneralUtility::trimExplode(',', $excludeFields);
             foreach ($excludeFields as $excludeField) {
                 unset($logParams[$excludeField]);
@@ -74,7 +74,7 @@ class DB extends AbstractLogger
         }
 
         if ($this->settings['fieldOrder']) {
-            $fieldOrder = $this->utilityFuncs->getSingle($this->settings, 'fieldOrder');
+            $fieldOrder = $this->utilityFuncs::getSingle($this->settings, 'fieldOrder');
             $fieldOrder = GeneralUtility::trimExplode(',', $fieldOrder);
             $orderedFields = $this->parseFieldOrder($fieldOrder);
             $logParams = $this->sortFields($logParams, $orderedFields);
@@ -107,10 +107,10 @@ class DB extends AbstractLogger
         $this->gp['inserted_uid'] = $insertedUID;
         $this->gp[$table . '_inserted_uid'] = $this->gp['inserted_uid'];
 
-        if ((int)($this->utilityFuncs->getSingle($this->settings, 'nodebug')) !== 1) {
-            $this->utilityFuncs->debugMessage('logging', [$table, implode(',', $fields)]);
+        if ((int)($this->utilityFuncs::getSingle($this->settings, 'nodebug')) !== 1) {
+            $this->utilityFuncs::debugMessage('logging', [$table, implode(',', $fields)]);
             if ($conn->errorInfo()) {
-                $this->utilityFuncs->debugMessage('error', [$conn->errorInfo()], 3);
+                $this->utilityFuncs::debugMessage('error', [$conn->errorInfo()], 3);
             }
         }
 

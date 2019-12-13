@@ -30,8 +30,8 @@ class BetweenLength extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        $min = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'minValue'));
-        $max = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'maxValue'));
+        $min = (int)($this->utilityFuncs::getSingle($this->settings['params'], 'minValue'));
+        $max = (int)($this->utilityFuncs::getSingle($this->settings['params'], 'maxValue'));
         if (isset($this->gp[$this->formFieldName]) &&
             (mb_strlen($this->gp[$this->formFieldName], 'utf-8') < $min ||
                 mb_strlen($this->gp[$this->formFieldName], 'utf-8') > $max)

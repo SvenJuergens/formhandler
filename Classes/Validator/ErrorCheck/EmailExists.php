@@ -27,7 +27,7 @@ class EmailExists extends AbstractErrorCheck
 
         // The used function "getmxrr" is not supported on Windows using a PHP version below 5.3.0
         if (version_compare(PHP_VERSION, '5.3.0') < 0 && stristr(PHP_OS, 'win')) {
-            $this->utilityFuncs->throwException('error_getmxrr');
+            $this->utilityFuncs::throwException('error_getmxrr');
         }
 
         if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {

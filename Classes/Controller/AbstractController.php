@@ -112,7 +112,7 @@ abstract class AbstractController extends AbstractClass
         if ($this->predefined && is_array($settings['predef.'][$this->predefined])) {
             $predefSettings = $settings['predef.'][$this->predefined];
             unset($settings['predef.']);
-            $settings = $this->utilityFuncs->mergeConfiguration($settings, $predefSettings);
+            $settings = $this->utilityFuncs::mergeConfiguration($settings, $predefSettings);
         }
         return $settings;
     }

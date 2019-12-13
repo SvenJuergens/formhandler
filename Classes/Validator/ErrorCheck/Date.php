@@ -32,18 +32,18 @@ class Date extends AbstractErrorCheck
         $checkFailed = '';
 
         if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-            $pattern = $this->utilityFuncs->getSingle($this->settings['params'], 'pattern');
+            $pattern = $this->utilityFuncs::getSingle($this->settings['params'], 'pattern');
             try {
                 \DateTime::createFromFormat($pattern, $this->gp[$this->formFieldName]);
                 $status = \DateTime::getLastErrors();
                 if ((isset($status['warning_count']) && (int)($status['warning_count']) > 0) ||
                     (isset($status['error_count']) && (int)($status['error_count']) > 0)) {
                     $checkFailed = $this->getCheckFailed();
-                    $this->utilityFuncs->debugMessage('Result:', [], 2, $status);
+                    $this->utilityFuncs::debugMessage('Result:', [], 2, $status);
                 }
             } catch (\Exception $e) {
                 $checkFailed = $this->getCheckFailed();
-                $this->utilityFuncs->debugMessage($e->getMessage());
+                $this->utilityFuncs::debugMessage($e->getMessage());
             }
         }
         return $checkFailed;

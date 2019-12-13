@@ -33,7 +33,7 @@ class Equals extends AbstractErrorCheck
         $formValue = trim($this->gp[$this->formFieldName]);
 
         if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-            $checkValue = $this->utilityFuncs->getSingle($this->settings['params'], 'word');
+            $checkValue = $this->utilityFuncs::getSingle($this->settings['params'], 'word');
             if (strcasecmp($formValue, $checkValue)) {
 
                 //remove userfunc settings

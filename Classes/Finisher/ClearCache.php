@@ -44,12 +44,12 @@ class ClearCache extends AbstractFinisher
      */
     public function process()
     {
-        $pidList = $this->utilityFuncs->getSingle($this->settings, 'pidList');
+        $pidList = $this->utilityFuncs::getSingle($this->settings, 'pidList');
         if (empty($pidList)) {
             $pidList = $this->getTypoScriptFrontendController()->id;
         }
 
-        $this->utilityFuncs->debugMessage('Clearing Cache', [$pidList]);
+        $this->utilityFuncs::debugMessage('Clearing Cache', [$pidList]);
 
         $this->getTypoScriptFrontendController()->clearPageCacheContent_pidList($pidList);
         return $this->gp;

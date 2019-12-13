@@ -35,8 +35,8 @@ class WebkitPdf extends AbstractGenerator
     {
         if (ExtensionManagementUtility::isLoaded('webkitpdf')) {
             $linkGP = [];
-            if (strlen($this->globals->getFormValuesPrefix()) > 0) {
-                $linkGP[$this->globals->getFormValuesPrefix()] = $this->gp;
+            if (strlen($this->globals::getFormValuesPrefix()) > 0) {
+                $linkGP[$this->globals::getFormValuesPrefix()] = $this->gp;
             } else {
                 $linkGP = $this->gp;
             }
@@ -52,7 +52,7 @@ class WebkitPdf extends AbstractGenerator
                 require_once(ExtensionManagementUtility::extPath('webkitpdf') . 'pi1/class.tx_webkitpdf_pi1.php');
             }
             $generator = GeneralUtility::makeInstance('tx_webkitpdf_pi1');
-            $generator->cObj = $this->globals->getCObj();
+            $generator->cObj = $this->globals::getCObj();
 
             return $generator->main('', $config);
         }
@@ -93,7 +93,7 @@ class WebkitPdf extends AbstractGenerator
         $params = $this->getDefaultLinkParams();
         $componentParams = $this->getComponentLinkParams($linkGP);
         if (is_array($componentParams)) {
-            $params = $this->utilityFuncs->mergeConfiguration($params, $componentParams);
+            $params = $this->utilityFuncs::mergeConfiguration($params, $componentParams);
         }
         $text = $this->getLinkText();
         $this->url = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $this->cObj->getTypolink_URL($this->getTypoScriptFrontendController()->id, $params);
@@ -113,7 +113,7 @@ class WebkitPdf extends AbstractGenerator
     */
     protected function getComponentLinkParams($linkGP)
     {
-        $prefix = $this->globals->getFormValuesPrefix();
+        $prefix = $this->globals::getFormValuesPrefix();
         $tempParams = [
             'action' => 'show'
         ];
@@ -132,7 +132,7 @@ class WebkitPdf extends AbstractGenerator
     protected function getLinkText()
     {
         $config = $this->readWebkitPdfConf();
-        $text = $this->utilityFuncs->getSingle($config, 'linkText');
+        $text = $this->utilityFuncs::getSingle($config, 'linkText');
         if (strlen($text) === 0) {
             $text = 'Save as PDF';
         }

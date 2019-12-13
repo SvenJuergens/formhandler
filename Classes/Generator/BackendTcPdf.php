@@ -35,31 +35,31 @@ class BackendTcPdf extends AbstractComponent
     public function init($gp, $settings)
     {
         parent::init($gp, $settings);
-        $fileName = $this->utilityFuncs->getSingle($this->settings, 'fileName');
+        $fileName = $this->utilityFuncs::getSingle($this->settings, 'fileName');
         if (!$fileName) {
             $fileName = 'formhandler.pdf';
         }
         $this->settings['fileName'] = $fileName;
 
-        $fontSize = $this->utilityFuncs->getSingle($this->settings, 'fontSize');
+        $fontSize = $this->utilityFuncs::getSingle($this->settings, 'fontSize');
         if (!$fontSize) {
             $fontSize = 12;
         }
         $this->settings['fontSize'] = $fontSize;
 
-        $fontSizeHeader = $this->utilityFuncs->getSingle($this->settings, 'fontSizeHeader');
+        $fontSizeHeader = $this->utilityFuncs::getSingle($this->settings, 'fontSizeHeader');
         if (!$fontSizeHeader) {
             $fontSizeHeader = 8;
         }
         $this->settings['fontSizeHeader'] = $fontSizeHeader;
 
-        $fontSizeFooter = $this->utilityFuncs->getSingle($this->settings, 'fontSizeFooter');
+        $fontSizeFooter = $this->utilityFuncs::getSingle($this->settings, 'fontSizeFooter');
         if (!$fontSizeFooter) {
             $fontSizeFooter = 8;
         }
         $this->settings['fontSizeFooter'] = $fontSizeFooter;
 
-        $font = $this->utilityFuncs->getSingle($this->settings, 'font');
+        $font = $this->utilityFuncs::getSingle($this->settings, 'font');
         if (!$font) {
             $font = 'FreeSans';
         }

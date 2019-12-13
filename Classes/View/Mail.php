@@ -37,7 +37,7 @@ class Mail extends Form
         $this->currentMailSettings = $errors;
         $content = '';
         if ($this->subparts['template']) {
-            $this->settings = $this->globals->getSettings();
+            $this->settings = $this->globals::getSettings();
             $content = parent::render($gp, []);
         }
         return $content;
@@ -71,7 +71,7 @@ class Mail extends Form
         }
         $this->disableEncodingFields = [];
         if ($this->settings['disableEncodingFields']) {
-            $this->disableEncodingFields = explode(',', $this->utilityFuncs->getSingle($this->settings, 'disableEncodingFields'));
+            $this->disableEncodingFields = explode(',', $this->utilityFuncs::getSingle($this->settings, 'disableEncodingFields'));
         }
 
         /*

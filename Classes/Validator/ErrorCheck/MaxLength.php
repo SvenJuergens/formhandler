@@ -30,7 +30,7 @@ class MaxLength extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        $max = $this->utilityFuncs->getSingle($this->settings['params'], 'value');
+        $max = $this->utilityFuncs::getSingle($this->settings['params'], 'value');
         if (isset($this->gp[$this->formFieldName]) &&
             mb_strlen(trim($this->gp[$this->formFieldName]), 'utf-8') > 0 &&
             (int)$max > 0 &&

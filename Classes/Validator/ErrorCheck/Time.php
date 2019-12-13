@@ -34,7 +34,7 @@ class Time extends AbstractErrorCheck
         $checkFailed = '';
 
         if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-            $pattern = $this->utilityFuncs->getSingle($this->settings['params'], 'pattern');
+            $pattern = $this->utilityFuncs::getSingle($this->settings['params'], 'pattern');
             preg_match('/^[h|m]*(.)[h|m]*/i', $pattern, $res);
             $sep = $res[1];
             $timeCheck = GeneralUtility::trimExplode($sep, $this->gp[$this->formFieldName]);

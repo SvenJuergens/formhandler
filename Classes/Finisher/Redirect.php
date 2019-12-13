@@ -37,13 +37,13 @@ class Redirect extends AbstractFinisher
     {
 
         //read redirect page
-        $redirectPage = $this->utilityFuncs->getSingle($this->settings, 'redirectPage');
+        $redirectPage = $this->utilityFuncs::getSingle($this->settings, 'redirectPage');
         if (!isset($redirectPage)) {
             return $this->gp;
         }
         $this->globals->getSession()->reset();
 
-        $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
+        $this->utilityFuncs::doRedirectBasedOnSettings($this->settings, $this->gp);
     }
 
     /**
@@ -56,7 +56,7 @@ class Redirect extends AbstractFinisher
     {
         $this->gp = $gp;
         $this->settings = $tsConfig;
-        $redirect = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], 'redirect_page', 'sMISC');
+        $redirect = $this->utilityFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'], 'redirect_page', 'sMISC');
         if ($redirect) {
             $this->settings['redirectPage'] = $redirect;
         }

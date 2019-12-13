@@ -30,7 +30,7 @@ class MinValue extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        $min = (float)str_replace(',', '.', $this->utilityFuncs->getSingle($this->settings['params'], 'value'));
+        $min = (float)str_replace(',', '.', $this->utilityFuncs::getSingle($this->settings['params'], 'value'));
         if (isset($this->gp[$this->formFieldName]) && strlen($this->gp[$this->formFieldName]) > 0) {
             $valueToCheck = str_replace(',', '.', $this->gp[$this->formFieldName]);
             if (!is_numeric($valueToCheck)) {

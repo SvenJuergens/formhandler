@@ -30,9 +30,9 @@ class BetweenItems extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        $min = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'minValue'));
-        $max = (int)($this->utilityFuncs->getSingle($this->settings['params'], 'maxValue'));
-        $removeEmptyValues = $this->utilityFuncs->getSingle($this->settings['params'], 'removeEmptyValues');
+        $min = (int)($this->utilityFuncs::getSingle($this->settings['params'], 'minValue'));
+        $max = (int)($this->utilityFuncs::getSingle($this->settings['params'], 'maxValue'));
+        $removeEmptyValues = $this->utilityFuncs::getSingle($this->settings['params'], 'removeEmptyValues');
         if (isset($this->gp[$this->formFieldName]) && is_array($this->gp[$this->formFieldName])) {
             $valuesArray = $this->gp[$this->formFieldName];
             if ((int)$removeEmptyValues === 1) {

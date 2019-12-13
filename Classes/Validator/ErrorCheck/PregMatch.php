@@ -32,7 +32,7 @@ class PregMatch extends AbstractErrorCheck
         $checkFailed = '';
 
         if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-            $regex = $this->utilityFuncs->getSingle($this->settings['params'], 'value');
+            $regex = $this->utilityFuncs::getSingle($this->settings['params'], 'value');
             if ($regex && !preg_match($regex, $this->gp[$this->formFieldName])) {
                 $checkFailed = $this->getCheckFailed();
             }

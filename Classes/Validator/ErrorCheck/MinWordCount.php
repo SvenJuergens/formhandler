@@ -30,7 +30,7 @@ class MinWordCount extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        $min = $this->utilityFuncs->getSingle($this->settings['params'], 'value');
+        $min = $this->utilityFuncs::getSingle($this->settings['params'], 'value');
         if (isset($this->gp[$this->formFieldName]) &&
             mb_strlen(trim($this->gp[$this->formFieldName]), 'utf-8') > 0 &&
             (int)$min > 0 &&

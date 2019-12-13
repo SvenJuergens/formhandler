@@ -76,14 +76,14 @@ class Dispatcher extends AbstractPlugin
             $langFile = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'lang_file', 'sDEF');
             $predef = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'predefined', 'sDEF');
 
-            $this->globals->setCObj($this->cObj);
-            $this->globals->getCObj()->setCurrentVal($predef);
+            $this->globals::setCObj($this->cObj);
+            $this->globals::getCObj()->setCurrentVal($predef);
             if ($setup['usePredef']) {
-                $predef = $this->utilityFuncs->getSingle($setup, 'usePredef');
+                $predef = $this->utilityFuncs::getSingle($setup, 'usePredef');
             }
 
-            $this->globals->setPredef($predef);
-            $this->globals->setOverrideSettings($setup);
+            $this->globals::setPredef($predef);
+            $this->globals::setOverrideSettings($setup);
 
             /*
              * set controller:
@@ -95,13 +95,13 @@ class Dispatcher extends AbstractPlugin
                 $controller = $setup['controller'];
             }
 
-            /** @var \Typoheads\Formhandler\Controller\AbstractController $controller */
+            /** @var AbstractController $controller */
             $controller = $this->componentManager->getComponent($controller);
 
             if (isset($content)) {
                 $controller->setContent(
                     $this->componentManager->getComponent(
-                        $this->utilityFuncs->prepareClassName(
+                        $this->utilityFuncs::prepareClassName(
                             'Typoheads\Formhandler\Controller\Content'
                         ),
                         $content
@@ -125,18 +125,18 @@ class Dispatcher extends AbstractPlugin
                 'formhandler',
                 GeneralUtility::SYSLOG_SEVERITY_ERROR
             );
-            $result = $this->utilityFuncs->getTranslatedMessage($this->globals->getLangFiles(), 'fe-exception');
+            $result = $this->utilityFuncs::getTranslatedMessage($this->globals::getLangFiles(), 'fe-exception');
             if (!$result) {
-                $result = '<div style="color:red; font-weight: bold">' . $this->utilityFuncs->getExceptionMessage('fe-exception') . '</div>';
+                $result = '<div style="color:red; font-weight: bold">' . $this->utilityFuncs::getExceptionMessage('fe-exception') . '</div>';
             }
-            if ($this->globals->getSession() && $this->globals->getSession()->get('debug')) {
+            if ($this->globals::getSession() && $this->globals::getSession()->get('debug')) {
                 $result = '<div style="color:red; font-weight: bold">' . $e->getMessage() . '</div>';
                 $result .= '<div style="color:red; font-weight: bold">File: ' . $e->getFile() . '(' . $e->getLine() . ')</div>';
                 $result .= '<div style="color:red; font-weight: bold">' . $e->getTraceAsString() . '</div>';
             }
         }
-        if ($this->globals->getSession() && $this->globals->getSession()->get('debug')) {
-            $debuggers = $this->globals->getDebuggers();
+        if ($this->globals::getSession() && $this->globals::getSession()->get('debug')) {
+            $debuggers = $this->globals::getDebuggers();
             foreach ($debuggers as $idx => $debugger) {
                 $debugger->outputDebugLog();
             }

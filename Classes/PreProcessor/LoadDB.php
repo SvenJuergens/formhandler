@@ -135,15 +135,15 @@ class LoadDB extends AbstractPreProcessor
                 'value' => $value,
                 'dataRow' => $this->data
             ];
-            $value = $this->utilityFuncs->getSingle($settings[$fieldname . '.'], 'preProcessing');
+            $value = $this->utilityFuncs::getSingle($settings[$fieldname . '.'], 'preProcessing');
         }
 
         if ($value === null) {
-            $mapping = $this->utilityFuncs->getSingle($settings[$fieldname . '.'], 'mapping');
+            $mapping = $this->utilityFuncs::getSingle($settings[$fieldname . '.'], 'mapping');
             if (isset($this->data[$mapping])) {
                 $value = $this->data[$mapping];
             } else {
-                $value = $this->utilityFuncs->getSingle($settings, $fieldname);
+                $value = $this->utilityFuncs::getSingle($settings, $fieldname);
             }
             if ($settings[$fieldname . '.']['separator']) {
                 $separator = $settings[$fieldname . '.']['separator'];
@@ -157,16 +157,16 @@ class LoadDB extends AbstractPreProcessor
                 'value' => $value,
                 'dataRow' => $this->data
             ];
-            $value = $this->utilityFuncs->getSingle($settings[$fieldname . '.'], 'postProcessing');
+            $value = $this->utilityFuncs::getSingle($settings[$fieldname . '.'], 'postProcessing');
         }
 
-        if (isset($settings[$fieldname . '.']['type']) && $this->utilityFuncs->getSingle($settings[$fieldname . '.'], 'type') === 'upload') {
+        if (isset($settings[$fieldname . '.']['type']) && $this->utilityFuncs::getSingle($settings[$fieldname . '.'], 'type') === 'upload') {
             if (!$this->files) {
                 $this->files = [];
             }
             $this->files[$fieldname] = [];
             if (!empty($value)) {
-                $uploadPath = $this->utilityFuncs->getTempUploadFolder($fieldname);
+                $uploadPath = $this->utilityFuncs::getTempUploadFolder($fieldname);
                 $filesArray = $value;
                 if (!is_array($filesArray)) {
                     $filesArray = GeneralUtility::trimExplode(',', $value);
@@ -205,10 +205,10 @@ class LoadDB extends AbstractPreProcessor
      */
     protected function loadDB($settings)
     {
-        $table = $this->utilityFuncs->getSingle($settings, 'table');
+        $table = $this->utilityFuncs::getSingle($settings, 'table');
         $sql = $this->getQuery($table, $settings);
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
-        $this->utilityFuncs->debugMessage($sql);
+        $this->utilityFuncs::debugMessage($sql);
         $stmt = $connection->executeQuery($sql);
 
         $rows = $stmt->fetchAll();
@@ -217,7 +217,7 @@ class LoadDB extends AbstractPreProcessor
             return reset($rows);
         }
         if ($rowCount > 0) {
-            $this->utilityFuncs->debugMessage('sql_too_many_rows', [$rowCount], 3);
+            $this->utilityFuncs::debugMessage('sql_too_many_rows', [$rowCount], 3);
         }
         return [];
     }
@@ -230,7 +230,7 @@ class LoadDB extends AbstractPreProcessor
     protected function getQuery($table, $conf)
     {
         //map the old TypoScript setting "limit" to "begin" and "max".
-        $limit = $this->utilityFuncs->getSingle($conf, 'limit');
+        $limit = $this->utilityFuncs::getSingle($conf, 'limit');
         if (strlen($limit) > 0) {
             $parts = GeneralUtility::trimExplode(',', $limit);
             if (count($parts) === 2) {

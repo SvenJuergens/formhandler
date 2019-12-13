@@ -45,15 +45,15 @@ class SubmittedOK extends AbstractFinisher
         //read template file
         $this->templateFile = $this->globals->getTemplateCode();
         if ($this->settings['templateFile']) {
-            $this->templateFile = $this->utilityFuncs->readTemplateFile(false, $this->settings);
+            $this->templateFile = $this->utilityFuncs::readTemplateFile(false, $this->settings);
         }
 
         //set view
         $viewClass = '\Typoheads\Formhandler\View\SubmittedOK';
         if ($this->settings['view']) {
-            $viewClass = $this->utilityFuncs->getSingle($this->settings, 'view');
+            $viewClass = $this->utilityFuncs::getSingle($this->settings, 'view');
         }
-        $viewClass = $this->utilityFuncs->prepareClassName($viewClass);
+        $viewClass = $this->utilityFuncs::prepareClassName($viewClass);
         $view = $this->componentManager->getComponent($viewClass);
 
         //show TEMPLATE_SUBMITTEDOK
@@ -61,7 +61,7 @@ class SubmittedOK extends AbstractFinisher
         if (!$view->hasTemplate()) {
             $view->setTemplate($this->templateFile, 'SUBMITTEDOK');
             if (!$view->hasTemplate()) {
-                $this->utilityFuncs->debugMessage('no_submittedok_template', [], 3);
+                $this->utilityFuncs::debugMessage('no_submittedok_template', [], 3);
             }
         }
 

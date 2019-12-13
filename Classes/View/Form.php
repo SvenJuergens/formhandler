@@ -51,14 +51,14 @@ class Form extends AbstractView
         //set template
         $this->template = $this->subparts['template'];
         if (strlen($this->template) === 0) {
-            $this->utilityFuncs->throwException('no_template_file');
+            $this->utilityFuncs::throwException('no_template_file');
         }
 
         $this->errors = $errors;
 
         //set language file
         if (!$this->langFiles) {
-            $this->langFiles = $this->globals->getLangFiles();
+            $this->langFiles = $this->globals::getLangFiles();
         }
 
         //fill Typoscript markers
@@ -79,9 +79,9 @@ class Form extends AbstractView
             }
         }
 
-        if ($this->globals->getAjaxHandler()) {
+        if ($this->globals::getAjaxHandler()) {
             $markers = [];
-            $this->globals->getAjaxHandler()->fillAjaxMarkers($markers);
+            $this->globals::getAjaxHandler()->fillAjaxMarkers($markers);
             // @extensionScannerIgnoreLine
             $this->template = $this->templateService->substituteMarkerArray($this->template, $markers);
         }
@@ -94,7 +94,7 @@ class Form extends AbstractView
         $this->substituteConditionalSubparts('has_translation');
         if (!$this->gp['submitted']) {
             $this->storeStartEndBlock();
-        } elseif ((int)$this->globals->getSession()->get('currentStep') !== 1) {
+        } elseif ((int)$this->globals::getSession()->get('currentStep') !== 1) {
             $this->fillStartEndBlock();
         }
 
@@ -140,7 +140,7 @@ class Form extends AbstractView
         }
 
         //remove markers that were not substituted
-        $content = $this->utilityFuncs->removeUnfilledMarkers($this->template);
+        $content = $this->utilityFuncs::removeUnfilledMarkers($this->template);
 
         if (is_array($this->settings['stdWrap.'])) {
             $content = $this->cObj->stdWrap($content, $this->settings['stdWrap.']);
@@ -158,11 +158,11 @@ class Form extends AbstractView
     {
         $this->masterTemplates = [];
         if (isset($this->settings['masterTemplateFile']) && !isset($this->settings['masterTemplateFile.'])) {
-            array_push($this->masterTemplates, $this->utilityFuncs->resolveRelPathFromSiteRoot($this->settings['masterTemplateFile']));
+            array_push($this->masterTemplates, $this->utilityFuncs::resolveRelPathFromSiteRoot($this->settings['masterTemplateFile']));
         } elseif (isset($this->settings['masterTemplateFile']) && isset($this->settings['masterTemplateFile.'])) {
             array_push(
                 $this->masterTemplates,
-                $this->utilityFuncs->resolveRelPathFromSiteRoot($this->utilityFuncs->getSingle($this->settings, 'masterTemplateFile'))
+                $this->utilityFuncs::resolveRelPathFromSiteRoot($this->utilityFuncs::getSingle($this->settings, 'masterTemplateFile'))
             );
         } elseif (isset($this->settings['masterTemplateFile.']) && is_array($this->settings['masterTemplateFile.'])) {
             foreach ($this->settings['masterTemplateFile.'] as $key => $masterTemplate) {
@@ -170,10 +170,10 @@ class Form extends AbstractView
                     if (is_array($this->settings['masterTemplateFile.'][$key . '.'])) {
                         array_push(
                             $this->masterTemplates,
-                            $this->utilityFuncs->resolveRelPathFromSiteRoot($this->utilityFuncs->getSingle($this->settings['masterTemplateFile.'], $key))
+                            $this->utilityFuncs::resolveRelPathFromSiteRoot($this->utilityFuncs::getSingle($this->settings['masterTemplateFile.'], $key))
                         );
                     } else {
-                        array_push($this->masterTemplates, $this->utilityFuncs->resolveRelPathFromSiteRoot($masterTemplate));
+                        array_push($this->masterTemplates, $this->utilityFuncs::resolveRelPathFromSiteRoot($masterTemplate));
                     }
                 }
             }
@@ -184,7 +184,7 @@ class Form extends AbstractView
     {
         $fieldMarkers = [];
         foreach ($this->masterTemplates as $idx => $masterTemplate) {
-            $masterTemplateCode = GeneralUtility::getURL($this->utilityFuncs->resolvePath($masterTemplate));
+            $masterTemplateCode = GeneralUtility::getURL($this->utilityFuncs::resolvePath($masterTemplate));
             $matches = [];
             preg_match_all('/###(field|master)_([^#]*)###/', $masterTemplateCode, $matches);
             if (!empty($matches[0])) {
@@ -214,7 +214,7 @@ class Form extends AbstractView
                             if ($fieldName) {
                                 $markers = [
                                     '###fieldname###' => $fieldName,
-                                    '###formValuesPrefix###' => $this->globals->getFormValuesPrefix()
+                                    '###formValuesPrefix###' => $this->globals::getFormValuesPrefix()
                                 ];
                                 foreach ($params as $paramKey => $paramValue) {
                                     $markers['###param' . (++$paramKey) . '###'] = $paramValue;
@@ -238,15 +238,15 @@ class Form extends AbstractView
      */
     protected function storeStartEndBlock()
     {
-        $startblock = $this->globals->getSession()->get('startblock');
-        $endblock = $this->globals->getSession()->get('endblock');
+        $startblock = $this->globals::getSession()->get('startblock');
+        $endblock = $this->globals::getSession()->get('endblock');
         if (empty($startblock)) {
             $startblock = $this->templateService->getSubpart($this->template, '###FORM_STARTBLOCK###');
         }
         if (empty($endblock)) {
             $endblock = $this->templateService->getSubpart($this->template, '###FORM_ENDBLOCK###');
         }
-        $this->globals->getSession()->setMultiple(['startblock' => $startblock, 'endblock' => $endblock]);
+        $this->globals::getSession()->setMultiple(['startblock' => $startblock, 'endblock' => $endblock]);
     }
 
     /**
@@ -288,7 +288,7 @@ class Form extends AbstractView
                                 $conditionResult = $this->handleHasTranslationSubpartCondition($condition);
                                 break;
                             default:
-                                $this->utilityFuncs->throwException('Unsupported conditional subpart type: ' . $type);
+                                $this->utilityFuncs::throwException('Unsupported conditional subpart type: ' . $type);
                                 break;
                         }
                     }
@@ -324,7 +324,7 @@ class Form extends AbstractView
             $fieldname = substr($condition, 1);
             $negate = true;
         }
-        $value = $this->utilityFuncs->getGlobal($fieldname, $this->gp);
+        $value = $this->utilityFuncs::getGlobal($fieldname, $this->gp);
         if (is_array($value)) {
             $result = (!empty($value));
         } else {
@@ -338,13 +338,13 @@ class Form extends AbstractView
 
     protected function handleHasTranslationSubpartCondition($condition)
     {
-        $translation = $this->utilityFuncs->getTranslatedMessage($this->langFiles, $condition);
+        $translation = $this->utilityFuncs::getTranslatedMessage($this->langFiles, $condition);
         return strlen($translation) > 0;
     }
 
     protected function handleIfSubpartCondition($condition)
     {
-        return $this->utilityFuncs->getConditionResult($condition, $this->gp);
+        return $this->utilityFuncs::getConditionResult($condition, $this->gp);
     }
 
     /**
@@ -353,8 +353,8 @@ class Form extends AbstractView
     protected function fillStartEndBlock()
     {
         $markers = [
-            '###FORM_STARTBLOCK###' => $this->globals->getSession()->get('startblock'),
-            '###FORM_ENDBLOCK###' => $this->globals->getSession()->get('endblock')
+            '###FORM_STARTBLOCK###' => $this->globals::getSession()->get('startblock'),
+            '###FORM_ENDBLOCK###' => $this->globals::getSession()->get('endblock')
         ];
         $this->template = $this->templateService->substituteMarkerArray($this->template, $markers);
     }
@@ -366,7 +366,7 @@ class Form extends AbstractView
      */
     protected function parseSettings()
     {
-        return $this->globals->getSession()->get('settings');
+        return $this->globals::getSession()->get('settings');
     }
 
     /**
@@ -424,11 +424,11 @@ class Form extends AbstractView
         $markers['###timestamp###'] = $markers['###TIMESTAMP###'];
         $markers['###abs_url###'] = $markers['###ABS_URL###'];
 
-        $markers['###formID###'] = htmlspecialchars($this->globals->getFormID());
+        $markers['###formID###'] = htmlspecialchars($this->globals::getFormID());
 
         $name = 'submitted';
-        if ($this->globals->getFormValuesPrefix()) {
-            $name = $this->globals->getFormValuesPrefix() . '[submitted]';
+        if ($this->globals::getFormValuesPrefix()) {
+            $name = $this->globals::getFormValuesPrefix() . '[submitted]';
         }
         $markers['###HIDDEN_FIELDS###'] = '
 			<input type="hidden" name="id" value="' . $this->getTypoScriptFrontendController()->id . '" />
@@ -436,40 +436,40 @@ class Form extends AbstractView
 		';
 
         $name = 'randomID';
-        if ($this->globals->getFormValuesPrefix()) {
-            $name = $this->globals->getFormValuesPrefix() . '[randomID]';
+        if ($this->globals::getFormValuesPrefix()) {
+            $name = $this->globals::getFormValuesPrefix() . '[randomID]';
         }
         $markers['###HIDDEN_FIELDS###'] .= '
 			<input type="hidden" name="' . htmlspecialchars($name) . '" value="' . htmlspecialchars($this->gp['randomID']) . '" />
 		';
 
         $name = 'removeFile';
-        if ($this->globals->getFormValuesPrefix()) {
-            $name = $this->globals->getFormValuesPrefix() . '[removeFile]';
+        if ($this->globals::getFormValuesPrefix()) {
+            $name = $this->globals::getFormValuesPrefix() . '[removeFile]';
         }
         $markers['###HIDDEN_FIELDS###'] .= '
 			<input type="hidden" id="removeFile-' . htmlspecialchars($this->gp['randomID']) . '" name="' . htmlspecialchars($name) . '" value="" />
 		';
 
         $name = 'removeFileField';
-        if ($this->globals->getFormValuesPrefix()) {
-            $name = $this->globals->getFormValuesPrefix() . '[removeFileField]';
+        if ($this->globals::getFormValuesPrefix()) {
+            $name = $this->globals::getFormValuesPrefix() . '[removeFileField]';
         }
         $markers['###HIDDEN_FIELDS###'] .= '
 			<input type="hidden" id="removeFileField-' . htmlspecialchars($this->gp['randomID']) . '" name="' . htmlspecialchars($name) . '" value="" />
 		';
 
         $name = 'submitField';
-        if ($this->globals->getFormValuesPrefix()) {
-            $name = $this->globals->getFormValuesPrefix() . '[submitField]';
+        if ($this->globals::getFormValuesPrefix()) {
+            $name = $this->globals::getFormValuesPrefix() . '[submitField]';
         }
         $markers['###HIDDEN_FIELDS###'] .= '
 			<input type="hidden" id="submitField-' . htmlspecialchars($this->gp['randomID']) . '" name="' . htmlspecialchars($name) . '" value="" />
 		';
 
         $name = 'formToken';
-        if ($this->globals->getFormValuesPrefix()) {
-            $name = $this->globals->getFormValuesPrefix() . '[formToken]';
+        if ($this->globals::getFormValuesPrefix()) {
+            $name = $this->globals::getFormValuesPrefix() . '[formToken]';
         }
         if ($this->gp['formToken']) {
             $markers['###HIDDEN_FIELDS###'] .= '
@@ -478,7 +478,7 @@ class Form extends AbstractView
         }
 
         if (is_array($this->settings['session.'])
-            && (int)$this->utilityFuncs->getSingle($this->settings['session.']['config.'], 'disableCookies') === 1
+            && (int)$this->utilityFuncs::getSingle($this->settings['session.']['config.'], 'disableCookies') === 1
             && (int)ini_get('session.use_trans_sid') === 0
         ) {
 
@@ -490,9 +490,9 @@ class Form extends AbstractView
 				<input type="hidden" name="' . session_name() . '" value="' . session_id() . '" />
 			';
         }
-        $currentStepFromSession = $this->globals->getSession()->get('currentStep');
+        $currentStepFromSession = $this->globals::getSession()->get('currentStep');
         $hiddenActionFieldName = 'step-';
-        $prefix = $this->globals->getFormValuesPrefix();
+        $prefix = $this->globals::getFormValuesPrefix();
         if ($prefix) {
             $hiddenActionFieldName = $prefix . '[' . $hiddenActionFieldName . '#step#-#action#]';
         } else {
@@ -507,7 +507,7 @@ class Form extends AbstractView
 			<input type="hidden" ' . $hiddenActionFieldName . ' id="ieHiddenField-' . htmlspecialchars($this->gp['randomID']) . '" value="1" />
 		';
 
-        $markers['###formValuesPrefix###'] = $this->globals->getFormValuesPrefix();
+        $markers['###formValuesPrefix###'] = $this->globals::getFormValuesPrefix();
 
         if ($this->gp['generated_authCode']) {
             $markers['###auth_code###'] = htmlspecialchars($this->gp['generated_authCode']);
@@ -523,13 +523,13 @@ class Form extends AbstractView
         $markers['###curStep###'] = $currentStepFromSession;
 
         // maximum step/number of steps
-        $markers['###maxStep###'] = $this->globals->getSession()->get('totalSteps');
+        $markers['###maxStep###'] = $this->globals::getSession()->get('totalSteps');
 
         // the last step shown
-        $markers['###lastStep###'] = $this->globals->getSession()->get('lastStep');
+        $markers['###lastStep###'] = $this->globals::getSession()->get('lastStep');
 
         $name = 'step-';
-        $prefix = $this->globals->getFormValuesPrefix();
+        $prefix = $this->globals::getFormValuesPrefix();
         if ($prefix) {
             $name = $prefix . '[' . $name . '#step#-#action#]';
         } else {
@@ -545,11 +545,11 @@ class Form extends AbstractView
         $prevName = ' name="' . str_replace('#action#', 'prev', $name) . '" ';
         $allowStepJumps = false;
         if (isset($this->settings['allowStepJumps'])) {
-            $allowStepJumps = (bool)$this->utilityFuncs->getSingle($this->settings, 'allowStepJumps');
+            $allowStepJumps = (bool)$this->utilityFuncs::getSingle($this->settings, 'allowStepJumps');
         }
         $previousStep = $currentStepFromSession - 1;
-        if ($allowStepJumps && $this->globals->getSession()->get('lastStep') < $currentStepFromSession) {
-            $previousStep = $this->globals->getSession()->get('lastStep');
+        if ($allowStepJumps && $this->globals::getSession()->get('lastStep') < $currentStepFromSession) {
+            $previousStep = $this->globals::getSession()->get('lastStep');
         }
         if ($previousStep < 1) {
             $previousStep = 1;
@@ -598,7 +598,7 @@ class Form extends AbstractView
         $nextName = str_replace('#step#', $currentStepFromSession + 1, $nextName);
         $markers['###step_bar###'] = $this->createStepBar(
             $currentStepFromSession,
-            $this->globals->getSession()->get('totalSteps'),
+            $this->globals::getSession()->get('totalSteps'),
             $prevName,
             $nextName
         );
@@ -694,14 +694,14 @@ class Form extends AbstractView
     {
         $settings = $this->parseSettings();
 
-        $flexformValue = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], 'required_fields', 'sMISC');
+        $flexformValue = $this->utilityFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'], 'required_fields', 'sMISC');
         if ($flexformValue) {
             $fields = GeneralUtility::trimExplode(',', $flexformValue);
             if (is_array($settings['validators.'])) {
 
                 // Searches the index of Tx_Formhandler_Validator_Default
                 foreach ($settings['validators.'] as $index => $validator) {
-                    $currentValidatorClass = $this->utilityFuncs->getPreparedClassName($validator);
+                    $currentValidatorClass = $this->utilityFuncs::getPreparedClassName($validator);
                     if ($currentValidatorClass === 'Tx_Formhandler_Validator_Default') {
                         break;
                     }
@@ -717,19 +717,19 @@ class Form extends AbstractView
             }
         }
 
-        $sessionFiles = $this->globals->getSession()->get('files');
+        $sessionFiles = $this->globals::getSession()->get('files');
 
-        $requiredSign = $this->utilityFuncs->getSingle($settings, 'requiredSign');
+        $requiredSign = $this->utilityFuncs::getSingle($settings, 'requiredSign');
         if (strlen($requiredSign) === 0) {
             $requiredSign = '*';
         }
-        $requiredMarker = $this->utilityFuncs->getSingle($settings, 'requiredMarker');
+        $requiredMarker = $this->utilityFuncs::getSingle($settings, 'requiredMarker');
 
         //parse validation settings
         if (is_array($settings['validators.'])) {
-            if ((int)$this->utilityFuncs->getSingle($settings['validators.'], 'disable') === 0) {
+            if ((int)$this->utilityFuncs::getSingle($settings['validators.'], 'disable') === 0) {
                 foreach ($settings['validators.'] as $key => $validatorSettings) {
-                    if ((int)$this->utilityFuncs->getSingle($validatorSettings, 'disable') === 0) {
+                    if ((int)$this->utilityFuncs::getSingle($validatorSettings, 'disable') === 0) {
                         $disableErrorCheckFields = [];
                         if (is_array($validatorSettings['config.']) && isset($validatorSettings['config.']['disableErrorCheckFields'])) {
                             $disableErrorCheckFields = GeneralUtility::trimExplode(',', $validatorSettings['config.']['disableErrorCheckFields']);
@@ -811,7 +811,7 @@ class Form extends AbstractView
                         $imgConf['image.'] = $settings['singleFileMarkerTemplate.']['image.'];
                         $thumb = $this->getThumbnail($imgConf, $fileInfo);
                     }
-                    $text = $this->utilityFuncs->getSingle($settings['files.'], 'customRemovalText');
+                    $text = $this->utilityFuncs::getSingle($settings['files.'], 'customRemovalText');
                     if (strlen($text) === 0) {
                         $text = 'X';
                     }
@@ -848,11 +848,11 @@ class Form extends AbstractView
 								onclick="' . str_replace(["\n", '	'], '', $onClick) . '"
 								>' . $text . '</a>';
                     }
-                    $stdWrappedFilename = $this->utilityFuncs->wrap($filename, $this->settings['singleFileMarkerTemplate.'], 'filenameWrap');
+                    $stdWrappedFilename = $this->utilityFuncs::wrap($filename, $this->settings['singleFileMarkerTemplate.'], 'filenameWrap');
 
-                    $wrappedFilename = $this->utilityFuncs->wrap($stdWrappedFilename . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
-                    $wrappedThumb = $this->utilityFuncs->wrap($thumb . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
-                    $wrappedThumbFilename = $this->utilityFuncs->wrap($thumb . ' ' . $stdWrappedFilename . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
+                    $wrappedFilename = $this->utilityFuncs::wrap($stdWrappedFilename . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
+                    $wrappedThumb = $this->utilityFuncs::wrap($thumb . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
+                    $wrappedThumbFilename = $this->utilityFuncs::wrap($thumb . ' ' . $stdWrappedFilename . $link, $settings['singleFileMarkerTemplate.'], 'singleWrap');
                     if ((int)$settings['singleFileMarkerTemplate.']['showThumbnails'] === 1) {
                         $markers['###' . $field . '_uploadedFiles###'] .= $wrappedThumb;
                     } elseif ((int)$settings['singleFileMarkerTemplate.']['showThumbnails'] === 2) {
@@ -867,11 +867,11 @@ class Form extends AbstractView
                         }
                         $thumb = $this->getThumbnail($imgConf, $fileInfo);
                     }
-                    $stdWrappedFilename = $this->utilityFuncs->wrap($filename, $this->settings['totalFilesMarkerTemplate.'], 'filenameWrap');
+                    $stdWrappedFilename = $this->utilityFuncs::wrap($filename, $this->settings['totalFilesMarkerTemplate.'], 'filenameWrap');
 
-                    $wrappedFilename = $this->utilityFuncs->wrap($stdWrappedFilename . $link, $settings['totalFilesMarkerTemplate.'], 'singleWrap');
-                    $wrappedThumb = $this->utilityFuncs->wrap($thumb . $link, $settings['totalFilesMarkerTemplate.'], 'singleWrap');
-                    $wrappedThumbFilename = $this->utilityFuncs->wrap($thumb . ' ' . $stdWrappedFilename . $link, $settings['totalFilesMarkerTemplate.'], 'singleWrap');
+                    $wrappedFilename = $this->utilityFuncs::wrap($stdWrappedFilename . $link, $settings['totalFilesMarkerTemplate.'], 'singleWrap');
+                    $wrappedThumb = $this->utilityFuncs::wrap($thumb . $link, $settings['totalFilesMarkerTemplate.'], 'singleWrap');
+                    $wrappedThumbFilename = $this->utilityFuncs::wrap($thumb . ' ' . $stdWrappedFilename . $link, $settings['totalFilesMarkerTemplate.'], 'singleWrap');
 
                     if ((int)$settings['totalFilesMarkerTemplate.']['showThumbnails'] === 1) {
                         $markers['###total_uploadedFiles###'] .= $wrappedThumb;
@@ -881,15 +881,15 @@ class Form extends AbstractView
                         $markers['###total_uploadedFiles###'] .= $wrappedFilename;
                     }
                 }
-                $markers['###' . $field . '_uploadedFiles###'] = $this->utilityFuncs->wrap($markers['###' . $field . '_uploadedFiles###'], $settings['singleFileMarkerTemplate.'], 'totalWrap');
+                $markers['###' . $field . '_uploadedFiles###'] = $this->utilityFuncs::wrap($markers['###' . $field . '_uploadedFiles###'], $settings['singleFileMarkerTemplate.'], 'totalWrap');
                 $markers['###' . $field . '_uploadedFiles###'] = '<div id="Tx_Formhandler_UploadedFiles_' . $field . '">' . $markers['###' . $field . '_uploadedFiles###'] . '</div>';
             }
-            $markers['###total_uploadedFiles###'] = $this->utilityFuncs->wrap($markers['###total_uploadedFiles###'], $settings['totalFilesMarkerTemplate.'], 'totalWrap');
+            $markers['###total_uploadedFiles###'] = $this->utilityFuncs::wrap($markers['###total_uploadedFiles###'], $settings['totalFilesMarkerTemplate.'], 'totalWrap');
             $markers['###TOTAL_UPLOADEDFILES###'] = $markers['###total_uploadedFiles###'];
             $markers['###total_uploadedfiles###'] = $markers['###total_uploadedFiles###'];
         }
 
-        $requiredSign = $this->utilityFuncs->getSingle($settings, 'requiredSign');
+        $requiredSign = $this->utilityFuncs::getSingle($settings, 'requiredSign');
         if (strlen($requiredSign) === 0) {
             $requiredSign = '*';
         }
@@ -931,19 +931,19 @@ class Form extends AbstractView
         $markers = [];
         foreach ($errors as $field => $types) {
             if ($this->settings['isErrorMarker.'][$field]) {
-                $errorMessage = $this->utilityFuncs->getSingle($this->settings['isErrorMarker.'], $field);
-            } elseif (strlen($temp = trim($this->utilityFuncs->getTranslatedMessage($this->langFiles, 'is_error_' . $field))) > 0) {
+                $errorMessage = $this->utilityFuncs::getSingle($this->settings['isErrorMarker.'], $field);
+            } elseif (strlen($temp = trim($this->utilityFuncs::getTranslatedMessage($this->langFiles, 'is_error_' . $field))) > 0) {
                 $errorMessage = $temp;
             } elseif ($this->settings['isErrorMarker.']['default']) {
-                $errorMessage = $this->utilityFuncs->getSingle($this->settings['isErrorMarker.'], 'default');
-            } elseif (strlen($temp = trim($this->utilityFuncs->getTranslatedMessage($this->langFiles, 'is_error_default'))) > 0) {
+                $errorMessage = $this->utilityFuncs::getSingle($this->settings['isErrorMarker.'], 'default');
+            } elseif (strlen($temp = trim($this->utilityFuncs::getTranslatedMessage($this->langFiles, 'is_error_default'))) > 0) {
                 $errorMessage = $temp;
             }
             $markers['###is_error_' . $field . '###'] = $errorMessage;
         }
         if ($this->settings['isErrorMarker.']['global']) {
-            $errorMessage = $this->utilityFuncs->getSingle($this->settings['isErrorMarker.'], 'global');
-        } elseif (strlen($temp = trim($this->utilityFuncs->getTranslatedMessage($this->langFiles, 'is_error'))) > 0) {
+            $errorMessage = $this->utilityFuncs::getSingle($this->settings['isErrorMarker.'], 'global');
+        } elseif (strlen($temp = trim($this->utilityFuncs::getTranslatedMessage($this->langFiles, 'is_error'))) > 0) {
             $errorMessage = $temp;
         }
         $markers['###is_error###'] = $errorMessage;
@@ -963,12 +963,12 @@ class Form extends AbstractView
         foreach ($this->gp as $field => $value) {
             if (!isset($errors[$field])) {
                 if ($this->settings['isSuccessMarker.'][$field]) {
-                    $successMessage = $this->utilityFuncs->getSingle($this->settings['isSuccessMarker.'], $field);
-                } elseif (strlen($temp = trim($this->utilityFuncs->getTranslatedMessage($this->langFiles, 'is_success_' . $field))) > 0) {
+                    $successMessage = $this->utilityFuncs::getSingle($this->settings['isSuccessMarker.'], $field);
+                } elseif (strlen($temp = trim($this->utilityFuncs::getTranslatedMessage($this->langFiles, 'is_success_' . $field))) > 0) {
                     $successMessage = $temp;
                 } elseif ($this->settings['isSuccessMarker.']['default']) {
-                    $successMessage = $this->utilityFuncs->getSingle($this->settings['isSuccessMarker.'], 'default');
-                } elseif (strlen($temp = trim($this->utilityFuncs->getTranslatedMessage($this->langFiles, 'is_success_default'))) > 0) {
+                    $successMessage = $this->utilityFuncs::getSingle($this->settings['isSuccessMarker.'], 'default');
+                } elseif (strlen($temp = trim($this->utilityFuncs::getTranslatedMessage($this->langFiles, 'is_success_default'))) > 0) {
                     $successMessage = $temp;
                 }
                 $markers['###is_success_' . $field . '###'] = $successMessage;
@@ -988,9 +988,9 @@ class Form extends AbstractView
         $markers = [];
         foreach ($errors as $field => $types) {
             $errorMessages = [];
-            $temp = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'error_' . $field);
+            $temp = $this->utilityFuncs::getTranslatedMessage($this->langFiles, 'error_' . $field);
             if (strlen($temp) > 0) {
-                $errorMessage = $this->utilityFuncs->wrap($temp, $this->settings['singleErrorTemplate.'], 'singleWrap');
+                $errorMessage = $this->utilityFuncs::wrap($temp, $this->settings['singleErrorTemplate.'], 'singleWrap');
                 $errorMessages[] = $errorMessage;
             }
             if (!is_array($types)) {
@@ -1005,15 +1005,15 @@ class Form extends AbstractView
                 }
 
                 //try to load specific error message with key like error_fieldname_integer
-                $errorMessage = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'error_' . $field . '_' . $type);
+                $errorMessage = $this->utilityFuncs::getTranslatedMessage($this->langFiles, 'error_' . $field . '_' . $type);
                 if (strlen($errorMessage) === 0) {
                     $type = strtolower($type);
-                    $errorMessage = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'error_' . $field . '_' . $type);
+                    $errorMessage = $this->utilityFuncs::getTranslatedMessage($this->langFiles, 'error_' . $field . '_' . $type);
                 }
                 //Still no error message found, try to find a less specific one
                 if (strlen($errorMessage) === 0) {
                     $type = strtolower($type);
-                    $errorMessage = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'error_default_' . $type);
+                    $errorMessage = $this->utilityFuncs::getTranslatedMessage($this->langFiles, 'error_default_' . $type);
                 }
                 if ($errorMessage) {
                     $errorMessage = str_replace(['###fieldname###', '###FIELDNAME###'], $field, $errorMessage);
@@ -1022,19 +1022,19 @@ class Form extends AbstractView
                             $errorMessage = str_replace('###' . $key . '###', $value, $errorMessage);
                         }
                     }
-                    $errorMessage = $this->utilityFuncs->wrap($errorMessage, $this->settings['singleErrorTemplate.'], 'singleWrap');
+                    $errorMessage = $this->utilityFuncs::wrap($errorMessage, $this->settings['singleErrorTemplate.'], 'singleWrap');
                     $errorMessages[] = $errorMessage;
                 } else {
-                    $this->utilityFuncs->debugMessage('no_error_message', ['error_' . $field . '_' . $type], 2);
+                    $this->utilityFuncs::debugMessage('no_error_message', ['error_' . $field . '_' . $type], 2);
                 }
             }
             $errorMessage = implode('', $errorMessages);
-            $errorMessage = $this->utilityFuncs->wrap($errorMessage, $this->settings['singleErrorTemplate.'], 'totalWrap');
+            $errorMessage = $this->utilityFuncs::wrap($errorMessage, $this->settings['singleErrorTemplate.'], 'totalWrap');
             $clearErrorMessage = $errorMessage;
             if ($this->settings['addErrorAnchors']) {
                 $errorMessage = '<a id="' . $field . '-' . $this->globals->getRandomID() . '" name="' . $field . '-' . $this->globals->getRandomID() . '">' . $errorMessage . '</a>';
             }
-            $langMarkers = $this->utilityFuncs->getFilledLangMarkers($errorMessage, $this->langFiles);
+            $langMarkers = $this->utilityFuncs::getFilledLangMarkers($errorMessage, $this->langFiles);
             $errorMessage = $this->templateService->substituteMarkerArray($errorMessage, $langMarkers);
             $markers['###error_' . $field . '###'] = $errorMessage;
             $markers['###ERROR_' . strtoupper($field) . '###'] = $errorMessage;
@@ -1048,11 +1048,11 @@ class Form extends AbstractView
             }
 
             //list settings
-            $errorMessage = $this->utilityFuncs->wrap($errorMessage, $this->settings['errorListTemplate.'], 'singleWrap');
+            $errorMessage = $this->utilityFuncs::wrap($errorMessage, $this->settings['errorListTemplate.'], 'singleWrap');
             $markers['###ERROR###'] .= $errorMessage;
         }
-        $markers['###ERROR###'] = $this->utilityFuncs->wrap($markers['###ERROR###'], $this->settings['errorListTemplate.'], 'totalWrap');
-        $langMarkers = $this->utilityFuncs->getFilledLangMarkers($markers['###ERROR###'], $this->langFiles);
+        $markers['###ERROR###'] = $this->utilityFuncs::wrap($markers['###ERROR###'], $this->settings['errorListTemplate.'], 'totalWrap');
+        $langMarkers = $this->utilityFuncs::getFilledLangMarkers($markers['###ERROR###'], $this->langFiles);
         $markers['###ERROR###'] = $this->templateService->substituteMarkerArray($markers['###ERROR###'], $langMarkers);
         $markers['###error###'] = $markers['###ERROR###'];
         $this->template = $this->templateService->substituteMarkerArray($this->template, $markers);
@@ -1067,7 +1067,7 @@ class Form extends AbstractView
         if (is_array($this->settings['markers.'])) {
             foreach ($this->settings['markers.'] as $name => $options) {
                 if (!strstr($name, '.') && strstr($this->template, '###' . $name . '###')) {
-                    $markers['###' . $name . '###'] = $this->utilityFuncs->getSingle($this->settings['markers.'], $name);
+                    $markers['###' . $name . '###'] = $this->utilityFuncs::getSingle($this->settings['markers.'], $name);
                 }
             }
         }
@@ -1086,7 +1086,7 @@ class Form extends AbstractView
     {
         $this->disableEncodingFields = [];
         if ($this->settings['disableEncodingFields']) {
-            $this->disableEncodingFields = explode(',', $this->utilityFuncs->getSingle($this->settings, 'disableEncodingFields'));
+            $this->disableEncodingFields = explode(',', $this->utilityFuncs::getSingle($this->settings, 'disableEncodingFields'));
         }
         $markers = $this->getValueMarkers($this->gp);
         $this->template =$this->templateService->substituteMarkerArray($this->template, $markers);
@@ -1100,7 +1100,7 @@ class Form extends AbstractView
     {
         $markers = [];
 
-        $arrayValueSeparator = $this->utilityFuncs->getSingle($this->settings, 'arrayValueSeparator');
+        $arrayValueSeparator = $this->utilityFuncs::getSingle($this->settings, 'arrayValueSeparator');
         if (strlen($arrayValueSeparator) === 0) {
             $arrayValueSeparator = ',';
         }
@@ -1116,7 +1116,7 @@ class Form extends AbstractView
                     $level++;
                     $markers = array_merge($markers, $this->getValueMarkers($v, $level, $currPrefix));
                     if ($doEncode) {
-                        $v = $this->utilityFuncs->recursiveHtmlSpecialChars($v);
+                        $v = $this->utilityFuncs::recursiveHtmlSpecialChars($v);
                     }
                     $v = implode($arrayValueSeparator, $v);
                     $level--;
@@ -1152,7 +1152,7 @@ class Form extends AbstractView
                     $level++;
                     $markers = array_merge($markers, $this->getSelectedMarkers($v, $level, $currPrefix));
                     foreach ($v as $arrayValue) {
-                        $arrayValue = $this->utilityFuncs->recursiveHtmlSpecialChars($arrayValue);
+                        $arrayValue = $this->utilityFuncs::recursiveHtmlSpecialChars($arrayValue);
                         $markers['###' . $currPrefix . '_' . $arrayValue . '###'] = $activeString;
                         $markers['###' . strtoupper($currPrefix) . '###'] = $markers['###' . $currPrefix . '_' . $arrayValue . '###'];
                     }
@@ -1244,7 +1244,7 @@ class Form extends AbstractView
             if ($i == $currentStep) {
                 $class = 'class="' . $classprefix . '_currentstep"';
             }
-            $stepName = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'step-' . $i);
+            $stepName = $this->utilityFuncs::getTranslatedMessage($this->langFiles, 'step-' . $i);
             if (strlen($stepName) === 0) {
                 $stepName = $i;
             }
@@ -1255,15 +1255,15 @@ class Form extends AbstractView
         //if not the first step, show back button
         if ($currentStep > 1) {
             //check if label for specific step
-            $message = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'prev_' . $currentStep);
+            $message = $this->utilityFuncs::getTranslatedMessage($this->langFiles, 'prev_' . $currentStep);
             if (strlen($message) === 0) {
-                $message = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'prev');
+                $message = $this->utilityFuncs::getTranslatedMessage($this->langFiles, 'prev');
             }
             $buttons .= '<input type="submit" name="' . $buttonNameBack . '" value="' . trim($message) . '" class="button_prev" style="margin-right:10px;" />';
         }
-        $message = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'next_' . $currentStep);
+        $message = $this->utilityFuncs::getTranslatedMessage($this->langFiles, 'next_' . $currentStep);
         if (strlen($message) === 0) {
-            $message = $this->utilityFuncs->getTranslatedMessage($this->langFiles, 'next');
+            $message = $this->utilityFuncs::getTranslatedMessage($this->langFiles, 'next');
         }
         $buttons .= '<input type="submit" name="' . $buttonNameFwd . '" value="' . trim($message) . '" class="button_next" />';
 

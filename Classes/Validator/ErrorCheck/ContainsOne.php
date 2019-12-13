@@ -35,7 +35,7 @@ class ContainsOne extends AbstractErrorCheck
         $formValue = trim($this->gp[$this->formFieldName]);
 
         if (strlen($formValue) > 0) {
-            $checkValue = $this->utilityFuncs->getSingle($this->settings['params'], 'words');
+            $checkValue = $this->utilityFuncs::getSingle($this->settings['params'], 'words');
             if (!is_array($checkValue)) {
                 $checkValue = GeneralUtility::trimExplode(',', $checkValue);
             }

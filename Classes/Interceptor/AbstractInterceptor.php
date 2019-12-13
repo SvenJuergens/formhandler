@@ -35,9 +35,9 @@ abstract class AbstractInterceptor extends AbstractComponent
         $classesArray = $this->settings['loggers.'];
         if (isset($classesArray) && is_array($classesArray)) {
             foreach ($classesArray as $idx => $tsConfig) {
-                $className = $this->utilityFuncs->getPreparedClassName($tsConfig);
-                if (is_array($tsConfig) && strlen($className) > 0 && (int)($this->utilityFuncs->getSingle($tsConfig, 'disable')) !== 1) {
-                    $this->utilityFuncs->debugMessage('calling_class', [$className]);
+                $className = $this->utilityFuncs::getPreparedClassName($tsConfig);
+                if (is_array($tsConfig) && strlen($className) > 0 && (int)($this->utilityFuncs::getSingle($tsConfig, 'disable')) !== 1) {
+                    $this->utilityFuncs::debugMessage('calling_class', [$className]);
                     $obj = $this->componentManager->getComponent($className);
                     if ($markAsSpam) {
                         $tsConfig['config.']['markAsSpam'] = 1;
@@ -45,7 +45,7 @@ abstract class AbstractInterceptor extends AbstractComponent
                     $obj->init($this->gp, $tsConfig['config.']);
                     $obj->process();
                 } else {
-                    $this->utilityFuncs->throwException('classesarray_error');
+                    $this->utilityFuncs::throwException('classesarray_error');
                 }
             }
         }

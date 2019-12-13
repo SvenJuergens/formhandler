@@ -70,7 +70,7 @@ class StdWrap extends AbstractInterceptor
                         if (!isset($fieldConf[$key . '.']['value'])) {
                             $fieldConf[$key . '.']['value'] = $fieldValue;
                         }
-                        $this->gp[$key] = $this->utilityFuncs->getSingle($fieldConf, $key);
+                        $this->gp[$key] = $this->utilityFuncs::getSingle($fieldConf, $key);
                     }
 
                     $this->globals->getCObj()->setCurrentVal($oldCurrentVal);

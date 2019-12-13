@@ -35,14 +35,14 @@ class SetLanguage extends AbstractFinisher
         if ($this->globals->getSession()->get('originalLanguage') === null) {
             $this->globals->getSession()->set('originalLanguage', $this->getTypoScriptFrontendController()->lang);
         }
-        $languageCode = $this->utilityFuncs->getSingle($this->settings, 'languageCode');
+        $languageCode = $this->utilityFuncs::getSingle($this->settings, 'languageCode');
         if ($languageCode) {
             $lang = strtolower($languageCode);
             $this->getTypoScriptFrontendController()->config['config']['language'] = $lang;
             $this->getTypoScriptFrontendController()->initLLvars();
-            $this->utilityFuncs->debugMessage('Language set to "' . $lang . '"!', [], 1);
+            $this->utilityFuncs::debugMessage('Language set to "' . $lang . '"!', [], 1);
         } else {
-            $this->utilityFuncs->debugMessage('Unable to set language! Language code set in TypoScript is empty!', [], 2);
+            $this->utilityFuncs::debugMessage('Unable to set language! Language code set in TypoScript is empty!', [], 2);
         }
         return $this->gp;
     }
@@ -57,13 +57,13 @@ class SetLanguage extends AbstractFinisher
         if (is_array($settings['finishers.'])) {
             $found = false;
             foreach ($settings['finishers.'] as $finisherConfig) {
-                $currentFinisherClass = $this->utilityFuncs->getPreparedClassName($finisherConfig);
-                if ($currentFinisherClass === $this->utilityFuncs->prepareClassName('\Typoheads\Formhandler\Finisher\RestoreLanguage')) {
+                $currentFinisherClass = $this->utilityFuncs::getPreparedClassName($finisherConfig);
+                if ($currentFinisherClass === $this->utilityFuncs::prepareClassName('\Typoheads\Formhandler\Finisher\RestoreLanguage')) {
                     $found = true;
                 }
             }
             if (!$found) {
-                $this->utilityFuncs->throwException('No Finisher_RestoreLanguage found in the TypoScript setup! You have to reset the language to the original value after you changed it using Finisher_SetLanguage');
+                $this->utilityFuncs::throwException('No Finisher_RestoreLanguage found in the TypoScript setup! You have to reset the language to the original value after you changed it using Finisher_SetLanguage');
             }
         }
         return $found;

@@ -32,8 +32,8 @@ class MinItems extends AbstractErrorCheck
         $checkFailed = '';
 
         if (isset($this->gp[$this->formFieldName])) {
-            $value = $this->utilityFuncs->getSingle($this->settings['params'], 'value');
-            $removeEmptyValues = $this->utilityFuncs->getSingle($this->settings['params'], 'removeEmptyValues');
+            $value = $this->utilityFuncs::getSingle($this->settings['params'], 'value');
+            $removeEmptyValues = $this->utilityFuncs::getSingle($this->settings['params'], 'removeEmptyValues');
             if (is_array($this->gp[$this->formFieldName])) {
                 $valuesArray = $this->gp[$this->formFieldName];
                 if ((int)$removeEmptyValues === 1) {

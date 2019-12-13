@@ -34,7 +34,7 @@ class CombineFields extends AbstractInterceptor
                 $newField = str_replace('.', '', $newField);
                 if (is_array($options['fields.'])) {
                     $this->gp[$newField] = $this->combineFields($options);
-                    $this->utilityFuncs->debugMessage('combined', [$newField, $this->gp[$newField]]);
+                    $this->utilityFuncs::debugMessage('combined', [$newField, $this->gp[$newField]]);
                 }
             }
         }
@@ -51,14 +51,14 @@ class CombineFields extends AbstractInterceptor
     {
         $separator = ' ';
         if (isset($options['separator'])) {
-            $separator = $this->utilityFuncs->getSingle($options, 'separator');
+            $separator = $this->utilityFuncs::getSingle($options, 'separator');
         }
         $fieldsArr = $options['fields.'];
         $combinedString = '';
         $stringsToCombine = [];
-        $hideEmptyValues = (int)($this->utilityFuncs->getSingle($options, 'hideEmptyValues'));
+        $hideEmptyValues = (int)($this->utilityFuncs::getSingle($options, 'hideEmptyValues'));
         foreach ($fieldsArr as $idx => $field) {
-            $value = $this->utilityFuncs->getGlobal($field, $this->gp);
+            $value = $this->utilityFuncs::getGlobal($field, $this->gp);
             if ($hideEmptyValues === 0 ||
                 ($hideEmptyValues === 1 && strlen($value) > 0)
             ) {

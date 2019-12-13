@@ -213,7 +213,7 @@ class ModuleController extends ActionController
                 ];
             }
             if ($filetype === 'pdf') {
-                $className = $this->utilityFuncs->getPreparedClassName(
+                $className = $this->utilityFuncs::getPreparedClassName(
                     $this->settings['pdf'],
                     '\Typoheads\Formhandler\Generator\BackendTcPdf'
                 );
@@ -224,7 +224,7 @@ class ModuleController extends ActionController
                 $generator->init([], $this->settings['pdf']['config']);
                 $generator->process();
             } elseif ($filetype === 'csv') {
-                $className = $this->utilityFuncs->getPreparedClassName(
+                $className = $this->utilityFuncs::getPreparedClassName(
                     $this->settings['csv'],
                     \Typoheads\Formhandler\Generator\BackendCsv::class
                 );

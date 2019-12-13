@@ -67,17 +67,17 @@ class IPBlocking extends AbstractInterceptor
      */
     public function process()
     {
-        $ipTimebaseValue = $this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'value');
-        $ipTimebaseUnit = $this->utilityFuncs->getSingle($this->settings['ip.']['timebase.'], 'unit');
-        $ipMaxValue = $this->utilityFuncs->getSingle($this->settings['ip.'], 'threshold');
+        $ipTimebaseValue = $this->utilityFuncs::getSingle($this->settings['ip.']['timebase.'], 'value');
+        $ipTimebaseUnit = $this->utilityFuncs::getSingle($this->settings['ip.']['timebase.'], 'unit');
+        $ipMaxValue = $this->utilityFuncs::getSingle($this->settings['ip.'], 'threshold');
 
         if ($ipTimebaseValue && $ipTimebaseUnit && $ipMaxValue) {
             $this->check($ipTimebaseValue, $ipTimebaseUnit, $ipMaxValue, true);
         }
 
-        $globalTimebaseValue = $this->utilityFuncs->getSingle($this->settings['global.']['timebase.'], 'value');
-        $globalTimebaseUnit = $this->utilityFuncs->getSingle($this->settings['global.']['timebase.'], 'unit');
-        $globalMaxValue = $this->utilityFuncs->getSingle($this->settings['global.'], 'threshold');
+        $globalTimebaseValue = $this->utilityFuncs::getSingle($this->settings['global.']['timebase.'], 'value');
+        $globalTimebaseUnit = $this->utilityFuncs::getSingle($this->settings['global.']['timebase.'], 'unit');
+        $globalMaxValue = $this->utilityFuncs::getSingle($this->settings['global.'], 'threshold');
 
         if ($globalTimebaseValue && $globalTimebaseUnit && $globalMaxValue) {
             $this->check($globalTimebaseValue, $globalTimebaseUnit, $globalMaxValue, false);
@@ -96,7 +96,7 @@ class IPBlocking extends AbstractInterceptor
      */
     private function check($value, $unit, $maxValue, $addIPToWhere = true)
     {
-        $timestamp = $this->utilityFuncs->getTimestamp($value, $unit);
+        $timestamp = $this->utilityFuncs::getTimestamp($value, $unit);
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->logTable);
         $queryBuilder->getRestrictions()->removeAll();
@@ -122,11 +122,11 @@ class IPBlocking extends AbstractInterceptor
             $message .= 'in the last ' . $value . ' ' . $unit . '!';
             if ($this->settings['report.']['email']) {
                 $rows = $stmt->fetchAll();
-                $intervalValue = $this->utilityFuncs->getSingle($this->settings['report.']['interval.'], 'value');
-                $intervalUnit = $this->utilityFuncs->getSingle($this->settings['report.']['interval.'], 'unit');
+                $intervalValue = $this->utilityFuncs::getSingle($this->settings['report.']['interval.'], 'value');
+                $intervalUnit = $this->utilityFuncs::getSingle($this->settings['report.']['interval.'], 'unit');
                 $send = false;
                 if ($intervalUnit && $intervalValue) {
-                    $intervalTstamp = $this->utilityFuncs->getTimestamp($intervalValue, $intervalUnit);
+                    $intervalTstamp = $this->utilityFuncs::getTimestamp($intervalValue, $intervalUnit);
                     $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
                         ->getQueryBuilderForTable($this->logTable);
                     $queryBuilder->getRestrictions()->removeAll();
@@ -156,11 +156,11 @@ class IPBlocking extends AbstractInterceptor
                         $this->sendReport('global', $rows);
                     }
                 } else {
-                    $this->utilityFuncs->debugMessage('alert_mail_not_sent', [], 2);
+                    $this->utilityFuncs::debugMessage('alert_mail_not_sent', [], 2);
                 }
             }
             if ($this->settings['redirectPage']) {
-                $this->utilityFuncs->doRedirectBasedOnSettings($this->settings, $this->gp);
+                $this->utilityFuncs::doRedirectBasedOnSettings($this->settings, $this->gp);
             } else {
                 throw new \Exception($message);
             }
@@ -175,10 +175,10 @@ class IPBlocking extends AbstractInterceptor
      */
     private function sendReport($type, $rows)
     {
-        $email = $this->utilityFuncs->getSingle($this->settings['report.'], 'email');
+        $email = $this->utilityFuncs::getSingle($this->settings['report.'], 'email');
         $email = GeneralUtility::trimExplode(',', $email);
-        $sender = $this->utilityFuncs->getSingle($this->settings['report.'], 'sender');
-        $subject = $this->utilityFuncs->getSingle($this->settings['report.'], 'subject');
+        $sender = $this->utilityFuncs::getSingle($this->settings['report.'], 'sender');
+        $subject = $this->utilityFuncs::getSingle($this->settings['report.'], 'subject');
 
         if ($type == 'ip') {
             $message = 'IP address "' . GeneralUtility::getIndpEnv('REMOTE_ADDR') . '" has submitted a form too many times!';
@@ -205,7 +205,7 @@ class IPBlocking extends AbstractInterceptor
         }
 
         //init mailer object
-        $emailClass = $this->utilityFuncs->getPreparedClassName($this->settings['mailer.'], 'Mailer\HtmlMail');
+        $emailClass = $this->utilityFuncs::getPreparedClassName($this->settings['mailer.'], 'Mailer\HtmlMail');
         $emailObj = $this->componentManager->getComponent($emailClass);
         $emailObj->init($this->gp, []);
 
@@ -217,15 +217,15 @@ class IPBlocking extends AbstractInterceptor
         //send e-mails
         $sent = $emailObj->send($email);
         if ($sent) {
-            $this->utilityFuncs->debugMessage('mail_sent', [$mailto]);
-            $this->utilityFuncs->debugMessage('mail_sender', [$emailObj->from_email]);
-            $this->utilityFuncs->debugMessage('mail_subject', [$emailObj->subject]);
-            $this->utilityFuncs->debugMessage('mail_message', [], 1, [$message]);
+            $this->utilityFuncs::debugMessage('mail_sent', [$mailto]);
+            $this->utilityFuncs::debugMessage('mail_sender', [$emailObj->from_email]);
+            $this->utilityFuncs::debugMessage('mail_subject', [$emailObj->subject]);
+            $this->utilityFuncs::debugMessage('mail_message', [], 1, [$message]);
         } else {
-            $this->utilityFuncs->debugMessage('mail_not_sent', [$mailto], 2);
-            $this->utilityFuncs->debugMessage('mail_sender', [$emailObj->from_email]);
-            $this->utilityFuncs->debugMessage('mail_subject', [$emailObj->subject]);
-            $this->utilityFuncs->debugMessage('mail_message', [], 1, [$message]);
+            $this->utilityFuncs::debugMessage('mail_not_sent', [$mailto], 2);
+            $this->utilityFuncs::debugMessage('mail_sender', [$emailObj->from_email]);
+            $this->utilityFuncs::debugMessage('mail_subject', [$emailObj->subject]);
+            $this->utilityFuncs::debugMessage('mail_message', [], 1, [$message]);
         }
     }
 

@@ -35,16 +35,16 @@ class GenerateAuthCode extends AbstractFinisher
     public function process()
     {
         $firstInsertInfo = [];
-        if ($this->utilityFuncs->getSingle($this->settings, 'uid')) {
-            $uidField = $this->utilityFuncs->getSingle($this->settings, 'uidField') ?: 'uid';
+        if ($this->utilityFuncs::getSingle($this->settings, 'uid')) {
+            $uidField = $this->utilityFuncs::getSingle($this->settings, 'uidField') ?: 'uid';
             $firstInsertInfo = [
-                'table' => $this->utilityFuncs->getSingle($this->settings, 'table'),
+                'table' => $this->utilityFuncs::getSingle($this->settings, 'table'),
                 'uidField' => $uidField,
-                'uid' => $this->utilityFuncs->getSingle($this->settings, 'uid')
+                'uid' => $this->utilityFuncs::getSingle($this->settings, 'uid')
             ];
         } elseif (is_array($this->gp['saveDB'])) {
             if (isset($this->settings['table'])) {
-                $table = $this->utilityFuncs->getSingle($this->settings, 'table');
+                $table = $this->utilityFuncs::getSingle($this->settings, 'table');
                 foreach ($this->gp['saveDB'] as $idx => $insertInfo) {
                     if ($insertInfo['table'] === $table) {
                         $firstInsertInfo = $insertInfo;
@@ -67,7 +67,7 @@ class GenerateAuthCode extends AbstractFinisher
 
             $selectFields = '*';
             if ($this->settings['selectFields']) {
-                $selectFields = $this->utilityFuncs->getSingle($this->settings, 'selectFields');
+                $selectFields = $this->utilityFuncs::getSingle($this->settings, 'selectFields');
             }
             $row = $conn->select(explode(',', $selectFields), $table, [$uidField => $uid])->fetch();
             if (!empty($row)) {
@@ -77,9 +77,9 @@ class GenerateAuthCode extends AbstractFinisher
                 // looking for the page, which should be used for the authCode Link
                 // first look for TS-setting 'authCodePage', second look for redirect_page-setting, third use actual page
                 if (isset($this->settings['authCodePage'])) {
-                    $authCodePage = $this->utilityFuncs->getSingle($this->settings, 'authCodePage');
+                    $authCodePage = $this->utilityFuncs::getSingle($this->settings, 'authCodePage');
                 } else {
-                    $authCodePage = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], 'redirect_page', 'sMISC');
+                    $authCodePage = $this->utilityFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'], 'redirect_page', 'sMISC');
                 }
                 if (!$authCodePage) {
                     $authCodePage = $this->getTypoScriptFrontendController()->id;
@@ -89,7 +89,7 @@ class GenerateAuthCode extends AbstractFinisher
                 $paramsArray = array_merge($firstInsertInfo, ['authCode' => $authCode]);
 
                 if ($this->settings['excludeParams']) {
-                    $excludeParams = GeneralUtility::trimExplode(',', $this->utilityFuncs->getSingle($this->settings, 'excludeParams'));
+                    $excludeParams = GeneralUtility::trimExplode(',', $this->utilityFuncs::getSingle($this->settings, 'excludeParams'));
                     foreach ($excludeParams as $param) {
                         if (isset($paramsArray[$param])) {
                             unset($paramsArray[$param]);
@@ -99,7 +99,7 @@ class GenerateAuthCode extends AbstractFinisher
 
                 // If we have set a formValuesPrefix, add it to the parameter-array
                 if ($this->settings['customFormValuesPrefix']) {
-                    $formValuesPrefix = $this->utilityFuncs->getSingle($this->settings, 'customFormValuesPrefix');
+                    $formValuesPrefix = $this->utilityFuncs::getSingle($this->settings, 'customFormValuesPrefix');
                 } else {
                     $formValuesPrefix = $this->globals->getFormValuesPrefix();
                 }

@@ -55,7 +55,7 @@ abstract class AbstractErrorCheck extends AbstractComponent
         if (is_array($this->settings['params'])) {
             $checkFailed .= ';';
             foreach ($this->settings['params'] as $key => $value) {
-                $checkFailed .= $key . '::' . $this->utilityFuncs->getSingle($this->settings['params'], $key) . ';';
+                $checkFailed .= $key . '::' . $this->utilityFuncs::getSingle($this->settings['params'], $key) . ';';
             }
             $checkFailed = substr($checkFailed, 0, (strlen($checkFailed) - 1));
         }
@@ -66,16 +66,16 @@ abstract class AbstractErrorCheck extends AbstractComponent
     {
         $valid = true;
         if (!$this->formFieldName) {
-            $this->utilityFuncs->throwException('error_checks_form_field_name_missing', $this->settings['check']);
+            $this->utilityFuncs::throwException('error_checks_form_field_name_missing', $this->settings['check']);
         }
 
         if (!empty($this->mandatoryParameters)) {
             if (!$this->settings['params']) {
-                $this->utilityFuncs->throwException('error_checks_parameters_missing', $this->settings['check'], implode(',', $this->mandatoryParameters));
+                $this->utilityFuncs::throwException('error_checks_parameters_missing', $this->settings['check'], implode(',', $this->mandatoryParameters));
             }
             foreach ($this->mandatoryParameters as $param) {
                 if (!isset($this->settings['params'][$param])) {
-                    $this->utilityFuncs->throwException('error_checks_unsufficient_parameters', $param, $this->settings['check']);
+                    $this->utilityFuncs::throwException('error_checks_unsufficient_parameters', $param, $this->settings['check']);
                 }
             }
         }

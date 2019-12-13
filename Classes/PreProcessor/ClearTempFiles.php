@@ -41,8 +41,8 @@ class ClearTempFiles extends AbstractPreProcessor
      */
     public function process()
     {
-        $olderThanValue = $this->utilityFuncs->getSingle($this->settings['clearTempFilesOlderThan.'], 'value');
-        $olderThanUnit = $this->utilityFuncs->getSingle($this->settings['clearTempFilesOlderThan.'], 'unit');
+        $olderThanValue = $this->utilityFuncs::getSingle($this->settings['clearTempFilesOlderThan.'], 'value');
+        $olderThanUnit = $this->utilityFuncs::getSingle($this->settings['clearTempFilesOlderThan.'], 'unit');
         if (strlen($olderThanValue) > 0 && is_numeric($olderThanValue)) {
             $this->clearTempFiles($olderThanValue, $olderThanUnit);
         }
@@ -63,21 +63,21 @@ class ClearTempFiles extends AbstractPreProcessor
             return;
         }
 
-        $uploadFolders = $this->utilityFuncs->getAllTempUploadFolders();
+        $uploadFolders = $this->utilityFuncs::getAllTempUploadFolders();
 
         foreach ($uploadFolders as $uploadFolder) {
 
             //build absolute path to upload folder
-            $path = $this->utilityFuncs->getDocumentRoot() . $uploadFolder;
-            $path = $this->utilityFuncs->sanitizePath($path);
+            $path = $this->utilityFuncs::getDocumentRoot() . $uploadFolder;
+            $path = $this->utilityFuncs::sanitizePath($path);
 
             //read files in directory
             $tmpFiles = GeneralUtility::getFilesInDir($path);
 
-            $this->utilityFuncs->debugMessage('cleaning_temp_files', [$path]);
+            $this->utilityFuncs::debugMessage('cleaning_temp_files', [$path]);
 
             //calculate threshold timestamp
-            $threshold = $this->utilityFuncs->getTimestamp($olderThanValue, $olderThanUnit);
+            $threshold = $this->utilityFuncs::getTimestamp($olderThanValue, $olderThanUnit);
 
             //for all files in temp upload folder
             foreach ($tmpFiles as $idx => $file) {
@@ -91,7 +91,7 @@ class ClearTempFiles extends AbstractPreProcessor
 
                 if ($creationTime < $threshold) {
                     unlink($path . $file);
-                    $this->utilityFuncs->debugMessage('deleting_file', [$file]);
+                    $this->utilityFuncs::debugMessage('deleting_file', [$file]);
                 }
             }
         }

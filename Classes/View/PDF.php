@@ -66,7 +66,7 @@ class PDF extends Form
     {
         $this->disableEncodingFields = [];
         if ($this->settings['disableEncodingFields']) {
-            $this->disableEncodingFields = explode(',', $this->utilityFuncs->getSingle($this->settings, 'disableEncodingFields'));
+            $this->disableEncodingFields = explode(',', $this->utilityFuncs::getSingle($this->settings, 'disableEncodingFields'));
         }
         $markers = $this->getValueMarkers($this->gp);
 

@@ -97,7 +97,7 @@ class DB extends AbstractFinisher
      */
     public function process()
     {
-        $this->utilityFuncs->debugMessage('data_stored');
+        $this->utilityFuncs::debugMessage('data_stored');
 
         //set fields to insert/update
         $queryFields = $this->parseFields();
@@ -162,7 +162,7 @@ class DB extends AbstractFinisher
             //check if uid of record to update is in GP
             $uid = $this->getUpdateUid();
 
-            $andWhere = $this->utilityFuncs->getSingle($this->settings, 'andWhere');
+            $andWhere = $this->utilityFuncs::getSingle($this->settings, 'andWhere');
             $isSuccess = $this->doUpdate($uid, $queryFields, $andWhere);
         }
 
@@ -184,7 +184,7 @@ class DB extends AbstractFinisher
             $queryBuilder->expr()->eq($this->key, $queryBuilder->createNamedParameter($uid))
         );
 
-        $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
+        $andWhere = $this->utilityFuncs::prepareAndWhereString($andWhere);
         $andWhere = QueryHelper::stripLogicalOperatorPrefix($andWhere);
         if (!empty($andWhere)) {
             $queryBuilder->andWhere($andWhere);
@@ -205,10 +205,10 @@ class DB extends AbstractFinisher
             $queryBuilder->set($k, $v);
         }
 
-        $this->utilityFuncs->debugMessage('sql_request', [$queryBuilder->getSQL()]);
+        $this->utilityFuncs::debugMessage('sql_request', [$queryBuilder->getSQL()]);
         $stmt = $queryBuilder->execute();
         if ($stmt->errorInfo()) {
-            $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
+            $this->utilityFuncs::debugMessage('error', [$stmt->errorInfo()], 3);
             return false;
         }
         return true;
@@ -228,18 +228,18 @@ class DB extends AbstractFinisher
             $queryBuilder->expr()->eq($this->key, $queryBuilder->createNamedParameter($uid))
         );
 
-        $andWhere = $this->utilityFuncs->prepareAndWhereString($andWhere);
+        $andWhere = $this->utilityFuncs::prepareAndWhereString($andWhere);
         $andWhere = QueryHelper::stripLogicalOperatorPrefix($andWhere);
         if (!empty($andWhere)) {
             $queryBuilder->andWhere($andWhere);
         }
 
         $query = $queryBuilder->getSQL();
-        $this->utilityFuncs->debugMessage('sql_request', [$query]);
+        $this->utilityFuncs::debugMessage('sql_request', [$query]);
 
         $stmt = $queryBuilder->execute();
         if ($stmt->errorInfo()) {
-            $this->utilityFuncs->debugMessage('error', [$stmt->errorInfo()], 3);
+            $this->utilityFuncs::debugMessage('error', [$stmt->errorInfo()], 3);
             return false;
         }
         return true;
@@ -253,36 +253,36 @@ class DB extends AbstractFinisher
         parent::init($gp, $settings);
 
         //set table
-        $this->table = $this->utilityFuncs->getSingle($this->settings, 'table');
+        $this->table = $this->utilityFuncs::getSingle($this->settings, 'table');
         if (!$this->table) {
-            $this->utilityFuncs->throwException('no_table', '\\Typoheads\\Formhandler\\Finisher\\DB');
+            $this->utilityFuncs::throwException('no_table', '\\Typoheads\\Formhandler\\Finisher\\DB');
             return;
         }
 
         if (!is_array($this->settings['fields.'])) {
-            $this->utilityFuncs->throwException('no_fields', '\\Typoheads\\Formhandler\\Finisher\\DB');
+            $this->utilityFuncs::throwException('no_fields', '\\Typoheads\\Formhandler\\Finisher\\DB');
             return;
         }
 
         //set primary key field
-        $this->key = $this->utilityFuncs->getSingle($this->settings, 'key');
+        $this->key = $this->utilityFuncs::getSingle($this->settings, 'key');
         if (strlen($this->key) === 0) {
             $this->key = 'uid';
         }
 
         //check whether to update or to insert a record
         $this->doUpdate = false;
-        if ((int)($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert')) === 1) {
+        if ((int)($this->utilityFuncs::getSingle($this->settings, 'updateInsteadOfInsert')) === 1) {
 
             //check if uid of record to update is in GP
             $uid = $this->getUpdateUid();
 
-            $andWhere = $this->utilityFuncs->getSingle($this->settings, 'andWhere');
+            $andWhere = $this->utilityFuncs::getSingle($this->settings, 'andWhere');
             $recordExists = $this->doesRecordExist($uid, $andWhere);
             if ($recordExists) {
                 $this->doUpdate = true;
-            } elseif ((int)($this->utilityFuncs->getSingle($this->settings, 'insertIfNoUpdatePossible')) !== 1) {
-                $this->utilityFuncs->debugMessage('no_update_possible', [], 2);
+            } elseif ((int)($this->utilityFuncs::getSingle($this->settings, 'insertIfNoUpdatePossible')) !== 1) {
+                $this->utilityFuncs::debugMessage('no_update_possible', [], 2);
             }
         }
     }
@@ -309,29 +309,29 @@ class DB extends AbstractFinisher
                         $mapping = $fieldname;
                     }
 
-                    $fieldValue = $this->utilityFuncs->getGlobal($mapping, $this->gp);
+                    $fieldValue = $this->utilityFuncs::getGlobal($mapping, $this->gp);
 
                     //pre process the field value. e.g. to format a date
                     if (isset($options['preProcessing.']) && is_array($options['preProcessing.'])) {
                         if (!isset($options['preProcessing.']['value'])) {
                             $options['preProcessing.']['value'] = $fieldValue;
                         }
-                        $fieldValue = $this->utilityFuncs->getSingle($options, 'preProcessing');
+                        $fieldValue = $this->utilityFuncs::getSingle($options, 'preProcessing');
                     }
 
                     if (isset($options['mapping.']) && is_array($options['mapping.'])) {
                         if (!isset($options['mapping.']['value'])) {
                             $options['mapping.']['value'] = $fieldValue;
                         }
-                        $fieldValue = $this->utilityFuncs->getSingle($options, 'mapping');
+                        $fieldValue = $this->utilityFuncs::getSingle($options, 'mapping');
                     }
 
                     //process empty value handling
                     if (isset($options['ifIsEmpty']) && strlen($fieldValue) === 0) {
-                        $fieldValue = $this->utilityFuncs->getSingle($options, 'ifIsEmpty');
+                        $fieldValue = $this->utilityFuncs::getSingle($options, 'ifIsEmpty');
                     }
 
-                    if ((int)($this->utilityFuncs->getSingle($options, 'zeroIfEmpty')) === 1 && strlen($fieldValue) === 0) {
+                    if ((int)($this->utilityFuncs::getSingle($options, 'zeroIfEmpty')) === 1 && strlen($fieldValue) === 0) {
                         $fieldValue = 0;
                     }
 
@@ -339,7 +339,7 @@ class DB extends AbstractFinisher
                     if (is_array($fieldValue)) {
                         $separator = ',';
                         if ($options['separator']) {
-                            $separator = $this->utilityFuncs->getSingle($options, 'separator');
+                            $separator = $this->utilityFuncs::getSingle($options, 'separator');
                         }
                         $fieldValue = implode($separator, $fieldValue);
                     }
@@ -352,7 +352,7 @@ class DB extends AbstractFinisher
                 } else {
                     switch ($options['special']) {
                         case 'saltedpassword':
-                            $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
+                            $field = $this->utilityFuncs::getSingle($options['special.'], 'field');
 
                             $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
                             $encryptedPassword = $hashInstance->getHashedPassword($this->gp[$field]);
@@ -360,16 +360,16 @@ class DB extends AbstractFinisher
                             $fieldValue = $encryptedPassword;
                             break;
                         case 'files':
-                            $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
+                            $field = $this->utilityFuncs::getSingle($options['special.'], 'field');
                             if (isset($options['special.']['separator'])) {
-                                $separator = $this->utilityFuncs->getSingle($options['special.'], 'separator');
+                                $separator = $this->utilityFuncs::getSingle($options['special.'], 'separator');
                             } else {
                                 $separator = ',';
                             }
 
                             $filesArray = [];
                             if (isset($options['special.']['info'])) {
-                                $info = $this->utilityFuncs->getSingle($options['special.'], 'info');
+                                $info = $this->utilityFuncs::getSingle($options['special.'], 'info');
                             } else {
                                 $info = '[uploaded_name]';
                             }
@@ -384,7 +384,7 @@ class DB extends AbstractFinisher
                                 }
                             }
                             if (isset($options['special.']['index'])) {
-                                $index = $this->utilityFuncs->getSingle($options['special.'], 'index');
+                                $index = $this->utilityFuncs::getSingle($options['special.'], 'index');
                                 if (isset($filesArray[$index])) {
                                     $fieldValue = $filesArray[$index];
                                 }
@@ -393,36 +393,36 @@ class DB extends AbstractFinisher
                             }
                             break;
                         case 'date':
-                            $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
+                            $field = $this->utilityFuncs::getSingle($options['special.'], 'field');
                             $date = $this->gp[$field];
                             $dateFormat = 'Y-m-d';
                             if ($options['special.']['dateFormat']) {
-                                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
+                                $dateFormat = $this->utilityFuncs::getSingle($options['special.'], 'dateFormat');
                             } elseif ($options['special.']['format']) {
-                                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
+                                $dateFormat = $this->utilityFuncs::getSingle($options['special.'], 'format');
                             }
-                            $fieldValue = $this->utilityFuncs->dateToTimestamp($date, $dateFormat);
+                            $fieldValue = $this->utilityFuncs::dateToTimestamp($date, $dateFormat);
                             break;
                         case 'datetime':
                             if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-                                $this->utilityFuncs->throwException('error_datetime');
+                                $this->utilityFuncs::throwException('error_datetime');
                             }
-                            $field = $this->utilityFuncs->getSingle($options['special.'], 'field');
+                            $field = $this->utilityFuncs::getSingle($options['special.'], 'field');
                             $date = $this->gp[$field];
                             $dateFormat = 'Y-m-d H:i:s';
                             if ($options['special.']['dateFormat']) {
-                                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
+                                $dateFormat = $this->utilityFuncs::getSingle($options['special.'], 'dateFormat');
                             } elseif ($options['special.']['format']) {
-                                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
+                                $dateFormat = $this->utilityFuncs::getSingle($options['special.'], 'format');
                             }
-                            $fieldValue = $this->utilityFuncs->dateToTimestamp($date, $dateFormat);
+                            $fieldValue = $this->utilityFuncs::dateToTimestamp($date, $dateFormat);
                             break;
                         case 'sub_datetime':
                             $dateFormat = 'Y-m-d H:i:s';
                             if ($options['special.']['dateFormat']) {
-                                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'dateFormat');
+                                $dateFormat = $this->utilityFuncs::getSingle($options['special.'], 'dateFormat');
                             } elseif ($options['special.']['format']) {
-                                $dateFormat = $this->utilityFuncs->getSingle($options['special.'], 'format');
+                                $dateFormat = $this->utilityFuncs::getSingle($options['special.'], 'format');
                             }
                             $fieldValue = date($dateFormat, time());
                             break;
@@ -433,7 +433,7 @@ class DB extends AbstractFinisher
                             $fieldValue = GeneralUtility::getIndpEnv('REMOTE_ADDR');
                             break;
                         case 'inserted_uid':
-                            $table = $this->utilityFuncs->getSingle($options['special.'], 'table');
+                            $table = $this->utilityFuncs::getSingle($options['special.'], 'table');
                             if (is_array($this->gp['saveDB'])) {
                                 foreach ($this->gp['saveDB'] as $idx => $info) {
                                     if ($info['table'] === $table) {
@@ -453,12 +453,12 @@ class DB extends AbstractFinisher
                 if (!isset($options['postProcessing.']['value'])) {
                     $options['postProcessing.']['value'] = $fieldValue;
                 }
-                $fieldValue = $this->utilityFuncs->getSingle($options, 'postProcessing');
+                $fieldValue = $this->utilityFuncs::getSingle($options, 'postProcessing');
             }
 
             $queryFields[$fieldname] = $fieldValue;
 
-            if ((int)($this->utilityFuncs->getSingle($options, 'nullIfEmpty')) === 1 && strlen($queryFields[$fieldname]) == 0) {
+            if ((int)($this->utilityFuncs::getSingle($options, 'nullIfEmpty')) === 1 && strlen($queryFields[$fieldname]) == 0) {
                 unset($queryFields[$fieldname]);
             }
         }
@@ -494,8 +494,8 @@ class DB extends AbstractFinisher
      */
     protected function getUpdateUid()
     {
-        $uid = $this->utilityFuncs->getSingle($this->settings, 'key_value');
-        $disableFallback = ((int)($this->utilityFuncs->getSingle($this->settings, 'disableUpdateUidFallback')) === 1);
+        $uid = $this->utilityFuncs::getSingle($this->settings, 'key_value');
+        $disableFallback = ((int)($this->utilityFuncs::getSingle($this->settings, 'disableUpdateUidFallback')) === 1);
         if (!$disableFallback) {
             if (!$uid) {
                 $uid = $this->gp[$this->key];

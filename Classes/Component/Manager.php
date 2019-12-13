@@ -62,7 +62,7 @@ class Manager implements SingletonInterface
      */
     public function getComponent($componentName)
     {
-        $componentName = $this->utilityFuncs->prepareClassName($componentName);
+        $componentName = $this->utilityFuncs::prepareClassName($componentName);
         //Avoid component manager creating multiple instances of itself
         if (get_class($this) === $componentName) {
             return $this;

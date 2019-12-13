@@ -32,7 +32,7 @@ class FileAllowedTypes extends AbstractErrorCheck
     public function check()
     {
         $checkFailed = '';
-        $allowed = $this->utilityFuncs->getSingle($this->settings['params'], 'allowedTypes');
+        $allowed = $this->utilityFuncs::getSingle($this->settings['params'], 'allowedTypes');
         foreach ($_FILES as $sthg => &$files) {
             if (!is_array($files['name'][$this->formFieldName])) {
                 $files['name'][$this->formFieldName] = [$files['name'][$this->formFieldName]];

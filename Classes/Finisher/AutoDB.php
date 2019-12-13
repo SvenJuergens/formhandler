@@ -64,7 +64,7 @@ class AutoDB extends DB
         $this->settings = $settings;
         parent::init($gp, $settings);
         if ($this->settings['newFieldsSqlAttribs']) {
-            $this->newFieldsSqlAttribs = $this->utilityFuncs->getSingle($this->settings, 'newFieldsSqlAttribs');
+            $this->newFieldsSqlAttribs = $this->utilityFuncs::getSingle($this->settings, 'newFieldsSqlAttribs');
         }
     }
 
@@ -73,7 +73,7 @@ class AutoDB extends DB
      */
     protected function parseFields()
     {
-        $doAutoCreate = (int)($this->utilityFuncs->getSingle($this->settings, 'newFieldsSqlAttribs'));
+        $doAutoCreate = (int)($this->utilityFuncs::getSingle($this->settings, 'newFieldsSqlAttribs'));
         if ($doAutoCreate === 1 && $this->getTypoScriptFrontendController()->beUserLogin) {
             $this->createTable();
         }
@@ -143,7 +143,7 @@ class AutoDB extends DB
     protected function createTable()
     {
         $fields = $this->getFormFields();
-        $excludeFields = trim($this->utilityFuncs->getSingle($this->settings, 'excludeFields'));
+        $excludeFields = trim($this->utilityFuncs::getSingle($this->settings, 'excludeFields'));
         if (strlen($excludeFields) > 0) {
             $excludes = GeneralUtility::trimExplode(',', $excludeFields);
             foreach ($excludes as $exclude) {

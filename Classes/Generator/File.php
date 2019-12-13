@@ -30,25 +30,25 @@ class File extends AbstractGenerator
         $view = $this->componentManager->getComponent('Typoheads\Formhandler\View\File');
         $this->filename = false;
         if ((int)($this->settings['storeInTempFile']) === 1) {
-            $this->outputPath = $this->utilityFuncs->getDocumentRoot();
+            $this->outputPath = $this->utilityFuncs::getDocumentRoot();
             if ($this->settings['customTempOutputPath']) {
-                $this->outputPath .= $this->utilityFuncs->sanitizePath($this->settings['customTempOutputPath']);
+                $this->outputPath .= $this->utilityFuncs::sanitizePath($this->settings['customTempOutputPath']);
             } else {
                 $this->outputPath .= '/typo3temp/';
             }
-            $this->filename = $this->outputPath . $this->settings['filePrefix'] . $this->utilityFuncs->generateHash() . '.xml';
+            $this->filename = $this->outputPath . $this->settings['filePrefix'] . $this->utilityFuncs::generateHash() . '.xml';
         }
 
-        $this->filenameOnly = $this->utilityFuncs->getSingle($this->settings, 'staticFileName');
+        $this->filenameOnly = $this->utilityFuncs::getSingle($this->settings, 'staticFileName');
         if (strlen($this->filenameOnly) === 0) {
             $this->filenameOnly = basename($this->filename);
         }
 
-        $this->formhandlerSettings = $this->globals->getSettings();
+        $this->formhandlerSettings = $this->globals::getSettings();
         $suffix = $this->formhandlerSettings['templateSuffix'];
-        $this->templateCode = $this->utilityFuncs->readTemplateFile(false, $this->formhandlerSettings);
+        $this->templateCode = $this->utilityFuncs::readTemplateFile(false, $this->formhandlerSettings);
         if ($this->settings['templateFile']) {
-            $this->templateCode = $this->utilityFuncs->readTemplateFile(false, $this->settings);
+            $this->templateCode = $this->utilityFuncs::readTemplateFile(false, $this->settings);
         }
         if ($suffix) {
             $view->setTemplate($this->templateCode, 'FILE' . $suffix);
@@ -57,14 +57,14 @@ class File extends AbstractGenerator
             $view->setTemplate($this->templateCode, 'FILE');
         }
         if (!$view->hasTemplate()) {
-            $this->utilityFuncs->throwException('No FILE template found');
+            $this->utilityFuncs::throwException('No FILE template found');
         }
 
         $view->setComponentSettings($this->settings);
         $content = $view->render($this->gp, []);
 
         $returns = $this->settings['returnFileName'];
-        $contentType = $this->utilityFuncs->getSingle($this->settings, 'contentType');
+        $contentType = $this->utilityFuncs::getSingle($this->settings, 'contentType');
         if (!$contentType) {
             $contentType = 'text/plain';
         }
@@ -76,7 +76,7 @@ class File extends AbstractGenerator
             if ($returns) {
                 return $downloadpath;
             }
-            $downloadpath = str_replace($this->utilityFuncs->getDocumentRoot(), '', $downloadpath);
+            $downloadpath = str_replace($this->utilityFuncs::getDocumentRoot(), '', $downloadpath);
             header('Content-type: ' . $contentType);
             header('Location: ' . $downloadpath);
             exit;
@@ -90,7 +90,7 @@ class File extends AbstractGenerator
 
     protected function getComponentLinkParams($linkGP)
     {
-        $prefix = $this->globals->getFormValuesPrefix();
+        $prefix = $this->globals::getFormValuesPrefix();
         $tempParams = ['action' => 'file'];
         $params = [];
 

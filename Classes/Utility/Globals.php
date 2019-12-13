@@ -14,6 +14,7 @@ namespace Typoheads\Formhandler\Utility;
 * Public License for more details.                                       *
 *                                                                        */
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * A helper class for Formhandler to store global values
@@ -22,6 +23,9 @@ class Globals implements SingletonInterface
 {
     protected static $ajaxHandler;
     protected static $ajaxMode;
+    /**
+     * @var ContentObjectRenderer
+     */
     protected static $cObj;
     protected static $debuggers;
     protected static $formID;

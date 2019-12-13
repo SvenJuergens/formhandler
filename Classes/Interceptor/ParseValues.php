@@ -33,7 +33,7 @@ class ParseValues extends AbstractInterceptor
     {
 
         //parse as float
-        $parseFloatFields = $this->utilityFuncs->getSingle($this->settings, 'parseFloatFields');
+        $parseFloatFields = $this->utilityFuncs::getSingle($this->settings, 'parseFloatFields');
         $fields = GeneralUtility::trimExplode(',', $parseFloatFields, true);
         $this->parseFloats($fields);
 

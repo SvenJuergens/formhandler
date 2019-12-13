@@ -28,10 +28,10 @@ class TYPO3 extends AbstractSession
     public function set($key, $value)
     {
         $data = $this->getTypoScriptFrontendController()->fe_user->getKey('ses', 'formhandler');
-        if (!is_array($data[$this->globals->getRandomID()])) {
-            $data[$this->globals->getRandomID()] = [];
+        if (!is_array($data[$this->globals::getRandomID()])) {
+            $data[$this->globals::getRandomID()] = [];
         }
-        $data[$this->globals->getRandomID()][$key] = $value;
+        $data[$this->globals::getRandomID()][$key] = $value;
         $this->getTypoScriptFrontendController()->fe_user->setKey('ses', 'formhandler', $data);
         $this->getTypoScriptFrontendController()->fe_user->storeSessionData();
     }
@@ -43,12 +43,12 @@ class TYPO3 extends AbstractSession
     {
         if (is_array($values) && !empty($values)) {
             $data = $this->getTypoScriptFrontendController()->fe_user->getKey('ses', 'formhandler');
-            if (!is_array($data[$this->globals->getRandomID()])) {
-                $data[$this->globals->getRandomID()] = [];
+            if (!is_array($data[$this->globals::getRandomID()])) {
+                $data[$this->globals::getRandomID()] = [];
             }
 
             foreach ($values as $key => $value) {
-                $data[$this->globals->getRandomID()][$key] = $value;
+                $data[$this->globals::getRandomID()][$key] = $value;
             }
 
             $this->getTypoScriptFrontendController()->fe_user->setKey('ses', 'formhandler', $data);
@@ -62,10 +62,10 @@ class TYPO3 extends AbstractSession
     public function get($key)
     {
         $data = $this->getTypoScriptFrontendController()->fe_user->getKey('ses', 'formhandler');
-        if (!is_array($data[$this->globals->getRandomID()])) {
-            $data[$this->globals->getRandomID()] = [];
+        if (!is_array($data[$this->globals::getRandomID()])) {
+            $data[$this->globals::getRandomID()] = [];
         }
-        return $data[$this->globals->getRandomID()][$key];
+        return $data[$this->globals::getRandomID()][$key];
     }
 
     /* (non-PHPdoc)
@@ -74,7 +74,7 @@ class TYPO3 extends AbstractSession
     public function exists()
     {
         $data = $this->getTypoScriptFrontendController()->fe_user->getKey('ses', 'formhandler');
-        return is_array($data[$this->globals->getRandomID()]);
+        return is_array($data[$this->globals::getRandomID()]);
     }
 
     /* (non-PHPdoc)
@@ -83,7 +83,7 @@ class TYPO3 extends AbstractSession
     public function reset()
     {
         $data = $this->getTypoScriptFrontendController()->fe_user->getKey('ses', 'formhandler');
-        unset($data[$this->globals->getRandomID()]);
+        unset($data[$this->globals::getRandomID()]);
         $this->getTypoScriptFrontendController()->fe_user->setKey('ses', 'formhandler', $data);
         $this->getTypoScriptFrontendController()->fe_user->storeSessionData();
     }
@@ -96,7 +96,7 @@ class TYPO3 extends AbstractSession
         $data = $this->getTypoScriptFrontendController()->fe_user->getKey('ses', 'formhandler');
         if (is_array($data)) {
             foreach ($data as $hashedID => $sesData) {
-                if (!$this->gp['submitted'] && $this->globals->getFormValuesPrefix() === $sesData['formValuesPrefix'] && $sesData['creationTstamp'] < $threshold) {
+                if (!$this->gp['submitted'] && $this->globals::getFormValuesPrefix() === $sesData['formValuesPrefix'] && $sesData['creationTstamp'] < $threshold) {
                     unset($data[$hashedID]);
                 }
             }

@@ -36,7 +36,7 @@ abstract class AbstractGenerator extends AbstractComponent
         $params = $this->getDefaultLinkParams();
         $componentParams = $this->getComponentLinkParams($linkGP);
         if (is_array($componentParams)) {
-            $params = $this->utilityFuncs->mergeConfiguration($params, $componentParams);
+            $params = $this->utilityFuncs::mergeConfiguration($params, $componentParams);
         }
         return $this->cObj->getTypolink($text, $this->getTypoScriptFrontendController()->id, $params, $this->getLinkTarget());
     }
@@ -48,10 +48,10 @@ abstract class AbstractGenerator extends AbstractComponent
      */
     protected function getDefaultLinkParams()
     {
-        $prefix = $this->globals->getFormValuesPrefix();
+        $prefix = $this->globals::getFormValuesPrefix();
         $tempParams = [
-            'tstamp' => $this->globals->getSession()->get('inserted_tstamp'),
-            'hash' => $this->globals->getSession()->get('unique_hash')
+            'tstamp' => $this->globals::getSession()->get('inserted_tstamp'),
+            'hash' => $this->globals::getSession()->get('unique_hash')
         ];
         $params = [];
         if ($prefix) {
@@ -64,7 +64,7 @@ abstract class AbstractGenerator extends AbstractComponent
             foreach ($this->settings['additionalParams.'] as $param => $value) {
                 if (false === strpos($param, '.')) {
                     if (is_array($this->settings['additionalParams.'][$param . '.'])) {
-                        $value = $this->utilityFuncs->getSingle($this->settings['additionalParams.'], $param);
+                        $value = $this->utilityFuncs::getSingle($this->settings['additionalParams.'], $param);
                     }
                     $params[$param] = $value;
                 }
@@ -88,7 +88,7 @@ abstract class AbstractGenerator extends AbstractComponent
      */
     protected function getLinkText()
     {
-        $text = $this->utilityFuncs->getSingle($this->settings, 'linkText');
+        $text = $this->utilityFuncs::getSingle($this->settings, 'linkText');
         if (strlen($text) === 0) {
             $text = 'Save';
         }
@@ -102,7 +102,7 @@ abstract class AbstractGenerator extends AbstractComponent
      */
     protected function getLinkTarget()
     {
-        $target = $this->utilityFuncs->getSingle($this->settings, 'linkTarget');
+        $target = $this->utilityFuncs::getSingle($this->settings, 'linkTarget');
         if (strlen($target) === 0) {
             $target = '_self';
         }

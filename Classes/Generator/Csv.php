@@ -34,7 +34,7 @@ class Csv extends AbstractGenerator
     public function process()
     {
         $params = $this->gp;
-        $exportParams = $this->utilityFuncs->getSingle($this->settings, 'exportParams');
+        $exportParams = $this->utilityFuncs::getSingle($this->settings, 'exportParams');
         if (!is_array($exportParams) && strpos($exportParams, ',') !== false) {
             $exportParams = GeneralUtility::trimExplode(',', $exportParams);
         }
@@ -57,22 +57,22 @@ class Csv extends AbstractGenerator
         $data = [$params];
 
         $fields = false;
-        if ((int)($this->utilityFuncs->getSingle($this->settings, 'addFieldNames')) === 1) {
+        if ((int)($this->utilityFuncs::getSingle($this->settings, 'addFieldNames')) === 1) {
             $fields = array_keys($params);
             $csv->heading = true;
         }
 
         if ($this->settings['delimiter']) {
-            $csv->delimiter = $csv->output_delimiter = $this->utilityFuncs->getSingle($this->settings, 'delimiter');
+            $csv->delimiter = $csv->output_delimiter = $this->utilityFuncs::getSingle($this->settings, 'delimiter');
         }
         if ($this->settings['enclosure']) {
-            $csv->enclosure = $this->utilityFuncs->getSingle($this->settings, 'enclosure');
+            $csv->enclosure = $this->utilityFuncs::getSingle($this->settings, 'enclosure');
         }
-        $inputEncoding = $this->utilityFuncs->getSingle($this->settings, 'inputEncoding');
+        $inputEncoding = $this->utilityFuncs::getSingle($this->settings, 'inputEncoding');
         if (strlen(trim($inputEncoding)) === 0) {
             $inputEncoding = 'utf-8';
         }
-        $outputEncoding = $this->utilityFuncs->getSingle($this->settings, 'outputEncoding');
+        $outputEncoding = $this->utilityFuncs::getSingle($this->settings, 'outputEncoding');
         if (strlen(trim($outputEncoding)) === 0) {
             $outputEncoding = 'utf-8';
         }
@@ -84,14 +84,14 @@ class Csv extends AbstractGenerator
             $csv->convert_encoding = true;
         }
         if ((int)($this->settings['returnFileName']) === 1 || (int)($this->settings['returnGP']) === 1) {
-            $outputPath = $this->utilityFuncs->getDocumentRoot();
+            $outputPath = $this->utilityFuncs::getDocumentRoot();
             if ($this->settings['customTempOutputPath']) {
                 $outputPath .= $this->settings['customTempOutputPath'];
             } else {
                 $outputPath .= '/typo3temp/';
             }
-            $outputPath = $this->utilityFuncs->sanitizePath($outputPath);
-            $filename = $outputPath . $this->settings['filePrefix'] . $this->utilityFuncs->generateHash() . '.csv';
+            $outputPath = $this->utilityFuncs::sanitizePath($outputPath);
+            $filename = $outputPath . $this->settings['filePrefix'] . $this->utilityFuncs::generateHash() . '.csv';
             $csv->save($filename, $data, false, $fields);
             if ((int)($this->settings['returnFileName']) === 1) {
                 return $filename;
@@ -104,7 +104,7 @@ class Csv extends AbstractGenerator
         }
         $fileName = 'formhandler.csv';
         if ($this->settings['outputFileName']) {
-            $fileName = $this->utilityFuncs->getSingle($this->settings, 'outputFileName');
+            $fileName = $this->utilityFuncs::getSingle($this->settings, 'outputFileName');
         }
         $csv->output($fileName, $data, $fields);
         die();
@@ -115,7 +115,7 @@ class Csv extends AbstractGenerator
     */
     protected function getComponentLinkParams($linkGP)
     {
-        $prefix = $this->globals->getFormValuesPrefix();
+        $prefix = $this->globals::getFormValuesPrefix();
         $tempParams = [
             'action' => 'csv'
         ];

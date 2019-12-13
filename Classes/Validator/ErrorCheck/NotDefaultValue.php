@@ -32,7 +32,7 @@ class NotDefaultValue extends AbstractErrorCheck
     {
         $checkFailed = '';
         if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-            $defaultValue = $this->utilityFuncs->getSingle($this->settings['params'], 'defaultValue');
+            $defaultValue = $this->utilityFuncs::getSingle($this->settings['params'], 'defaultValue');
             if (strlen($defaultValue) > 0) {
                 if (strcmp($defaultValue, $this->gp[$this->formFieldName]) === 0) {
                     $checkFailed = $this->getCheckFailed();

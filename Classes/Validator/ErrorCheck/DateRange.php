@@ -34,14 +34,14 @@ class DateRange extends Date
         $checkFailed = '';
 
         if (isset($this->gp[$this->formFieldName]) && strlen(trim($this->gp[$this->formFieldName])) > 0) {
-            $min = $this->utilityFuncs->getSingle($this->settings['params'], 'min');
-            $max = $this->utilityFuncs->getSingle($this->settings['params'], 'max');
-            $pattern = $this->utilityFuncs->getSingle($this->settings['params'], 'pattern');
+            $min = $this->utilityFuncs::getSingle($this->settings['params'], 'min');
+            $max = $this->utilityFuncs::getSingle($this->settings['params'], 'max');
+            $pattern = $this->utilityFuncs::getSingle($this->settings['params'], 'pattern');
             preg_match('/^[d|m|y]*(.)[d|m|y]*/i', $pattern, $res);
             $sep = $res[1];
 
             // normalisation of format
-            $pattern = $this->utilityFuncs->normalizeDatePattern($pattern, $sep);
+            $pattern = $this->utilityFuncs::normalizeDatePattern($pattern, $sep);
 
             // find out correct positions of "d","m","y"
             $pos1 = strpos($pattern, 'd');

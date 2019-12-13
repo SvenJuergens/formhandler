@@ -28,20 +28,20 @@ class PrintToScreen extends AbstractDebugger
     public function outputDebugLog()
     {
         $out = '';
-        if (!$this->globals->isAjaxMode()) {
+        if (!$this->globals::isAjaxMode()) {
             foreach ($this->debugLog as $section => $logData) {
-                $out .= $this->globals->getCObj()->wrap($section, $this->utilityFuncs->getSingle($this->settings, 'sectionHeaderWrap'));
+                $out .= $this->globals::getCObj()->wrap($section, $this->utilityFuncs::getSingle($this->settings, 'sectionHeaderWrap'));
                 $sectionContent = '';
                 foreach ($logData as $messageData) {
                     $message = str_replace("\n", '<br />', $messageData['message']);
-                    $message = $this->globals->getCObj()->wrap($message, $this->utilityFuncs->getSingle($this->settings['severityWrap.'], $messageData['severity']));
-                    $sectionContent .= $this->globals->getCObj()->wrap($message, $this->settings['messageWrap']);
+                    $message = $this->globals::getCObj()->wrap($message, $this->utilityFuncs::getSingle($this->settings['severityWrap.'], $messageData['severity']));
+                    $sectionContent .= $this->globals::getCObj()->wrap($message, $this->settings['messageWrap']);
                     if ($messageData['data']) {
                         $sectionContent .= DebugUtility::viewArray($messageData['data']);
                         $sectionContent .= '<br />';
                     }
                 }
-                $out .= $this->globals->getCObj()->wrap($sectionContent, $this->utilityFuncs->getSingle($this->settings, 'sectionWrap'));
+                $out .= $this->globals::getCObj()->wrap($sectionContent, $this->utilityFuncs::getSingle($this->settings, 'sectionWrap'));
             }
         }
         print $out;

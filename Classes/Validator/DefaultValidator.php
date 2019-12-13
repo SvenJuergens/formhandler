@@ -56,7 +56,7 @@ class DefaultValidator extends AbstractValidator
     {
         $this->settings = $tsConfig;
 
-        $flexformValue = $this->utilityFuncs->pi_getFFvalue($this->cObj->data['pi_flexform'], 'required_fields', 'sMISC');
+        $flexformValue = $this->utilityFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'], 'required_fields', 'sMISC');
         if ($flexformValue) {
             $fields = GeneralUtility::trimExplode(',', $flexformValue);
             foreach ($fields as $field) {
@@ -90,7 +90,7 @@ class DefaultValidator extends AbstractValidator
             $this->disableErrorCheckFields = [];
             foreach ($this->settings['disableErrorCheckFields.'] as $disableCheckField => $checks) {
                 if (!strstr($disableCheckField, '.')) {
-                    $checkString = $this->utilityFuncs->getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);
+                    $checkString = $this->utilityFuncs::getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);
                     if (strlen(trim($checkString)) > 0) {
                         $this->disableErrorCheckFields[$disableCheckField] = GeneralUtility::trimExplode(
                             ',',
@@ -177,7 +177,7 @@ class DefaultValidator extends AbstractValidator
         foreach ($fieldConf as $key => $fieldSettings) {
             $fieldName = trim($key, '.');
             if (!array_key_exists($fieldName, $gp)) {
-                $this->utilityFuncs->debugMessage('missing_field_for_error_check', [$fieldName], 2);
+                $this->utilityFuncs::debugMessage('missing_field_for_error_check', [$fieldName], 2);
             }
 
             $errorFieldName = ($rootField === null) ? $fieldName : $rootField;
@@ -233,18 +233,18 @@ class DefaultValidator extends AbstractValidator
                 }
                 $classNameFix = ucfirst($check['check']);
                 if (strpos($classNameFix, 'Tx_') === false && strpos($classNameFix, '\\') === false) {
-                    $errorCheckObject = $this->componentManager->getComponent($this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\' . $classNameFix));
-                    $fullClassName = $this->utilityFuncs->prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\' . $classNameFix);
+                    $errorCheckObject = $this->componentManager->getComponent($this->utilityFuncs::prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\' . $classNameFix));
+                    $fullClassName = $this->utilityFuncs::prepareClassName('\\Typoheads\\Formhandler\\Validator\\ErrorCheck\\' . $classNameFix);
                 } else {
                     //Look for the whole error check name, maybe it is a custom check like Tx_SomeExt_ErrorCheck_Something
                     $errorCheckObject = $this->componentManager->getComponent($check['check']);
                     $fullClassName = $check['check'];
                 }
                 if (!$errorCheckObject) {
-                    $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
+                    $this->utilityFuncs::debugMessage('check_not_found', [$fullClassName], 2);
                 }
                 if (empty($this->restrictErrorChecks) || in_array($check['check'], $this->restrictErrorChecks)) {
-                    $this->utilityFuncs->debugMessage('calling_class', [$fullClassName]);
+                    $this->utilityFuncs::debugMessage('calling_class', [$fullClassName]);
                     $errorCheckObject->init($gp, $check);
                     $errorCheckObject->setFormFieldName($fieldName);
                     if ($errorCheckObject->validateConfig()) {
@@ -256,10 +256,10 @@ class DefaultValidator extends AbstractValidator
                             $errors[$errorFieldName][] = $checkFailed;
                         }
                     } else {
-                        $this->utilityFuncs->throwException('Configuration is not valid for class "' . $fullClassName . '"!');
+                        $this->utilityFuncs::throwException('Configuration is not valid for class "' . $fullClassName . '"!');
                     }
                 } else {
-                    $this->utilityFuncs->debugMessage('check_skipped', [$check['check']]);
+                    $this->utilityFuncs::debugMessage('check_skipped', [$check['check']]);
                 }
             }
         }
@@ -273,7 +273,7 @@ class DefaultValidator extends AbstractValidator
             foreach ($fieldConf as $key => $fieldSettings) {
                 $fieldName = trim($key, '.');
                 if (!isset($fieldSettings['errorCheck.'])) {
-                    $this->utilityFuncs->throwException('errorcheck_not_found', $fieldName);
+                    $this->utilityFuncs::throwException('errorcheck_not_found', $fieldName);
                 }
             }
         }

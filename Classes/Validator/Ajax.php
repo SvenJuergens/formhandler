@@ -57,7 +57,7 @@ class Ajax extends AbstractValidator
             if (isset($this->settings['disableErrorCheckFields.'])) {
                 foreach ($this->settings['disableErrorCheckFields.'] as $disableCheckField => $checks) {
                     if (!strstr($disableCheckField, '.')) {
-                        $checkString = $this->utilityFuncs->getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);
+                        $checkString = $this->utilityFuncs::getSingle($this->settings['disableErrorCheckFields.'], $disableCheckField);
                         if (strlen(trim($checkString)) > 0) {
                             $disableErrorCheckFields[$disableCheckField] = GeneralUtility::trimExplode(
                                 ',',
@@ -136,7 +136,7 @@ class Ajax extends AbstractValidator
                         $fullClassName = $check['check'];
                     }
                     if (!$errorCheckObject) {
-                        $this->utilityFuncs->debugMessage('check_not_found', [$fullClassName], 2);
+                        $this->utilityFuncs::debugMessage('check_not_found', [$fullClassName], 2);
                     }
                     if (empty($restrictErrorChecks) || in_array($check['check'], $restrictErrorChecks)) {
                         $errorCheckObject->init($gp, $check);
@@ -150,7 +150,7 @@ class Ajax extends AbstractValidator
                                 $errors[$field][] = $checkFailed;
                             }
                         } else {
-                            $this->utilityFuncs->throwException('Configuration is not valid for class "' . $fullClassName . '"!');
+                            $this->utilityFuncs::throwException('Configuration is not valid for class "' . $fullClassName . '"!');
                         }
                     }
                 }
@@ -161,7 +161,7 @@ class Ajax extends AbstractValidator
 
     public function loadConfig()
     {
-        $tsConfig = $this->globals->getSession()->get('settings');
+        $tsConfig = $this->globals::getSession()->get('settings');
         $this->settings = [];
         $this->validators = $tsConfig['validators.'];
         if ($tsConfig['ajax.']) {

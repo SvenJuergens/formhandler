@@ -32,9 +32,9 @@ class PrintVersion extends AbstractGenerator
     */
     protected function getLinkText()
     {
-        $text = $this->utilityFuncs->getSingle($this->settings, 'linkText');
+        $text = $this->utilityFuncs::getSingle($this->settings, 'linkText');
         if (strlen($text) == 0) {
-            $text = $this->utilityFuncs->getTranslatedMessage($this->globals->getLangFiles(), 'print');
+            $text = $this->utilityFuncs::getTranslatedMessage($this->globals->getLangFiles(), 'print');
         }
         if (strlen($text) === 0) {
             $text = 'Print';

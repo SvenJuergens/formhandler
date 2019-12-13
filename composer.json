@@ -17,11 +17,7 @@
 	"autoload": {
 		"psr-4": {
 			"Typoheads\\Formhandler\\": "Classes"
-		},
-		"classmap": [
-			"pi1/class.tx_formhandler_pi1.php",
-			"pi1"
-		]
+		}
 	},
 	"replace": {
 		"formhandler": "self.version"

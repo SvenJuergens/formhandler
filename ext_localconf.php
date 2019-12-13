@@ -10,6 +10,13 @@ defined('TYPO3_MODE') or die();
     0
 );
 
+$overrideSetup = 'plugin.tx_formhandler_pi1.userFunc = Typoheads\Formhandler\Controller\Dispatcher->main';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+    'formhandler',
+    'setup',
+    $overrideSetup
+);
+
 //Hook in tslib_content->stdWrap
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['stdWrap'][$_EXTKEY] =
     'Typoheads\Formhandler\Hooks\StdWrapHook';

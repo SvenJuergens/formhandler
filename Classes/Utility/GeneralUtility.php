@@ -13,6 +13,8 @@ namespace Typoheads\Formhandler\Utility;
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *                                                                        */
+
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\Random;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -1050,7 +1052,7 @@ class GeneralUtility implements SingletonInterface
     {
         $params = [
             'id' => $GLOBALS['TSFE']->id,
-            'L' => $GLOBALS['TSFE']->sys_language_uid,
+            'L' => CoreGeneralUtility::makeInstance(Context::class)->getAspect('language')->getId(),
             'randomID' => Globals::getRandomID(),
             'field' => $field,
             'uploadedFileName' => $uploadedFileName

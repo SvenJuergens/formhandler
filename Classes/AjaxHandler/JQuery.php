@@ -14,7 +14,9 @@ namespace Typoheads\Formhandler\AjaxHandler;
     * Public License for more details.                                       *
     *                                                                        */
 
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -222,6 +224,7 @@ class JQuery extends AbstractAjaxHandler
      * @param $validateFields
      *
      * @return string
+     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
      */
     protected function getJavascriptFormInit(
         $formSelector,
@@ -237,7 +240,7 @@ class JQuery extends AbstractAjaxHandler
                             contentID: "' . $this->cObj->data['uid'] . '",
                             randomID: "' . $this->globals->getRandomID() . '",
                             formValuesPrefix: "' . $this->globals->getFormValuesPrefix() . '",
-                            lang: "' . $this->getTypoScriptFrontendController()->sys_language_uid . '",
+                            lang: "' . GeneralUtility::makeInstance(Context::class)->getAspect('language')->getId() . '",
                             submitButtonSelector: "' . $submitButtonSelector . '",
                             ajaxSubmit: ' . ($isAjaxSubmit ? 'true' : 'false') . ',
                             autoDisableSubmitButton: ' . ($autoDisableSubmitButton ? 'true' : 'false') . ',

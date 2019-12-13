@@ -18,8 +18,6 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * A logger to store submission information in DevLog
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 class DevLog extends AbstractLogger
 {

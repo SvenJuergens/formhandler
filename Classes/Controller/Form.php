@@ -14,8 +14,9 @@ namespace Typoheads\Formhandler\Controller;
      * Public License for more details.                                       *
      *                                                                        */
 
-use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -106,7 +107,7 @@ class Form extends AbstractController
     /**
      * Main method of the form handler.
      *
-     * @return rendered view
+     * @return string rendered view
      */
     public function process()
     {
@@ -175,16 +176,12 @@ class Form extends AbstractController
 
             $params = [];
             $tstamp = (int)$gp['tstamp'];
-            $hash = $GLOBALS['TYPO3_DB']->fullQuoteStr($gp['hash'], 'tx_formhandler_log');
+            $hash = $gp['hash'];
             if ($tstamp && strpos($hash, ' ') === false) {
-                $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    'params',
-                    'tx_formhandler_log',
-                    'tstamp=' . $tstamp . ' AND unique_hash=' . $hash
-                );
-                if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) === 1) {
-                    $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-                    $GLOBALS['TYPO3_DB']->sql_free_result($res);
+                $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('tx_formhandler_log');
+                $stmt = $conn->select(['params'], 'tx_formhandler_log', ['tstamp' => $tstamp, 'unique_hash' => $hash]);
+                if ($stmt->rowCount() === 1) {
+                    $row = $stmt->fetch();
                     $params = unserialize($row['params']);
                 }
             }
@@ -386,7 +383,6 @@ class Form extends AbstractController
             }
             return $this->view->render($this->gp, $this->errors);
         }
-
         $this->templateFile = $this->utilityFuncs->readTemplateFile($this->templateFile, $this->settings);
         $this->globals->setTemplateCode($this->templateFile);
         $this->langFiles = $this->utilityFuncs->readLanguageFiles($this->langFiles, $this->settings);
@@ -1464,7 +1460,7 @@ class Form extends AbstractController
 
     /**
      * Find out if submitted form was valid. If one of the values
-     * in the given array $valid is FALSE the submission was not valid.
+     * in the given array $valid is false the submission was not valid.
      *
      * @param $validArr Array with the return values of each validator
      * @return bool

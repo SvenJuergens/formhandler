@@ -14,6 +14,7 @@ namespace Typoheads\Formhandler\Finisher;
      * Public License for more details.                                       *
      *                                                                        */
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -35,10 +36,7 @@ class GenerateAuthCode extends AbstractFinisher
     {
         $firstInsertInfo = [];
         if ($this->utilityFuncs->getSingle($this->settings, 'uid')) {
-            $uidField = $this->utilityFuncs->getSingle($this->settings, 'uidField');
-            if (!$uidField) {
-                $uidField = 'uid';
-            }
+            $uidField = $this->utilityFuncs->getSingle($this->settings, 'uidField') ?: 'uid';
             $firstInsertInfo = [
                 'table' => $this->utilityFuncs->getSingle($this->settings, 'table'),
                 'uidField' => $uidField,
@@ -59,20 +57,20 @@ class GenerateAuthCode extends AbstractFinisher
                 $firstInsertInfo = current($this->gp['saveDB']);
             }
         }
+
         $table = $firstInsertInfo['table'];
-        $uid = $GLOBALS['TYPO3_DB']->fullQuoteStr($firstInsertInfo['uid'], $table);
-        $uidField = $firstInsertInfo['uidField'];
-        if (!$uidField) {
-            $uidField = 'uid';
-        }
-        if ($table && $uid && $uidField) {
+        $uid = $firstInsertInfo['uid'];
+        $uidField = $firstInsertInfo['uidField'] ?: 'uid';
+
+        if ($table && $uid) {
+            $conn = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
+
             $selectFields = '*';
             if ($this->settings['selectFields']) {
                 $selectFields = $this->utilityFuncs->getSingle($this->settings, 'selectFields');
             }
-            $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($selectFields, $table, $uidField . '=' . $uid);
-            if ($res) {
-                $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+            $row = $conn->select(explode(',', $selectFields), $table, [$uidField => $uid])->fetch();
+            if (!empty($row)) {
                 $authCode = $this->generateAuthCode($row);
                 $this->gp['generated_authCode'] = $authCode;
 

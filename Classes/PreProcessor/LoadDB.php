@@ -14,8 +14,9 @@ namespace Typoheads\Formhandler\PreProcessor;
      * Public License for more details.                                       *
      *                                                                        */
 
-use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Core\Environment;
 
 /**
  * This PreProcessor adds the posibility to load default values from database.
@@ -94,7 +95,7 @@ class LoadDB extends AbstractPreProcessor
      */
     protected function loadDBToGP($settings)
     {
-        if (\is_array($settings)) {
+        if (is_array($settings)) {
             $arrKeys = array_keys($settings);
             foreach ($arrKeys as $idx => $fieldname) {
                 $fieldname = preg_replace('/\.$/', '', $fieldname);
@@ -114,7 +115,7 @@ class LoadDB extends AbstractPreProcessor
     protected function loadDBToSession($settings, $step)
     {
         session_start();
-        if (\is_array($settings) && $step) {
+        if (is_array($settings) && $step) {
             $values = $this->globals->getSession()->get('values');
             $arrKeys = array_keys($settings);
             foreach ($arrKeys as $idx => $fieldname) {
@@ -129,7 +130,7 @@ class LoadDB extends AbstractPreProcessor
     {
         $value = null;
         //pre process the field value.
-        if (\is_array($settings[$fieldname . '.']['preProcessing.'])) {
+        if (is_array($settings[$fieldname . '.']['preProcessing.'])) {
             $settings[$fieldname . '.']['preProcessing.'] += [
                 'value' => $value,
                 'dataRow' => $this->data
@@ -151,7 +152,7 @@ class LoadDB extends AbstractPreProcessor
         }
 
         //post process the field value.
-        if (\is_array($settings[$fieldname . '.']['postProcessing.'])) {
+        if (is_array($settings[$fieldname . '.']['postProcessing.'])) {
             $settings[$fieldname . '.']['postProcessing.'] += [
                 'value' => $value,
                 'dataRow' => $this->data
@@ -167,7 +168,7 @@ class LoadDB extends AbstractPreProcessor
             if (!empty($value)) {
                 $uploadPath = $this->utilityFuncs->getTempUploadFolder($fieldname);
                 $filesArray = $value;
-                if (!\is_array($filesArray)) {
+                if (!is_array($filesArray)) {
                     $filesArray = GeneralUtility::trimExplode(',', $value);
                 }
 
@@ -204,18 +205,16 @@ class LoadDB extends AbstractPreProcessor
      */
     protected function loadDB($settings)
     {
-        $store_lastBuiltQuery = $GLOBALS['TYPO3_DB']->store_lastBuiltQuery;
-        $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
-        $res = $this->exec_getQuery($this->utilityFuncs->getSingle($settings, 'table'), $settings);
-        $sql = $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
+        $table = $this->utilityFuncs->getSingle($settings, 'table');
+        $sql = $this->getQuery($table, $settings);
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($table);
         $this->utilityFuncs->debugMessage($sql);
+        $stmt = $connection->executeQuery($sql);
 
-        $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = $store_lastBuiltQuery;
-        $rowCount = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
+        $rows = $stmt->fetchAll();
+        $rowCount = count($rows);
         if ($rowCount === 1) {
-            $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-            $GLOBALS['TYPO3_DB']->sql_free_result($res);
-            return $row;
+            return reset($rows);
         }
         if ($rowCount > 0) {
             $this->utilityFuncs->debugMessage('sql_too_many_rows', [$rowCount], 3);
@@ -223,12 +222,13 @@ class LoadDB extends AbstractPreProcessor
         return [];
     }
 
-    /* (non-PHPdoc)
-     * @see tslib_content::exec_getQuery
-    */
-    protected function exec_getQuery($table, $conf)
+    /**
+     * @param string $table
+     * @param array $conf
+     * @return string
+     */
+    protected function getQuery($table, $conf)
     {
-
         //map the old TypoScript setting "limit" to "begin" and "max".
         $limit = $this->utilityFuncs->getSingle($conf, 'limit');
         if (strlen($limit) > 0) {
@@ -240,18 +240,14 @@ class LoadDB extends AbstractPreProcessor
                 $conf['max'] = $parts[0];
             }
         }
-        $queryParts = $this->globals->getCObj()->getQuery($table, $conf, true);
+        $sql = $this->globals->getCObj()->getQuery($table, $conf);
 
+        // possible quotes: empty, ", ` or '
+        $quotes = '|\"|\`|\'';
         //if pidInList is not set in TypoScript remove it from the where clause.
         if (!isset($conf['pidInList']) || strlen($conf['pidInList']) === 0) {
-            // possible quotes: empty, ", ` or '
-            $quotes = '|\"|\`|\'';
-            $queryParts['WHERE'] = preg_replace(
-                '/([^ ]+\.(' . $quotes . ')pid(' . $quotes . ') IN \([^ ]+\) AND )/i',
-                '',
-                $queryParts['WHERE']
-            );
+            $sql = preg_replace('/([^ ]+\.(' . $quotes . ')pid(' . $quotes . ') IN \([^ ]+\) AND )/i', '', $sql);
         }
-        return $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
+        return $sql;
     }
 }

@@ -18,8 +18,6 @@ use Typoheads\Formhandler\Component\AbstractComponent;
 
 /**
  * An abstract class for pre processors used by Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
 abstract class AbstractPreProcessor extends AbstractComponent

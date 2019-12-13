@@ -1,7 +1,7 @@
 <?php
 namespace Typoheads\Formhandler\Domain\Repository;
 
-/*
+    /*
      * This file is part of the TYPO3 CMS project.
      *
      * It is free software; you can redistribute it and/or modify it under
@@ -70,7 +70,7 @@ class LogDataRepository extends Repository
                 $constraints[] = $query->equals('pid', $demand->getPid());
             }
 
-            if (\strlen($demand->getIp()) > 0) {
+            if (strlen($demand->getIp()) > 0) {
                 $constraints[] = $query->equals('ip', $demand->getIp());
             }
 

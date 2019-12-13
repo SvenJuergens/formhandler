@@ -18,8 +18,6 @@ use Typoheads\Formhandler\Component\AbstractClass;
 
 /**
  * An abstract session class for Formhandler
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  */
 abstract class AbstractSession extends AbstractClass
 {

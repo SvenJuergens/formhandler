@@ -54,7 +54,7 @@ class RemoveFile
 
         if ($this->fieldName) {
             $sessionFiles = $this->globals->getSession()->get('files');
-            if (\is_array($sessionFiles)) {
+            if (is_array($sessionFiles)) {
                 foreach ($sessionFiles as $field => $files) {
                     if (!strcmp($field, $this->fieldName)) {
                         //get upload folder
@@ -90,7 +90,7 @@ class RemoveFile
             $this->globals->getSession()->set('files', $sessionFiles);
 
             // Add the content to or Result Box: #formResult
-            if (\is_array($sessionFiles) && !empty($sessionFiles[$field])) {
+            if (is_array($sessionFiles) && !empty($sessionFiles[$field])) {
                 $markers = [];
                 /** @var Form $view */
                 $view = $this->componentManager->getComponent('View\\Form');

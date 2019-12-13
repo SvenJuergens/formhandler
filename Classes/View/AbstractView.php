@@ -229,7 +229,7 @@ abstract class AbstractView extends AbstractPlugin
     }
 
     /**
-     * Returns FALSE if the view doesn't have template code.
+     * Returns false if the view doesn't have template code.
      *
      * @return bool
      */

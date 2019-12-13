@@ -65,7 +65,6 @@ class CustomPagePreviewRenderer implements PageLayoutViewDrawItemHookInterface
                 self::L10N_PREFIX . 'formhandler.pi_flexform.template_predefined'
             ) . ': ';
 
-
             $configurationManager = $this->getObjectManager()->get(BackendConfigurationManager::class);
             $setup = $configurationManager->getTypoScriptSetup();
             $formsName = $this->getFormsName($setup, $flexFormData['predefined']);
@@ -101,6 +100,7 @@ class CustomPagePreviewRenderer implements PageLayoutViewDrawItemHookInterface
             }
             return $beName;
         }
+        return null;
     }
 
     /**

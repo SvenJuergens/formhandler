@@ -13,6 +13,9 @@ namespace Typoheads\Formhandler\Ajax;
 * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
 * Public License for more details.                                       *
 *                                                                        */
+
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Typoheads\Formhandler\Component\Manager;
@@ -59,21 +62,22 @@ class Submit
      */
     protected function init()
     {
-        if (isset($_GET['pid'])) {
-            $id = (int)$_GET['pid'];
-        } else {
-            $id = (int)$_GET['id'];
-        }
+        $id = (int)($_GET['pid'] ?? $_GET['id'] ?? 0);
 
         $this->componentManager = GeneralUtility::makeInstance(Manager::class);
         FormhandlerGeneralUtility::initializeTSFE($id);
 
         $elementUID = (int)$_GET['uid'];
-        $row = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-            '*',
-            'tt_content',
-            'uid=' . $elementUID . $this->getTypoScriptFrontendController()->cObj->enableFields('tt_content')
-        );
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
+        $row = $queryBuilder
+            ->select('*')
+            ->from('tt_content')
+            ->where(
+                $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($elementUID, \PDO::PARAM_INT))
+            )
+            ->execute()
+            ->fetch();
         if (!empty($row)) {
             $this->getTypoScriptFrontendController()->cObj->data = $row;
             $this->getTypoScriptFrontendController()->cObj->current = 'tt_content_' . $elementUID;

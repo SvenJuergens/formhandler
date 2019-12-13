@@ -56,7 +56,6 @@ abstract class AbstractController extends AbstractClass
      * Sets the content attribute of the controller
      *
      * @param Content $content
-     * @author Reinhard Führicht <rf@typoheads.at>
      */
     public function setContent($content)
     {
@@ -66,7 +65,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * Returns the content attribute of the controller
      *
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @return Content
      */
     public function getContent()
@@ -77,7 +75,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * Sets the internal attribute "predefined"
      *
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param string $key
      */
     public function setPredefined($key)
@@ -88,7 +85,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * Sets the internal attribute "langFile"
      *
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $langFiles
      */
     public function setLangFiles($langFiles)
@@ -98,8 +94,6 @@ abstract class AbstractController extends AbstractClass
 
     /**
      * Sets the template file attribute to $template
-     *
-     * @author    Reinhard Führicht <rf@typoheads.at>
      * @param string $template
      */
     public function setTemplateFile($template)
@@ -110,7 +104,6 @@ abstract class AbstractController extends AbstractClass
     /**
      * Returns the right settings for the formhandler (Checks if predefined form was selected)
      *
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @return array The settings
      */
     public function getSettings()

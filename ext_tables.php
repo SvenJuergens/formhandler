@@ -1,10 +1,7 @@
 <?php
-/**
- * ext tables config file for ext: "formhandler"
- *
- * @author Reinhard Führicht <rf@typoheads.at>
- */
-defined('TYPO3_MODE') or die();
+if (!defined('TYPO3_MODE')) {
+    die('Access denied.');
+}
 
 if (TYPO3_MODE === 'BE') {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
@@ -13,7 +10,7 @@ if (TYPO3_MODE === 'BE') {
         'log',
         'bottom',
         [
-            'Module' => 'index, view, selectFields, export, deleteLogRows'
+            'Module' => 'index, view, selectFields, export'
         ],
         [
             'access' => 'user,group',

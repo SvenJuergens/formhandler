@@ -19,8 +19,6 @@ use Typoheads\Formhandler\Component\AbstractClass;
 /**
  * Abstract class for an AjaxHandler.
  * The AjaxHandler takes care of adding AJAX related markers and JS used for validation and file removal.
- *
- * @author    Reinhard Führicht <rf@typoheads.at>
  * @abstract
  */
 abstract class AbstractAjaxHandler extends AbstractClass

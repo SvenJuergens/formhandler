@@ -15,8 +15,8 @@ namespace Typoheads\Formhandler\Controller;
      *                                                                        */
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -167,7 +167,7 @@ class Form extends AbstractController
                     $className = $this->utilityFuncs->getPreparedClassName($config);
                     if ($className === $this->utilityFuncs->prepareClassName(
                         '\Typoheads\Formhandler\Finisher\SubmittedOK'
-                        )
+                    )
                         && is_array($config['config.'])) {
                         $finisherConf = $config['config.'];
                     }

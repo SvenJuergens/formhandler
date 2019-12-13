@@ -66,8 +66,6 @@ class BackendTcPdf extends AbstractComponent
         $this->settings['font'] = $font;
     }
 
-    /**
-     */
     public function process()
     {
         $records = $this->settings['records'];

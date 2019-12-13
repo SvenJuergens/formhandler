@@ -14,9 +14,9 @@ namespace Typoheads\Formhandler\Interceptor;
      * Public License for more details.                                       *
      *                                                                        */
 
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * An interceptor checking if form got submitted too often by an IP address or globally.

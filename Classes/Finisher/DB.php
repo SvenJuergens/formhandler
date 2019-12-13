@@ -272,7 +272,7 @@ class DB extends AbstractFinisher
 
         //check whether to update or to insert a record
         $this->doUpdate = false;
-        if (intval($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert')) === 1) {
+        if ((int)($this->utilityFuncs->getSingle($this->settings, 'updateInsteadOfInsert')) === 1) {
 
             //check if uid of record to update is in GP
             $uid = $this->getUpdateUid();

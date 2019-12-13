@@ -36,8 +36,7 @@ class FileRequired extends AbstractErrorCheck
         }
         if (isset($sessionFiles) && is_array($sessionFiles[$this->formFieldName])) {
             $fileCount = count($sessionFiles[$this->formFieldName]);
-        }
-        else {
+        } else {
             $fileCount = 0;
         }
         if (!$found && $fileCount === 0) {

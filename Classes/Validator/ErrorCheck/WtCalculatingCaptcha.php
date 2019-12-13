@@ -41,7 +41,7 @@ class WtCalculatingCaptcha extends AbstractErrorCheck
             }
 
             if (!$this->globals->isAjaxMode()) {
-                unset( $this->getTypoScriptFrontendController()->fe_user->sesData['wt_calculating_captcha_value']);
+                unset($this->getTypoScriptFrontendController()->fe_user->sesData['wt_calculating_captcha_value']);
             }
         }
 

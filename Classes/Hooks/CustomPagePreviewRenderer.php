@@ -14,16 +14,13 @@ namespace Typoheads\Formhandler\Hooks;
  * The TYPO3 project - inspiring people to share!
  */
 
-
 use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Backend\View\PageLayoutViewDrawItemHookInterface;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Service\FlexFormService;
-use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
-use Typoheads\Formhandler\Utility\TcaUtility;
 
 class CustomPagePreviewRenderer implements PageLayoutViewDrawItemHookInterface
 {
@@ -52,15 +49,17 @@ class CustomPagePreviewRenderer implements PageLayoutViewDrawItemHookInterface
         if ($row['CType'] !== 'formhandler_pi1') {
             return;
         }
-        
+
         $contentType = $parentObject->CType_labels[$row['CType']];
-        $itemContent .= $parentObject->linkEditContent('<strong>' . htmlspecialchars($contentType) . '</strong>',
-                $row) . '<br />';
+        $itemContent .= $parentObject->linkEditContent(
+            '<strong>' . htmlspecialchars($contentType) . '</strong>',
+            $row
+        ) . '<br />';
 
         $flexFormData = GeneralUtility::makeInstance(FlexFormService::class)
             ->convertFlexFormContentToArray($row['pi_flexform']);
 
-        if($flexFormData['predefined'] !== ''){
+        if ($flexFormData['predefined'] !== '') {
             $formsHeadline = $this->getLanguageService()->sL(
                 self::L10N_PREFIX . 'formhandler.pi_flexform.template_predefined'
             ) . ': ';
@@ -69,10 +68,9 @@ class CustomPagePreviewRenderer implements PageLayoutViewDrawItemHookInterface
             $setup = $configurationManager->getTypoScriptSetup();
             $formsName = $this->getFormsName($setup, $flexFormData['predefined']);
             $itemContent .= $parentObject->linkEditContent(
-                    $parentObject->renderText($formsHeadline . $formsName),
-                    $row
-                ) . '<br />';
-
+                $parentObject->renderText($formsHeadline . $formsName),
+                $row
+            ) . '<br />';
         }
         $drawItem = false;
     }

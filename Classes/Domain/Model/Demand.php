@@ -49,14 +49,14 @@ class Demand extends AbstractEntity
      *
      * @var string
      */
-    protected $startTimestamp = null;
+    protected $startTimestamp;
 
     /**
      * Calculated end timestamp
      *
      * @var string
      */
-    protected $endTimestamp = null;
+    protected $endTimestamp;
 
     public function getCrdate()
     {

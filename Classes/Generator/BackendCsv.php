@@ -22,7 +22,6 @@ namespace Typoheads\Formhandler\Generator;
  */
 use Typoheads\Formhandler\Component\AbstractComponent;
 
-
 class BackendCsv extends AbstractComponent
 {
 

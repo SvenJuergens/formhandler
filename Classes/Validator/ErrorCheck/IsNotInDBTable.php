@@ -14,12 +14,12 @@ namespace Typoheads\Formhandler\Validator\ErrorCheck;
      * Public License for more details.                                       *
      *                                                                        */
 
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Validates that a specified field's value is not found in a specified db table
@@ -57,7 +57,7 @@ class IsNotInDBTable extends AbstractErrorCheck
                 if (!empty($additionalWhere)) {
                     $queryBuilder->andWhere(QueryHelper::stripLogicalOperatorPrefix($additionalWhere));
                 }
-                $showHidden = intval($this->settings['params']['showHidden']) === 1;
+                $showHidden = (int)($this->settings['params']['showHidden']) === 1;
                 if ($showHidden) {
                     $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
                 }

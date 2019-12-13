@@ -15,6 +15,7 @@ namespace Typoheads\Formhandler\Domain\Model;
  */
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
 
 /**
  * Model for log data
@@ -26,7 +27,7 @@ class LogData extends AbstractEntity
 
     /**
      * @var int
-     * @validate TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator
+     * @Extbase\Validate("NotEmpty")
      */
     protected $crdate = 0;
 
@@ -37,7 +38,7 @@ class LogData extends AbstractEntity
 
     /**
      * @var string
-     * @validate TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator
+     * @Extbase\Validate("NotEmpty")
      */
     protected $params = '';
 

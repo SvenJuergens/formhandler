@@ -17,7 +17,7 @@ $overrideSetup = 'plugin.tx_formhandler_pi1.userFunc = Typoheads\Formhandler\Con
 );
 
 //Hook in tslib_content->stdWrap
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['stdWrap'][$_EXTKEY] =
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['stdWrap']['formhandler'] =
     'Typoheads\Formhandler\Hooks\StdWrapHook';
 
 $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['formhandler'] =
